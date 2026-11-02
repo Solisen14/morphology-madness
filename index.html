@@ -4,45 +4,108 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f4fc">
-  <meta name="description" content="Morphology Madness: Build words from meaningful parts and solve subject-specific vocabulary challenges.">
-  <title>Morphology Madness | Build words. Discover meaning.</title>
+  <meta name="description" content="Morphology Madness: build real words, invent new words for curious definitions, and create your own meanings.">
+  <title>Morphology Madness | Three ways to build words</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to game</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
   <header class="site-header">
     <div class="brand"><span class="brand-symbol" aria-hidden="true">M<span class="brand-spark">✦</span></span><span>Morphology <strong>Madness</strong></span></div>
-    <span class="version">Prototype · v0.1</span>
+    <span class="version">The word-building lab · v0.2</span>
   </header>
   <main id="main" class="shell">
     <section class="intro" aria-labelledby="welcome">
-      <div class="eyebrow"><span class="eyebrow-dot"></span> THE WORD-BUILDING LAB</div>
-      <h1 id="welcome">Big meanings.<br><span>Little pieces.</span></h1>
-      <p>Match prefixes, bases and suffixes to invent the word that fits the clue. Read the card meanings, test a theory, and see what clicks.</p>
+      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> THE WORD-BUILDING LAB</div>
+      <h1 id="welcome">Big meanings.<br><span>Wild possibilities.</span></h1>
+      <p>Build genuine vocabulary, invent wonderfully strange words, or run your own language experiment. Every piece has a meaning.</p>
     </section>
-    <section class="game-panel" aria-labelledby="challenge-title">
-      <div class="toolbar">
-        <div class="topic-control"><label for="subject">Choose your subject</label><select id="subject"><option value="all">Mix it up · All subjects</option><option value="math">Mathematics</option><option value="science">Science</option><option value="geography">Geography</option><option value="history">History</option><option value="english">English</option></select></div>
-        <div class="metrics"><div><span class="metric-label">SOLVED</span><span id="solved" class="metric-value">0</span></div><div><span class="metric-label">ROUNDS</span><span id="round" class="metric-value">1 / 5</span></div></div>
+
+    <section id="setup" class="setup" aria-labelledby="mode-title">
+      <div class="section-heading"><span class="step-number">01</span><div><h2 id="mode-title">Choose your game</h2><p>Three ways to play with word parts.</p></div></div>
+      <div class="mode-grid" role="group" aria-label="Game mode">
+        <button type="button" class="mode-card active" data-mode="wizard" aria-pressed="true">
+          <span class="mode-icon wizard-icon" aria-hidden="true">✓</span><span class="mode-name">Word Wizard</span><span class="mode-tagline">Real words. Real definitions.</span><span class="mode-description">Put morphemes together to solve a factual vocabulary clue.</span><span class="mode-footer">FIND THE WORD <span aria-hidden="true">↗</span></span>
+        </button>
+        <button type="button" class="mode-card" data-mode="madness" aria-pressed="false">
+          <span class="mode-icon madness-icon" aria-hidden="true">✦</span><span class="mode-name">Meaning Madness</span><span class="mode-tagline">A strange clue. Your invention.</span><span class="mode-description">Create a plausible new word for a deliberately ridiculous definition.</span><span class="mode-footer">INVENT TO MATCH <span aria-hidden="true">↗</span></span>
+        </button>
+        <button type="button" class="mode-card" data-mode="lab" aria-pressed="false">
+          <span class="mode-icon lab-icon" aria-hidden="true">⚗</span><span class="mode-name">Word Laboratory</span><span class="mode-tagline">Your word. Your definition.</span><span class="mode-description">Combine meaningful pieces, then explain what your new word could mean.</span><span class="mode-footer">INVENT AND DEFINE <span aria-hidden="true">↗</span></span>
+        </button>
       </div>
-      <div class="progress-track" role="progressbar" aria-label="Rounds completed" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="progress"><div class="progress-fill" id="progress-fill"></div></div>
-      <div class="challenge-top"><span class="chip" id="category-chip">MATHEMATICS</span><span class="difficulty" id="parts-count">3 meaningful pieces</span></div>
-      <h2 id="challenge-title">Build a word that means…</h2>
-      <p id="clue" class="clue">A change in the position, shape or size of a figure.</p>
-      <div class="workbench" aria-labelledby="workbench-title">
-        <div class="workbench-top"><h3 id="workbench-title">Your word</h3><button id="clear" class="text-btn" type="button">Clear cards</button></div>
-        <div class="slots"><button class="slot" data-slot="prefix" type="button" aria-label="Prefix slot, empty"><span class="slot-label">PREFIX</span><span class="slot-content">Choose card</span></button><button class="slot" data-slot="base" type="button" aria-label="Base or root slot, empty"><span class="slot-label">BASE / ROOT</span><span class="slot-content">Choose card</span></button><button class="slot" data-slot="suffix" type="button" aria-label="Suffix slot, empty"><span class="slot-label">SUFFIX</span><span class="slot-content">Choose card</span></button></div>
-        <div class="word-preview"><span class="preview-caption">YOUR CREATION</span><span id="word-preview" class="preview-word">Your word appears here</span></div>
+      <div class="section-heading second-step"><span class="step-number">02</span><div><h2>Set your challenge</h2><p>Subject controls the vocabulary; level controls the number of choices.</p></div></div>
+      <div class="setup-controls">
+        <div class="field"><label for="subject">School subject</label><select id="subject"><option value="all">Mix it up · All subjects</option><option value="math">Mathematics</option><option value="science">Science</option><option value="geography">Geography</option><option value="history">History</option><option value="english">English</option></select></div>
+        <div class="field"><label for="level">Challenge level</label><select id="level"><option value="apprentice">Apprentice · Fewer cards</option><option value="inventor">Inventor · More choices</option><option value="master">Master · Full card selection</option></select></div>
+        <button type="button" id="start" class="primary-btn start-btn">Start playing <span aria-hidden="true">→</span></button>
       </div>
-      <div class="cards-heading"><h3>Choose your cards</h3><p>Select one for each space above. Select a filled space to remove its card.</p></div>
-      <div id="card-bank" class="card-bank" aria-label="Available word-part cards"></div>
-      <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button></div>
-      <section id="feedback" class="feedback" hidden aria-live="polite" aria-atomic="true"></section>
+      <p class="privacy-note">Solo, browser-only prototype. No login, tracking, submissions, or saved student information.</p>
+    </section>
+
+    <section id="game" class="game-panel" aria-labelledby="challenge-title" hidden>
+      <div class="game-header">
+        <div><button type="button" id="back" class="back-btn">← Game menu</button><div class="playing-mode" id="mode-name">WORD WIZARD</div></div>
+        <div class="metrics"><div><span class="metric-label" id="score-label">SOLVED</span><span id="solved" class="metric-value">0</span></div><div><span class="metric-label">ROUND</span><span id="round" class="metric-value">1 / 5</span></div></div>
+      </div>
+      <div class="progress-track" id="progress" role="progressbar" aria-label="Rounds completed" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
+      <div id="play-area">
+        <div class="challenge-top"><span class="chip" id="category-chip">MATHEMATICS</span><span class="difficulty" id="parts-count">Choose meaningful pieces</span></div>
+        <h2 id="challenge-title">Build a word that means…</h2>
+        <p id="clue" class="clue"></p>
+        <p id="mode-note" class="mode-note"></p>
+        <div class="workbench" aria-labelledby="workbench-title">
+          <div class="workbench-top"><h3 id="workbench-title">Your word</h3><button id="clear" class="text-btn" type="button">Clear cards</button></div>
+          <div class="slots">
+            <button class="slot" data-slot="prefix" type="button"><span class="slot-label">PREFIX</span><span class="slot-content">Optional</span></button>
+            <button class="slot" data-slot="base" type="button"><span class="slot-label">BASE / ROOT</span><span class="slot-content">Choose a root</span></button>
+            <button class="slot" data-slot="suffix" type="button"><span class="slot-label">SUFFIX / ENDING</span><span class="slot-content">Optional</span></button>
+          </div>
+          <div class="word-preview"><span class="preview-caption">YOUR CREATION</span><span id="word-preview" class="preview-word placeholder">Your word appears here</span></div>
+          <p class="word-note">The pieces join as written. Some combinations are deliberately unusual; no automatic spelling repairs are made.</p>
+        </div>
+        <div class="cards-heading"><h3>Choose your cards</h3><p>Select a card to place it. Select a filled slot to remove or replace its card.</p></div>
+        <div id="card-bank" class="card-bank" aria-label="Available morpheme cards"></div>
+
+        <div id="definition-area" class="definition-area" hidden>
+          <label for="definition">Give your invented word a definition</label>
+          <textarea id="definition" maxlength="360" rows="3" placeholder="My word could mean…"></textarea>
+          <p class="field-hint">Include the meanings of at least two pieces in your explanation. This text stays in your browser during this session.</p>
+        </div>
+        <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button></div>
+        <section id="feedback" class="feedback" aria-live="polite" aria-atomic="true" hidden></section>
+
+        <div id="defense" class="review-panel" hidden>
+          <label for="defense-text">Explain why your invention could fit the clue</label>
+          <textarea id="defense-text" maxlength="360" rows="3" placeholder="I chose these parts because…"></textarea>
+          <label class="check-row"><input type="checkbox" id="defense-check"> I can connect my word-part meanings to my explanation.</label>
+          <button type="button" class="secondary-btn" id="defend">Finish with my explanation</button>
+          <p class="field-hint">An alternate construction is self-reviewed, not automatically marked correct.</p>
+        </div>
+        <div id="self-review" class="review-panel" hidden>
+          <h3>Reflect on your invention</h3><p id="review-meanings"></p>
+          <label class="check-row"><input type="checkbox" id="review-one"> My definition draws on the meanings of at least two pieces.</label>
+          <label class="check-row"><input type="checkbox" id="review-two"> I can explain why this invented word fits my definition.</label>
+          <button type="button" class="primary-btn" id="finish-invention">Finish this invention <span aria-hidden="true">→</span></button>
+          <p class="field-hint">This is a student self-check. The game does not automatically verify original definitions.</p>
+        </div>
+      </div>
+      <div id="results" class="results" hidden></div>
       <div id="live" class="sr-only" role="status" aria-live="polite"></div>
     </section>
-    <section class="help" aria-labelledby="help-heading"><h2 id="help-heading">What's in a word?</h2><div class="help-grid"><article><span class="help-icon prefix-color">pre-</span><h3>Prefix</h3><p>A meaningful part added to the beginning of a word. <strong>re-</strong> often means “again.”</p></article><article><span class="help-icon base-color">struct</span><h3>Base / Root</h3><p>The central meaningful part. <strong>struct</strong> comes from a Latin root meaning “build.”</p></article><article><span class="help-icon suffix-color">-ion</span><h3>Suffix</h3><p>A meaningful part added to the end. <strong>-ion</strong> often forms a noun for an act or process.</p></article></div><p class="note">Some cards are Greek or Latin combining forms. Not all words require three pieces, and spellings can change when parts join. This first prototype uses carefully selected three-part words.</p></section>
-    <footer><p>Built for learning, experimenting and discussing word meanings. No accounts, tracking or student data collection.</p></footer>
+
+    <section class="help" aria-labelledby="help-heading">
+      <div class="help-heading"><h2 id="help-heading">What's in a word?</h2><p>Every card carries a little piece of meaning.</p></div>
+      <div class="help-grid">
+        <article><span class="help-icon prefix-color">pre-</span><h3>Prefix</h3><p>A meaningful part added before a base. <strong>re-</strong> often means “again.”</p></article>
+        <article><span class="help-icon base-color">struct</span><h3>Base / Root</h3><p>The central meaningful part. <strong>struct</strong> comes from a Latin root meaning “build.”</p></article>
+        <article><span class="help-icon suffix-color">-ology</span><h3>Suffix / Combining form</h3><p>An ending that contributes meaning. <strong>-ology</strong> refers to a field of study.</p></article>
+      </div>
+      <p class="note">Not every real word needs three pieces. Some scientific words use Greek or Latin combining forms, rather than ordinary English prefixes and suffixes. Spellings and meanings can change when parts combine. Creative words are inventions, not necessarily dictionary entries.</p>
+    </section>
+    <footer>Made for curious learners and thoughtful classroom conversation. No accounts or student data collection.</footer>
   </main>
 </body>
 </html>

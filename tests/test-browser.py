@@ -1,0 +1,100 @@
+from playwright.sync_api import sync_playwright
+from pathlib import Path
+from collections import Counter
+
+folder=Path(__file__).parent.parent
+
+def mount(browser,width=1280,height=900):
+    page=browser.new_page(viewport={'width':width,'height':height})
+    errors=[]
+    page.on('pageerror',lambda e: errors.append(str(e)))
+    page.set_content((folder/'index.html').read_text(),wait_until='domcontentloaded')
+    page.add_style_tag(content=(folder/'styles.css').read_text())
+    page.add_script_tag(content=(folder/'data.js').read_text())
+    page.add_script_tag(content=(folder/'script.js').read_text())
+    return page,errors
+
+def select_card(page,type,id):
+    found=page.evaluate('''([type,id])=>{
+      const buttons=[...document.querySelectorAll('.bank-column[data-type="'+type+'"] .part-card')];
+      const b=buttons.find(x=>x.querySelector('.card-text').textContent.replaceAll('-','')===id);
+      if(!b||b.disabled)return false;
+      b.click();return true;
+    }''',[type,id])
+    assert found,(type,id,[x.inner_text() for x in page.locator('.bank-column[data-type="'+type+'"] .part-card').all()])
+
+def current_record(page,kind):
+    return page.evaluate('''kind=>window.MM_DATA[kind].find(x=>x.clue.trim()===document.getElementById('clue').textContent.trim())''',kind)
+
+with sync_playwright() as pw:
+    b=pw.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+    page,errors=mount(b)
+    assert page.locator('.mode-card').count()==3
+    page.select_option('#subject','science');page.select_option('#level','master');page.click('#start')
+    assert page.locator('#game').is_visible()
+    for round_no in range(5):
+        record=current_record(page,'real');assert record
+        for t in ['prefix','base','suffix']:
+            if record['parts'][t]:select_card(page,t,record['parts'][t])
+        assert page.locator('#word-preview').inner_text()==record['answer']
+        page.click('#check');assert 'You built it' in page.locator('#feedback').inner_text()
+        page.locator('#feedback button').click()
+    assert page.locator('#results').is_visible();assert '5 of 5' in page.locator('#results').inner_text()
+    assert not errors,errors
+    print('PASS: Word Wizard 5 master-level rounds, including optional parts; results page')
+    page.close()
+
+    page,errors=mount(b)
+    page.click('[data-mode="madness"]');page.select_option('#subject','math');page.click('#start')
+    record=current_record(page,'creative');assert record
+    root=record['root'];select_card(page,'base',root)
+    for t,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+        valid=page.evaluate('''([t,tag])=>{
+          const items=t==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes;
+          return items.filter(x=>x.tags.includes(tag)).map(x=>x.id);
+        }''',[t,tag]);
+        rendered=page.locator('.bank-column[data-type="'+t+'"] .card-text').all_inner_texts()
+        match=next((v for v in valid if (v+'-' if t=='prefix' else '-'+v) in rendered),None)
+        assert match,(t,tag,rendered)
+        select_card(page,t,match)
+    page.click('#check');assert 'Strong meaning match' in page.locator('#feedback').inner_text()
+    page.locator('#feedback button').click()
+    # deliberately mismatched construction, then reflective alternative
+    record=current_record(page,'creative');select_card(page,'base',record['root'])
+    prefixes=page.evaluate('''()=>window.MM_DATA.prefixes''')
+    visible=page.locator('.bank-column[data-type="prefix"] .card-text').all_inner_texts()
+    wrong=next(x['id'] for x in prefixes if not record['prefixTag'] in x['tags'] and x['text'] in visible)
+    select_card(page,'prefix',wrong)
+    page.click('#check');assert page.locator('#defense').is_visible()
+    page.fill('#defense-text','I propose this alternative meaning because the prefix and base together describe an imaginary exception to the clue.')
+    page.check('#defense-check');page.click('#defend')
+    assert 'self-reviewed' in page.locator('#feedback').inner_text().lower()
+    assert not errors,errors
+    print('PASS: Meaning Madness tag-matched answer and explained alternative')
+    page.close()
+
+    page,errors=mount(b)
+    page.click('[data-mode="lab"]');page.select_option('#subject','english');page.click('#start')
+    cards_before=page.locator('.part-card').count()
+    page.click('#hint');assert page.locator('.part-card').count()==cards_before
+    base=page.locator('.bank-column[data-type="base"] .part-card').first;base.click()
+    prefix=page.locator('.bank-column[data-type="prefix"] .part-card').first;prefix.click()
+    page.fill('#definition','An imaginary English literary practice involving this prefix and root in a whimsical new way.')
+    page.click('#check');assert page.locator('#self-review').is_visible()
+    page.fill('#definition','A revised imaginary language device with some carefully explained morphemes.')
+    assert page.locator('#self-review').is_hidden()
+    page.click('#check');assert page.locator('#self-review').is_visible()
+    page.check('#review-one');page.check('#review-two');page.click('#finish-invention')
+    assert 'Invention recorded' in page.locator('#feedback').inner_text()
+    assert not errors,errors
+    print('PASS: Word Laboratory redeal, editable definition, reset reflection, completion')
+    page.close()
+
+    page,errors=mount(b,width=375,height=812)
+    assert page.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'), 'Setup horizontal overflow'
+    page.click('[data-mode="lab"]');page.click('#start')
+    assert page.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'), 'Game horizontal overflow'
+    assert not errors,errors
+    print('PASS: 375px mobile width without horizontal overflow')
+    page.close()
+    b.close()

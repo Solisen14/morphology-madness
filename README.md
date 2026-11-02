@@ -1,28 +1,52 @@
 # Morphology Madness
 
-A prototype word-building game for secondary students. Players combine **prefix**, **base/root**, and **suffix** cards to match subject-specific definitions.
+**v0.2 · Three ways to build words**
 
-## Play
+Morphology Madness is a free, static, browser-based vocabulary and word-invention game for secondary students. It runs entirely in HTML, CSS and JavaScript, making it suitable for GitHub Pages and most classroom Chromebooks.
 
-Open `index.html` in a browser. Choose Mathematics, Science, Geography, History, English, or a mix. Select one card for each slot, then press **Check my word**. Hints and feedback are included.
+## Play modes
 
-## Hosting on GitHub Pages
+1. **Word Wizard:** Assemble an *existing* word from a subject-specific definition. Correct answers are checked against a curated set of morpheme sequences; some words need only two pieces.
+2. **Meaning Madness:** Assemble a plausible invented word for a deliberately strange definition. The game recognizes several prefix and ending meanings for a prompt. Students can also defend a non-matching invention, but that alternative is **self-reviewed, not automatically judged correct**.
+3. **Word Laboratory:** Choose at least a root and one other part, invent a definition, then complete a two-question self-review. There is **no automatic assessment of the invented definition**.
 
-Upload `index.html`, `styles.css`, and `script.js` to the repository root. In **Settings → Pages**, choose **Deploy from a branch → main → /(root)**, then save.
+All modes use the same morpheme bank and support Mathematics, Science, Geography, History, English, or a mixed selection, plus Apprentice, Inventor and Master card levels.
 
-The website will appear at `https://YOUR-USERNAME.github.io/morphology-madness/` once GitHub finishes publishing.
+## Current content
 
-## Prototype limitations
+- **40** curated real-word challenges across five subjects
+- **30** fictional-definition prompts (6 per subject)
+- **40** prefixes, **123** roots/bases, and **38** suffixes or word-final combining forms
+- Five rounds per session, keyboard-accessible controls, responsive layouts and a session-only summary
+- No accounts, analytics, AI calls, external assets, or persistent storage
 
-- Content is a small, hand-curated set of 15 challenges across five subjects, not a full curriculum-aligned vocabulary bank.
-- The game checks one intended three-part construction per clue. Other valid formations are not automatically evaluated.
-- Some cards are classical combining forms, and definitions are simplified for classroom discussion. Review the linguistic and subject-matter accuracy with educators before widespread use.
-- Student responses, scores and names are **not stored** or transmitted. There is no multiplayer, account system, teacher dashboard or analytics.
-- Current rounds are client-side only. Intended for prototyping, not high-stakes assessment.
+## Files
 
-## Next steps
+- `index.html`: accessible layout and interactive controls
+- `styles.css`: responsive interface
+- `data.js`: editable morpheme bank, subject vocabulary, real-word puzzles and creative prompts
+- `script.js`: game state, cards, feedback, self-review and round progression
+- `tests/validate-data.js`: ensures every real word can be assembled from its listed parts and checks prompt metadata
+- `tests/test-browser.py`: optional browser interaction checks using Python Playwright + Chromium
 
-1. Review and expand curated word banks with teachers.
-2. Add support for two-part words and more realistic spelling changes.
-3. Add pedagogically useful feedback, hints, word-part explanations and accessibility testing.
-4. Later, design teacher-guided multiplayer using appropriate authentication and a privacy-reviewed backend. GitHub Pages alone cannot synchronize players.
+## Editing the bank
+
+Modify `data.js`. Each prefix and ending has a `tags` array of broad meaning categories (such as `small`, `against`, `related`, `study`). Meaning Madness checks those broad categories plus the specified root. These tags are **instructional approximations**, not evidence that any two morphemes are linguistically interchangeable. Real-word puzzles have exact constituent IDs and a human-readable explanation. Keep each subject at five or more playable puzzles per fixed-subject mode.
+
+Run `node tests/validate-data.js` after editing the data. For automated browser QA (when Playwright and Chromium are installed), run `python tests/test-browser.py`.
+
+### Important language notes
+
+- *Morpheme* means the smallest meaningful element; *base* and *root* have related but distinct linguistic meanings.
+- Some endings in this prototype (such as **-ology** and **-meter**) are Greek or Latin combining forms rather than ordinary English suffixes.
+- The builder concatenates the written segments directly. The game does not attempt spelling transformations, pronunciation changes, or dictionary lookup.
+- Creative mode does not give authoritative correctness judgments. Discuss the coherence of morpheme combinations and exceptions with students.
+- Classroom definitions and segmented words should be reviewed by educators before high-stakes use.
+
+## Publish with GitHub Pages
+
+GitHub repository **Settings → Pages → Deploy from a branch → main / (root)**. The static site requires no build step and does not need a server-side backend.
+
+## Future ideas (not implemented)
+
+Teacher-authored prompt packs, multi-solution rubrics, evidence-based teacher review of inventions, progress export that respects student privacy, and teacher-guided multiplayer. The current version contains **no multiplayer** or student account system.
