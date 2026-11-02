@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4fc">
+  <meta name="description" content="Morphology Madness: Build words from meaningful parts and solve subject-specific vocabulary challenges.">
+  <title>Morphology Madness | Build words. Discover meaning.</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to game</a>
+  <header class="site-header">
+    <div class="brand"><span class="brand-symbol" aria-hidden="true">M<span class="brand-spark">✦</span></span><span>Morphology <strong>Madness</strong></span></div>
+    <span class="version">Prototype · v0.1</span>
+  </header>
+  <main id="main" class="shell">
+    <section class="intro" aria-labelledby="welcome">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> THE WORD-BUILDING LAB</div>
+      <h1 id="welcome">Big meanings.<br><span>Little pieces.</span></h1>
+      <p>Match prefixes, bases and suffixes to invent the word that fits the clue. Read the card meanings, test a theory, and see what clicks.</p>
+    </section>
+    <section class="game-panel" aria-labelledby="challenge-title">
+      <div class="toolbar">
+        <div class="topic-control"><label for="subject">Choose your subject</label><select id="subject"><option value="all">Mix it up · All subjects</option><option value="math">Mathematics</option><option value="science">Science</option><option value="geography">Geography</option><option value="history">History</option><option value="english">English</option></select></div>
+        <div class="metrics"><div><span class="metric-label">SOLVED</span><span id="solved" class="metric-value">0</span></div><div><span class="metric-label">ROUNDS</span><span id="round" class="metric-value">1 / 5</span></div></div>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Rounds completed" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="progress"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="challenge-top"><span class="chip" id="category-chip">MATHEMATICS</span><span class="difficulty" id="parts-count">3 meaningful pieces</span></div>
+      <h2 id="challenge-title">Build a word that means…</h2>
+      <p id="clue" class="clue">A change in the position, shape or size of a figure.</p>
+      <div class="workbench" aria-labelledby="workbench-title">
+        <div class="workbench-top"><h3 id="workbench-title">Your word</h3><button id="clear" class="text-btn" type="button">Clear cards</button></div>
+        <div class="slots"><button class="slot" data-slot="prefix" type="button" aria-label="Prefix slot, empty"><span class="slot-label">PREFIX</span><span class="slot-content">Choose card</span></button><button class="slot" data-slot="base" type="button" aria-label="Base or root slot, empty"><span class="slot-label">BASE / ROOT</span><span class="slot-content">Choose card</span></button><button class="slot" data-slot="suffix" type="button" aria-label="Suffix slot, empty"><span class="slot-label">SUFFIX</span><span class="slot-content">Choose card</span></button></div>
+        <div class="word-preview"><span class="preview-caption">YOUR CREATION</span><span id="word-preview" class="preview-word">Your word appears here</span></div>
+      </div>
+      <div class="cards-heading"><h3>Choose your cards</h3><p>Select one for each space above. Select a filled space to remove its card.</p></div>
+      <div id="card-bank" class="card-bank" aria-label="Available word-part cards"></div>
+      <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button></div>
+      <section id="feedback" class="feedback" hidden aria-live="polite" aria-atomic="true"></section>
+      <div id="live" class="sr-only" role="status" aria-live="polite"></div>
+    </section>
+    <section class="help" aria-labelledby="help-heading"><h2 id="help-heading">What's in a word?</h2><div class="help-grid"><article><span class="help-icon prefix-color">pre-</span><h3>Prefix</h3><p>A meaningful part added to the beginning of a word. <strong>re-</strong> often means “again.”</p></article><article><span class="help-icon base-color">struct</span><h3>Base / Root</h3><p>The central meaningful part. <strong>struct</strong> comes from a Latin root meaning “build.”</p></article><article><span class="help-icon suffix-color">-ion</span><h3>Suffix</h3><p>A meaningful part added to the end. <strong>-ion</strong> often forms a noun for an act or process.</p></article></div><p class="note">Some cards are Greek or Latin combining forms. Not all words require three pieces, and spellings can change when parts join. This first prototype uses carefully selected three-part words.</p></section>
+    <footer><p>Built for learning, experimenting and discussing word meanings. No accounts, tracking or student data collection.</p></footer>
+  </main>
+</body>
+</html>
