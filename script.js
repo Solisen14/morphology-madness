@@ -1,4 +1,4 @@
-/* Morphology Madness v0.4.1. Client-side only; no network or student data storage.
+/* Morphology Madness v0.4.2. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */
@@ -246,7 +246,7 @@
       ?`${state.level[0].toUpperCase()+state.level.slice(1)} · Round ${state.index+1}`
       :`${state.level[0].toUpperCase()+state.level.slice(1)} · ${LEVELS[state.level]} cards per group`;
     $('challenge-title').textContent=mode().title;
-    $('clue').textContent=state.mode==='lab'?'A surprise word is coming. What could it mean?':puzzle.clue.trim();$('mode-note').textContent=mode().note;
+    $('clue').textContent=state.mode==='lab'?'A random word is coming. What could it mean?':puzzle.clue.trim();$('mode-note').textContent=mode().note;
     $('check').textContent=mode().action+' →';$('hint').textContent=mode().hint;
     const isLab=state.mode==='lab';
     $('lab-machine').hidden=!isLab;

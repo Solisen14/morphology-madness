@@ -42,3 +42,7 @@
 @keyframes reel-bounce{0%{transform:translateY(-5px)}50%{transform:translateY(5px)}100%{transform:translateY(-5px)}}
 @media(max-width:625px){.lab-machine{padding:14px}.reel-grid{gap:6px;margin:17px 0}.reel{padding:9px 5px 12px}.reel-label{font-size:.58rem;letter-spacing:0}.reel-window{min-height:83px}.reel-text{font-size:clamp(.78rem,3vw,1.15rem);padding:5px 3px}.reel-meaning{font-size:.68rem}.machine-actions{flex-direction:column;align-items:stretch;gap:8px}.spin-status{text-align:center}.machine-symbol{font-size:1.5rem}}
 @media(prefers-reduced-motion:reduce){.reel.is-spinning .reel-text{animation:none;filter:none}}
+
+/* Site footer: keep the inspiration credit distinct from the privacy note. */
+footer p{margin:4px 0}
+footer .inspiration-credit{color:#5d4691;font-weight:750;margin-bottom:10px}

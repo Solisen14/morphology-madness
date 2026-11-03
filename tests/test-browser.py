@@ -170,6 +170,19 @@ with sync_playwright() as pw:
     page.close()
 
     page,errors=mount(b)
+    assert page.locator('[data-mode="lab"] .mode-tagline').inner_text()=='Spin and define.'
+    assert 'Spin the wheels, watch them stop' in page.locator('[data-mode="lab"] .mode-description').inner_text()
+    assert 'Inspired by the work of Tamara Phillips.' in page.locator('footer').inner_text()
+    assert 'pre-' in page.locator('.prefix-color').inner_text()
+    assert 'often means “before.”' in page.locator('.help-grid article').first.inner_text()
+    page.click('[data-mode="lab"]')
+    page.click('#start')
+    assert page.locator('#clue').inner_text()=='A random word is coming. What could it mean?'
+    assert not errors,errors
+    print('PASS: Updated Word Laboratory copy, pre- example, and attribution')
+    page.close()
+
+    page,errors=mount(b)
     page.click('#start')
     assert page.locator('#game').is_visible()
     page.click('#leave')

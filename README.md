@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**v0.4.1 · 3/6/10 card difficulty levels**
+**v0.4.2 · Editorial copy and attribution**
 
 Morphology Madness is a free, static, browser-based vocabulary and word-invention game for secondary students. It runs entirely in HTML, CSS and JavaScript, making it suitable for GitHub Pages and most classroom Chromebooks.
 
@@ -77,3 +77,7 @@ The teacher can operate the **Spin** button on a projected device, but the site 
 ## v0.4.1 card counts and clue selection
 
 In **Word Wizard** and **Meaning Madness**, Apprentice displays **3** cards per word-part group (9 total), Inventor **6** per group (18 total), and Master **10** per group (30 total). Intended factual answers and tagged creative options are included. Card order and the five-clue selection are randomized at each new game; the clue pools remain fixed at 40 real-word challenges (8 per subject) and 30 imaginary definitions (6 per subject), so repeats across games are expected. Word Laboratory retains its familiar/expanded/full vocabulary pool progression.
+
+## v0.4.2 copy update
+
+Word Laboratory's mode card now says **Spin and define.** and describes spinning the wheels before inventing a definition. The lab prompt uses **A random word is coming. What could it mean?** The home page's prefix teaching example consistently uses **pre-**, and the footer credits **Tamara Phillips** as inspiration. No scoring, selection, or game-state behaviour changed.
