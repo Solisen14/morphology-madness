@@ -48,7 +48,12 @@
     const subjectOrder=state.subject==='all'?take([...subjects,...subjects],5):Array(5).fill(state.subject);
     return subjectOrder.map((subject,i)=>({subject,clue:data.sparks[subject][i%data.sparks[subject].length]}));
   };
-  const candidates=(type,subject)=>type==='base' ? data.roots.filter(r=>r.subject===subject) : BANKS[type];
+  const candidates=(type,subject)=>{
+    const pool=type==='base'?data.roots.filter(r=>r.subject===subject):BANKS[type];
+    // Preserve all authored Word Wizard answers; avoid standalone inflections
+    // in invented-word card decks unless explicitly enabled later.
+    return state.mode==='wizard'?pool:pool.filter(r=>r.creativeEligible!==false);
+  };
   const createCards=(puzzle)=>{
     const multiplier=LEVELS[state.level];
     const cards={prefix:[],base:[],suffix:[]};

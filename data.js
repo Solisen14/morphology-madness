@@ -1,110 +1,11 @@
-/* Morphology Madness: one extensible morpheme bank shared by three modes.
- * Tags represent broad classroom semantic functions, not exact interchangeability.
- * All examples and prompt wording require editorial review before formal assessment.
+/* Morphology Madness challenge library.
+ * Morphemes are defined separately in morpheme-bank.js.
  */
 'use strict';
 (() => {
-  const p = (id, meaning, tags = []) => ({id, text: id + '-', meaning, tags});
-  const s = (id, meaning, tags = []) => ({id, text: '-' + id, meaning, tags});
-  const rootsOf = (subject, records) => records.map(([id, meaning]) => ({id, text:id, meaning, subject}));
-  const prefixes = [
-    p('anti','against or opposed to',['against']),p('counter','in opposition to',['against']),p('contra','against',['against']),
-    p('micro','very small',['small']),p('nano','extremely small',['small']),p('mini','small',['small']),
-    p('hyper','excessive or beyond normal',['excess']),p('ultra','extreme or beyond',['excess']),p('over','too much or above',['excess']),
-    p('multi','many',['many']),p('poly','many',['many']),p('omni','all',['all']),
-    p('pre','before',['before']),p('post','after',['after']),p('re','again',['again']),
-    p('neo','new or revived',['new']),p('pseudo','false or imitation',['false']),
-    p('non','not or absence of',['not']),p('un','not or reversal',['not']),p('dis','not, apart, or opposite',['not']),
-    p('inter','between or among',['between']),p('intra','within',['within']),p('trans','across or change',['across']),
-    p('sub','under or below',['under']),p('super','above or beyond',['above']),
-    p('geo','Earth',['earth']),p('bio','life',['life']),p('hydro','water',['water']),
-    p('thermo','heat',['heat']),p('photo','light',['light']),p('eco','environment or home',['environment']),
-    p('aero','air',['air']),p('mega','large',['large']),p('semi','half',['half']),p('hemi','half',['half']),
-    p('bi','two',['two']),p('endo','within or inward',['inside']),p('exo','outside',['outside']),
-    p('de','remove or reverse',['reverse']),p('mis','wrongly',['wrong'])
-  ];
-  const suffixes = [
-    s('ist','a person associated with something',['person']),
-    s('ologist','someone who studies a subject',['student']),
-    s('ology','the study of something',['study']),
-    s('phile','a lover or enthusiast of something',['lover']),
-    s('phobe','someone with an aversion or fear',['aversion']),
-    s('phobic','having an aversion or fear',['aversion']),
-    s('meter','a measuring device',['measurer']),
-    s('scope','an instrument for viewing',['viewer']),
-    s('graph','a record or recording device',['record']),
-    s('graphy','recording or describing',['record']),
-    s('ism','a belief, practice, or tendency',['practice']),
-    s('ness','a state or quality',['state']),s('ity','a state or quality',['state']),
-    s('hood','a state or period',['state']),s('ship','a condition or relationship',['state']),
-    s('ful','full of',['full']),s('less','without',['without']),
-    s('able','capable of or suitable for',['capable']),s('ible','capable of',['capable']),
-    s('ic','relating to',['related']),s('al','relating to',['related']),s('ial','relating to',['related']),
-    s('ous','full of or characterized by',['full']),s('ary','relating to',['related']),s('ive','tending to',['related']),
-    s('ize','make or cause to become',['make']),s('ify','make or cause to become',['make']),
-    s('ment','a process or result',['process']),s('ation','an act or process',['process']),
-    s('ion','an act or result',['process']),s('tion','an act or process',['process']),
-    s('er','a person or device that does something',['person']),s('or','a person or thing that acts',['person']),
-    s('ing','an ongoing action or process',['process']),
-    s('oid','resembling',['resembles']),s('like','resembling',['resembles']),
-    s('proof','resistant to something',['resists']),s('ward','in a direction',['direction'])
-  ];
-  const roots = [
-    ...rootsOf('math',[
-      ['fraction','part of a whole'],['triangle','three-sided polygon'],['equation','statement that two expressions are equal'],
-      ['graph','visual representation of relationships'],['angle','amount of turn'],['number','quantity or value'],
-      ['pattern','a regularity'],['symmetry','balanced correspondence'],['geometry','study of shapes and space'],
-      ['ratio','comparison of quantities'],['decimal','base-ten number form'],['polygon','many-sided figure'],
-      ['circle','points a fixed distance from a centre'],['integer','whole number, positive, negative or zero'],
-      ['function','input-output relationship'],['vector','quantity with magnitude and direction'],
-      ['matrix','rectangular array of entries'],['variable','symbol for a changing or unknown value'],
-      ['parallel','never meeting in the same plane'],['algebra','generalized number relationships'],
-      ['form','shape'],['sect','cut'],['arrange','put in order'],['group','collect together'],
-      ['tract','draw or pull'],['equal','the same amount'],['state','express or declare']
-    ]),
-    ...rootsOf('science',[
-      ['therm','heat'],['thermo','heat (combining form)'],['bio','life'],['photo','light'],['hydro','water'],['cloud','a visible collection of droplets or ice crystals'],
-      ['volcano','opening through which magma may erupt'],['alga','a photosynthetic aquatic organism'],
-      ['atom','smallest unit of an element'],['magnet','object producing a magnetic field'],
-      ['orbit','path around a body'],['planet','large body orbiting a star'],['neuron','nerve cell'],
-      ['cell','basic unit of life'],['carbon','chemical element C'],['oxygen','chemical element O'],
-      ['crystal','solid with an ordered internal structure'],['microbe','microscopic organism'],
-      ['energy','capacity to produce change'],['chem','chemical substances or reactions'],['eco','environment or home'],
-      ['degrad','break down'],['scope','look or view'],['organism','living thing'],
-      ['phob','fear or aversion'],['log','study or account']
-    ]),
-    ...rootsOf('geography',[
-      ['map','representation of places'],['mountain','high landform'],['river','flowing watercourse'],
-      ['ocean','large body of saltwater'],['continent','major landmass'],['valley','low land between higher areas'],
-      ['coast','boundary between land and sea'],['glacier','slow-moving mass of ice'],['climate','long-term weather patterns'],
-      ['forest','land dominated by trees'],['desert','very dry region'],['island','land surrounded by water'],
-      ['latitude','position north or south of the equator'],['longitude','position east or west of a reference meridian'],
-      ['land','solid surface of Earth'],['city','large human settlement'],['urban','relating to a town or city'],
-      ['terrain','physical landscape'],['tecton','building or structure of Earth’s crust'],
-      ['world','Earth or its inhabitants'],['nation','a people or political community'],
-      ['sphere','rounded body or region'],['cultur','culture or cultivation']
-    ]),
-    ...rootsOf('history',[
-      ['empire','territories ruled by a central authority'],['king','male monarch'],['castle','fortified residence'],
-      ['chron','time'],['archiv','historical records'],['treaty','formal agreement'],['reform','change for improvement'],
-      ['colon','settlement or colonization'],['democracy','rule by the people'],['dynasty','family line of rulers'],
-      ['war','armed conflict'],['revolution','major political or social change'],['monarch','hereditary sovereign'],
-      ['culture','shared practices and ideas'],['migration','movement between places'],['ancient','very old'],
-      ['civil','relating to citizens'],['histor','history'],['era','period of time'],
-      ['construct','build'],['imperial','relating to an empire']
-    ]),
-    ...rootsOf('english',[
-      ['adjective','word that describes a noun'],['comma','punctuation mark'],['poem','literary composition in verse'],
-      ['metaphor','figurative comparison'],['phon','sound'],['lex','word'],['narrat','tell or recount'],
-      ['predict','say in advance'],['interpret','explain meaning'],['phrase','group of words'],
-      ['clause','group of words with a subject and verb'],['syntax','rules of sentence structure'],
-      ['fiction','invented narrative'],['story','sequence of events'],['rhyme','repeated ending sounds'],
-      ['script','written text'],['grammar','language structure'],['literal','following ordinary meaning'],
-      ['character','person in a story'],['verse','line or group of lines in poetry'],
-      ['agree','share an opinion'],['write','put words into text'],['view','look at'],
-      ['help','assist'],['care','concern or attention'],['read','interpret written words']
-    ])
-  ];
+  const bank=window.MM_MORPHEMES;
+  if(!bank)throw new Error('Load morpheme-bank.js before data.js');
+  const {prefixes,roots,suffixes}=bank;
   const R = (subject, clue, prefix, base, suffix, answer, explanation) => ({subject, clue, parts:{prefix,base,suffix}, answer, explanation});
   const real = [
     R('math','A change in a figure’s position, size, or shape.','trans','form','ation','transformation','In mathematics, transformations include translations, rotations, reflections, and dilations.'),
