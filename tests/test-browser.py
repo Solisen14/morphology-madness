@@ -50,6 +50,41 @@ with sync_playwright() as pw:
     print('PASS: Word Wizard 5 master-level rounds, including optional parts; results page')
     page.close()
 
+    # Every difficulty must show 3, 6, or 10 cards in each category,
+    # including the intended factual answer or suitable creative meaning tags.
+    for mode,kind in [('wizard','real'),('madness','creative')]:
+        for level,expected in [('apprentice',3),('inventor',6),('master',10)]:
+            sample,errors=mount(b)
+            if mode=='madness': sample.click('[data-mode="madness"]')
+            assert str(expected) in sample.locator('#level option[value="'+level+'"]').inner_text()
+            sample.select_option('#subject','geography')
+            sample.select_option('#level',level)
+            sample.click('#start')
+            record=current_record(sample,kind)
+            assert record,(mode,level)
+            for type in ['prefix','base','suffix']:
+                col=sample.locator('.bank-column[data-type="'+type+'"]')
+                assert col.locator('.part-card').count()==expected,(mode,level,type,col.locator('.part-card').count())
+                texts=col.locator('.card-text').all_inner_texts()
+                assert len(set(texts))==expected,(mode,level,type,'duplicates')
+                if mode=='wizard' and record['parts'][type]:
+                    part=record['parts'][type]
+                    expectedText=(part+'-' if type=='prefix' else '-'+part if type=='suffix' else part)
+                    assert expectedText in texts,(mode,level,type,part)
+                if mode=='madness':
+                    if type=='base':
+                        assert record['root'] in texts,(mode,level,type)
+                    else:
+                        tag=record['prefixTag'] if type=='prefix' else record['suffixTag']
+                        matches=sample.evaluate('''([type,tag,labels])=>{
+                          const parts=type==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes;
+                          return parts.filter(part=>labels.includes(part.text)&&part.tags.includes(tag)).length;
+                        }''',[type,tag,texts])
+                        assert matches>0,(mode,level,type,tag)
+            assert not errors,errors
+            sample.close()
+    print('PASS: 3/6/10 cards per category, correct parts and meaning tags')
+
     page,errors=mount(b)
     page.click('[data-mode="madness"]');page.select_option('#subject','math');page.click('#start')
     record=current_record(page,'creative');assert record

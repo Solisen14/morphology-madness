@@ -1,4 +1,4 @@
-/* Morphology Madness v0.4. Client-side only; no network or student data storage.
+/* Morphology Madness v0.4.1. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */
@@ -15,7 +15,7 @@
     madness:{name:'MEANING MADNESS',title:'Invent a word that could mean…',note:'Make a believable nonsense word. More than one answer can fit; explain a creative alternative.',action:'Check the meaning',hint:'Give me a nudge',score:'CREATED'},
     lab:{name:'WORD LABORATORY',title:'Spin the wheels to invent a word!',note:'The teacher spins three wheels. When they stop, write a definition that fits their meanings. There is no single correct answer.',action:'Review my definition',hint:'',score:'INVENTED'}
   };
-  const LEVELS={apprentice:1,inventor:2,master:3};
+  const LEVELS={apprentice:3,inventor:6,master:10};
   let selectedMode='wizard';
   let state=null;
   let reelTimers=[];
@@ -57,28 +57,31 @@
     return state.mode==='wizard'?pool:pool.filter(r=>r.creativeEligible!==false);
   };
   const createCards=(puzzle)=>{
-    const multiplier=LEVELS[state.level];
+    const numberOfChoices=LEVELS[state.level];
     const cards={prefix:[],base:[],suffix:[]};
     for(const type of TYPES){
       const pool=candidates(type,puzzle.subject);
       if(state.mode==='wizard'){
+        // Include the correct part when one is required. For optional slots,
+        // show a full bank of distractors and let the learner leave the slot empty.
         const correct=item(type,puzzle.parts[type]);
-        const decoys=take(pool.filter(c=>c.id!==correct?.id),multiplier+(correct?0:1));
-        cards[type]=shuffle(unique([correct,...decoys]));
+        const distractors=take(pool.filter(c=>c.id!==correct?.id),numberOfChoices-(correct?1:0));
+        cards[type]=shuffle(unique([correct,...distractors]));
       }else if(state.mode==='madness'){
         if(type==='base'){
           const correct=item('base',puzzle.root);
-          cards[type]=shuffle(unique([correct,...take(pool.filter(c=>c.id!==correct.id),multiplier+2)]));
+          cards[type]=shuffle(unique([correct,...take(pool.filter(c=>c.id!==correct.id),numberOfChoices-1)]));
         }else{
-          const target=type==='prefix'?puzzle.prefixTag:puzzle.suffixTag;
-          const matched=pool.filter(c=>c.tags.includes(target));
-          const valid=take(matched,Math.min(2,matched.length));
-          const decoys=take(pool.filter(c=>!c.tags.includes(target)),multiplier+1);
-          cards[type]=shuffle(unique([...valid,...decoys]));
+          const tag=type==='prefix'?puzzle.prefixTag:puzzle.suffixTag;
+          const valid=take(pool.filter(c=>c.tags.includes(tag)),state.level==='apprentice'?1:2);
+          const distractors=take(pool.filter(c=>!c.tags.includes(tag)),numberOfChoices-valid.length);
+          cards[type]=shuffle(unique([...valid,...distractors]));
         }
       }else{
-        const count=type==='base'?multiplier*2+3:multiplier*2+2;
-        cards[type]=take(pool,count);
+        throw new Error('Card selection is only used for Word Wizard and Meaning Madness.');
+      }
+      if(cards[type].length!==numberOfChoices){
+        throw new Error('Not enough unique '+type+' cards for '+state.level+' ('+cards[type].length+'/'+numberOfChoices+').');
       }
     }
     return cards;
@@ -187,7 +190,7 @@
     const headings={prefix:'Prefixes',base:'Bases and roots',suffix:'Endings'};
     for(const type of TYPES){
       const column=document.createElement('section');column.className='bank-column';column.dataset.type=type;
-      const h=document.createElement('h4');h.textContent=headings[type];
+      const h=document.createElement('h4');h.textContent=headings[type]+' · '+state.cards[type].length;
       const group=document.createElement('div');group.className='bank-cards';
       for(const card of state.cards[type]){
         const button=document.createElement('button');button.type='button';button.className='part-card';
@@ -239,7 +242,9 @@
     state.cards=state.mode==='lab'?{prefix:[],base:[],suffix:[]}:createCards(puzzle);
     state.locked=false;state.hints=0;state.attempts=0;
     $('category-chip').textContent=data.subjects[puzzle.subject].toUpperCase();
-    $('parts-count').textContent=`${state.level[0].toUpperCase()+state.level.slice(1)} · Round ${state.index+1}`;
+    $('parts-count').textContent=state.mode==='lab'
+      ?`${state.level[0].toUpperCase()+state.level.slice(1)} · Round ${state.index+1}`
+      :`${state.level[0].toUpperCase()+state.level.slice(1)} · ${LEVELS[state.level]} cards per group`;
     $('challenge-title').textContent=mode().title;
     $('clue').textContent=state.mode==='lab'?'A surprise word is coming. What could it mean?':puzzle.clue.trim();$('mode-note').textContent=mode().note;
     $('check').textContent=mode().action+' →';$('hint').textContent=mode().hint;
@@ -385,11 +390,21 @@
     dialog.showModal();
     $('stay').focus();
   };
+  const updateLevelDescriptions=()=>{
+    const isLab=selectedMode==='lab';
+    $('level-description').textContent=isLab
+      ?'Subject chooses the root wheel; level controls the variety of parts on all three wheels.'
+      :'Subject chooses the vocabulary; each level gives you 3, 6, or 10 cards in each word-part group.';
+    const descriptions=isLab
+      ?['Familiar word parts','Expanded word bank','Full word bank']
+      :['3 cards per group','6 cards per group','10 cards per group'];
+    for(const [i,option] of [...$('level').options].entries()){
+      option.textContent=['Apprentice','Inventor','Master'][i]+' · '+descriptions[i];
+    }
+  };
   for(const card of document.querySelectorAll('.mode-card'))card.addEventListener('click',()=>{
     selectedMode=card.dataset.mode;
-    $('level-description').textContent=selectedMode==='lab'
-      ?'Subject chooses the root wheel; level controls the variety of parts on all three wheels.'
-      :'Subject controls the vocabulary; level controls the number of choices.';
+    updateLevelDescriptions();
     for(const option of document.querySelectorAll('.mode-card')){const selected=option.dataset.mode===selectedMode;option.classList.toggle('active',selected);option.setAttribute('aria-pressed',String(selected));}
   });
   for(const slot of document.querySelectorAll('.slot'))slot.addEventListener('click',()=>removeCard(slot.dataset.slot));
@@ -404,4 +419,5 @@
   $('defend').addEventListener('click',finishDefense);$('finish-invention').addEventListener('click',finishLab);
   $('definition').addEventListener('input',()=>{if(state?.mode==='lab'&&!state.locked){$('self-review').hidden=true;$('feedback').hidden=true;}});
   $('challenge-title').setAttribute('tabindex','-1');
+  updateLevelDescriptions();
 })();
