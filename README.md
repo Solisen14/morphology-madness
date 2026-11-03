@@ -1,83 +1,57 @@
 # Morphology Madness
 
-**v0.4.2 · Editorial copy and attribution**
+**Version 1.0 · First public release**
 
-Morphology Madness is a free, static, browser-based vocabulary and word-invention game for secondary students. It runs entirely in HTML, CSS and JavaScript, making it suitable for GitHub Pages and most classroom Chromebooks.
+**Play:** https://solisen14.github.io/morphology-madness/
 
-## Play modes
+Morphology Madness is a free, browser-based word-building and vocabulary game designed for secondary students and classroom discussion. It uses HTML, CSS, and JavaScript and is hosted on GitHub Pages. It does not require an account or a server.
 
-1. **Word Wizard:** Assemble an *existing* word from a subject-specific definition. Correct answers are checked against a curated set of morpheme sequences; some words need only two pieces.
-2. **Meaning Madness:** Assemble a plausible invented word for a deliberately strange definition. The game recognizes several prefix and ending meanings for a prompt. Students can also defend a non-matching invention, but that alternative is **self-reviewed, not automatically judged correct**.
-3. **Word Laboratory:** A teacher (or a student on the same device) presses **Spin the word wheels**. Three animated reels stop in order at a prefix, subject-specific root, and ending. The definition field appears after the final wheel stops. Students invent a meaning and complete a two-question self-review. There is **no automatic assessment of the invented definition**.
+## Three ways to play
 
-All modes use the same morpheme bank and support Mathematics, Science, Geography, History, English, or a mixed selection, plus Apprentice, Inventor and Master levels. In Word Laboratory the difficulty changes the breadth of the reel vocabulary, not the number of cards.
+1. **Word Wizard:** Build a genuine word from a factual vocabulary clue. A curated word-part sequence is checked against the intended answer.
+2. **Meaning Madness:** Invent a word to fit an unusual definition. The game checks broad word-part meaning tags and lets students explain a creative alternative. Alternatives are **self-reviewed, not automatically graded**.
+3. **Word Laboratory:** Spin three wheels to generate a prefix, a root/base, and an ending. Once the wheels stop, students write an imaginative definition and reflect on how the parts contribute meaning. **No automated grading of original definitions.**
 
-## Current content
+Choose Mathematics, Science, Geography, History, English, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
 
-- **40** curated real-word challenges across five subjects
-- **30** fictional-definition prompts (6 per subject)
-- **70** prefixes/initial combining forms, **250** roots/bases, and **60** suffixes/final combining forms (**380** entries)
-- Five rounds per session, a sticky **Exit to game menu** control and a second exit action near the round buttons, a confirmation before discarding progress, keyboard-accessible controls, responsive layouts and a session-only summary
-- No accounts, analytics, AI calls, external assets, or persistent storage
+## What's included
 
-## Files
+- **380** word-part entries: **70** prefixes/initial forms, **250** roots/bases, and **60** suffixes/final forms
+- **40** genuine-word challenges and **30** fictional-definition prompts
+- Responsive, keyboard-accessible controls and reduced-motion support for spinning reels
+- Explanations, hints, self-review, round summaries, and exit confirmation
+- No sign-in, analytics, online student submissions, persistent student records, or multiplayer features
 
-- `index.html`: accessible layout and interactive controls
-- `styles.css`: responsive interface
-- `morpheme-bank.js`: structured, reusable word-part bank with descriptions and editorial metadata
-- `data.js`: subject vocabulary, real-word puzzles and creative prompts
-- `script.js`: game state, cards, feedback, self-review and round progression
-- `tests/validate-data.js`: ensures every real word can be assembled from its listed parts and checks prompt metadata
-- `tests/test-browser.py`: optional browser interaction checks using Python Playwright + Chromium
+## Notes for educators
 
-## Editing the bank
+Morphology provides clues to meaning, but **not every concatenation of cards forms an attested English word**. Greek and Latin combining forms differ from ordinary English prefixes and suffixes; spelling and meaning may change when parts combine. The game's broad semantic tags support discussion rather than establishing the linguistic validity of an invented construction.
 
-Modify `morpheme-bank.js` for word parts; modify `data.js` for puzzles. Each prefix and ending has a `tags` array of broad meaning categories (such as `small`, `against`, `related`, `study`). Meaning Madness checks those broad categories plus the specified root. These tags are **instructional approximations**, not evidence that any two morphemes are linguistically interchangeable. Real-word puzzles have exact constituent IDs and a human-readable explanation. Keep each subject at five or more playable puzzles per fixed-subject mode.
+Word Wizard checks a curated intended combination rather than grading all potentially defensible alternate words. Meaning Madness and Word Laboratory include student explanation and self-review; they should not be treated as independent assessments of vocabulary mastery.
 
-Run `node tests/validate-data.js` after editing the data. For automated browser QA (when Playwright and Chromium are installed), run `python tests/test-browser.py`.
+The current version is intended for educational exploration, with teacher guidance where appropriate. Inspired by the work of Tamara Phillips.
 
-### Important language notes
+## Repository layout
 
-- *Morpheme* means the smallest meaningful element; *base* and *root* have related but distinct linguistic meanings.
-- Some endings in this prototype (such as **-ology** and **-meter**) are Greek or Latin combining forms rather than ordinary English suffixes.
-- The builder concatenates the written segments directly. The game does not attempt spelling transformations, pronunciation changes, or dictionary lookup.
-- Creative mode does not give authoritative correctness judgments. Discuss the coherence of morpheme combinations and exceptions with students.
-- Classroom definitions and segmented words should be reviewed by educators before high-stakes use.
+- `index.html`: page layout and interface text
+- `styles.css`: responsive design and animation
+- `script.js`: game-state logic, feedback, and interactions
+- `morpheme-bank.js`: shared structured bank of word parts
+- `data.js`: subject-specific clues and creative prompts
+- `tests/validate-data.js`: bank and challenge integrity
+- `tests/test-browser.py`: Playwright interaction and mobile checks
+- `docs/`: design notes and historical vocabulary review material
 
-## Publish with GitHub Pages
+## Testing and publishing
 
-GitHub repository **Settings → Pages → Deploy from a branch → main / (root)**. The static site requires no build step and does not need a server-side backend.
+GitHub Actions runs bank integrity checks and Chromium browser regressions for all three modes. Pages publishes the `main` branch.
 
-## Future ideas (not implemented)
+To validate locally:
 
-Teacher-authored prompt packs, multi-solution rubrics, evidence-based teacher review of inventions, progress export that respects student privacy, and teacher-guided multiplayer. The current version contains **no multiplayer** or student account system.
-## v0.3 expansion, review before merging
+```bash
+node tests/validate-data.js
+python tests/test-browser.py
+```
 
-The 179 new entries are a draft intended for educator review. Word Wizard remains
-at 40 curated answers, and Meaning Madness retains 30 prompts. The additional
-entries expand creative possibilities, but do not automatically create new valid
-real-word challenges. The original word-part IDs and answer sequences remain intact.
+The optional browser suite requires Python Playwright and Chromium. It tests game completion, creative alternatives, the three spinning reels, mobile overflow, and exiting mid-game.
 
-The new schema adds `key`, `role`, `formClass`, `subjects` (roots),
-`exampleWord` (new affixes), `source`, `creativeEligible`, and
-`reviewNote`. Full-word bases are distinguished from bound roots,
-and combining forms are distinguished from ordinary prefixes/suffixes when
-reasonably identifiable. These labels still need final linguistic review.
-
-Read `docs/BANK-REVIEW.md` and `docs/MORPHEME-SCHEMA.md` before approving this branch.
-
-## Automated quality checks
-
-GitHub Actions runs `node tests/validate-data.js` and the Playwright browser regression suite on pull requests and changes to `main`. The browser checks cover Word Wizard, Meaning Madness, sequential Word Laboratory reels, definition gating, reduced-motion behaviour, mobile overflow, and exiting a game. Development requires no accounts or student data collection.
-
-### Word Laboratory reel behaviour
-
-The teacher can operate the **Spin** button on a projected device, but the site does not synchronize other devices or store class responses. Prefix, root, and ending animate simultaneously and then stop sequentially (about 1.05, 1.75, and 2.45 seconds); reduced-motion users receive brief non-animated reveals. Student writing is unlocked only after all three reels stop. Spinning again explicitly clears the existing draft after browser confirmation; leaving mid-spin cancels outstanding timers. A surprising combination need not be a dictionary word, and the definition is self-reviewed rather than automatically marked correct.
-
-## v0.4.1 card counts and clue selection
-
-In **Word Wizard** and **Meaning Madness**, Apprentice displays **3** cards per word-part group (9 total), Inventor **6** per group (18 total), and Master **10** per group (30 total). Intended factual answers and tagged creative options are included. Card order and the five-clue selection are randomized at each new game; the clue pools remain fixed at 40 real-word challenges (8 per subject) and 30 imaginary definitions (6 per subject), so repeats across games are expected. Word Laboratory retains its familiar/expanded/full vocabulary pool progression.
-
-## v0.4.2 copy update
-
-Word Laboratory's mode card now says **Spin and define.** and describes spinning the wheels before inventing a definition. The lab prompt uses **A random word is coming. What could it mean?** The home page's prefix teaching example consistently uses **pre-**, and the footer credits **Tamara Phillips** as inspiration. No scoring, selection, or game-state behaviour changed.
+See [release notes](RELEASE_NOTES.md) for the v1.0 scope and limitations.

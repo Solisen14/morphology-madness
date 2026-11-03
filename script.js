@@ -1,4 +1,4 @@
-/* Morphology Madness v0.4.2. Client-side only; no network or student data storage.
+/* Morphology Madness v1.0. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */

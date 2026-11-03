@@ -1,4 +1,4 @@
-/* Morphology Madness morpheme bank v0.3 draft.
+/* Morphology Madness morpheme bank v1.0.
  * Shared by all three solo game modes.
  * Many school-domain bases are complete words, not classical bound roots.
  * A valid morpheme sequence is NOT automatically a valid dictionary word.
@@ -1569,7 +1569,7 @@
   // combine every pair of cards into a dictionary-standard English word.
   window.MM_MORPHEMES={
     schemaVersion:1,
-    bankVersion:'0.3-draft',
+    bankVersion:'1.0',
     prefixes,roots,suffixes,
     fields:['key','id','text','meaning','role','formClass','tags','subjects','exampleWord','reviewNote','creativeEligible','source'],
     editorialNote:'Word-part labels simplify some linguistic distinctions. Verify full-word spelling and use before treating a construction as a real word.'
