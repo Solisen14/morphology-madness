@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 from collections import Counter
+import shutil
 
 folder=Path(__file__).parent.parent
 
@@ -28,7 +29,11 @@ def current_record(page,kind):
     return page.evaluate('''kind=>window.MM_DATA[kind].find(x=>x.clue.trim()===document.getElementById('clue').textContent.trim())''',kind)
 
 with sync_playwright() as pw:
-    b=pw.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+    browser_args={'headless':True,'args':['--no-sandbox']}
+    system_chromium=shutil.which('chromium') or shutil.which('chromium-browser')
+    if system_chromium:
+        browser_args['executable_path']=system_chromium
+    b=pw.chromium.launch(**browser_args)
     page,errors=mount(b)
     assert page.locator('.mode-card').count()==3
     page.select_option('#subject','science');page.select_option('#level','master');page.click('#start')
@@ -97,5 +102,20 @@ with sync_playwright() as pw:
     assert page.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'), 'Game horizontal overflow'
     assert not errors,errors
     print('PASS: 375px mobile width without horizontal overflow')
+    page.close()
+
+    page,errors=mount(b)
+    page.click('#start')
+    assert page.locator('#game').is_visible()
+    page.click('#leave')
+    assert page.locator('#exit-dialog').is_visible()
+    page.click('#stay')
+    assert page.locator('#game').is_visible()
+    page.click('#back')
+    assert page.locator('#exit-dialog').is_visible()
+    page.click('#confirm-exit')
+    assert page.locator('#setup').is_visible()
+    assert not errors,errors
+    print('PASS: Exit controls preserve state on cancel and return to menu on confirm')
     page.close()
     b.close()

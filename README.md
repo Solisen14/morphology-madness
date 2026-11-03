@@ -65,3 +65,7 @@ and combining forms are distinguished from ordinary prefixes/suffixes when
 reasonably identifiable. These labels still need final linguistic review.
 
 Read `docs/BANK-REVIEW.md` and `docs/MORPHEME-SCHEMA.md` before approving this branch.
+
+## Automated quality checks
+
+GitHub Actions runs `node tests/validate-data.js` and the Playwright browser regression suite on pull requests and changes to `main`. The browser checks cover Word Wizard, Meaning Madness, Word Laboratory, mobile overflow, and exiting a game. Development requires no accounts or student data collection.
