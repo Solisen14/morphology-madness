@@ -241,7 +241,7 @@
     $('category-chip').textContent=data.subjects[puzzle.subject].toUpperCase();
     $('parts-count').textContent=`${state.level[0].toUpperCase()+state.level.slice(1)} · Round ${state.index+1}`;
     $('challenge-title').textContent=mode().title;
-    $('clue').textContent=puzzle.clue.trim();$('mode-note').textContent=mode().note;
+    $('clue').textContent=state.mode==='lab'?'A surprise word is coming. What could it mean?':puzzle.clue.trim();$('mode-note').textContent=mode().note;
     $('check').textContent=mode().action+' →';$('hint').textContent=mode().hint;
     const isLab=state.mode==='lab';
     $('lab-machine').hidden=!isLab;
