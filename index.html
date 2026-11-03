@@ -93,7 +93,7 @@
             <p>What could this word mean? Use the meanings below each wheel to invent a definition. Some combinations may not follow ordinary English spelling patterns.</p>
           </div>
         </section>
-        <div class="workbench" aria-labelledby="workbench-title">
+        <div class="workbench" id="workbench" aria-labelledby="workbench-title">
           <div class="workbench-top"><h3 id="workbench-title">Your word</h3><button id="clear" class="text-btn" type="button">Clear cards</button></div>
           <div class="slots">
             <button class="slot" data-slot="prefix" type="button"><span class="slot-label">PREFIX</span><span class="slot-content">Optional</span></button>
@@ -111,7 +111,7 @@
           <textarea id="definition" maxlength="360" rows="3" placeholder="My word could mean…"></textarea>
           <p class="field-hint">Use the meanings of the three parts to explain your invention. Your writing stays in this browser during the game.</p>
         </div>
-        <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button><button type="button" class="secondary-btn exit-round-btn" id="leave">Exit game</button></div>
+        <div class="action-row" id="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button><button type="button" class="secondary-btn exit-round-btn" id="leave">Exit game</button></div>
         <section id="feedback" class="feedback" aria-live="polite" aria-atomic="true" hidden></section>
 
         <div id="defense" class="review-panel" hidden>
