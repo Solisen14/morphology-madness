@@ -14,7 +14,7 @@
   <a href="#main" class="skip-link">Skip to main content</a>
   <header class="site-header">
     <div class="brand"><span class="brand-symbol" aria-hidden="true">M<span class="brand-spark">✦</span></span><span>Morphology <strong>Madness</strong></span></div>
-    <span class="version">The word-building lab · v0.2</span>
+    <span class="version">The word-building lab · v0.2.1</span>
   </header>
   <main id="main" class="shell">
     <section class="intro" aria-labelledby="welcome">
@@ -47,7 +47,7 @@
 
     <section id="game" class="game-panel" aria-labelledby="challenge-title" hidden>
       <div class="game-header">
-        <div><button type="button" id="back" class="back-btn">← Game menu</button><div class="playing-mode" id="mode-name">WORD WIZARD</div></div>
+        <div><button type="button" id="back" class="back-btn">← Exit to game menu</button><div class="playing-mode" id="mode-name">WORD WIZARD</div></div>
         <div class="metrics"><div><span class="metric-label" id="score-label">SOLVED</span><span id="solved" class="metric-value">0</span></div><div><span class="metric-label">ROUND</span><span id="round" class="metric-value">1 / 5</span></div></div>
       </div>
       <div class="progress-track" id="progress" role="progressbar" aria-label="Rounds completed" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
@@ -74,7 +74,7 @@
           <textarea id="definition" maxlength="360" rows="3" placeholder="My word could mean…"></textarea>
           <p class="field-hint">Include the meanings of at least two pieces in your explanation. This text stays in your browser during this session.</p>
         </div>
-        <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button></div>
+        <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button><button type="button" class="secondary-btn exit-round-btn" id="leave">Exit game</button></div>
         <section id="feedback" class="feedback" aria-live="polite" aria-atomic="true" hidden></section>
 
         <div id="defense" class="review-panel" hidden>
@@ -93,6 +93,16 @@
         </div>
       </div>
       <div id="results" class="results" hidden></div>
+      <dialog id="exit-dialog" class="exit-dialog" aria-labelledby="exit-title" aria-describedby="exit-description">
+        <div class="exit-dialog-inner">
+          <h2 id="exit-title">Leave this game?</h2>
+          <p id="exit-description">Your progress in this five-round game will be lost. You can choose another mode or start a new game from the menu.</p>
+          <div class="exit-actions">
+            <button type="button" id="stay" class="primary-btn">Keep playing</button>
+            <button type="button" id="confirm-exit" class="secondary-btn">Leave game</button>
+          </div>
+        </div>
+      </dialog>
       <div id="live" class="sr-only" role="status" aria-live="polite"></div>
     </section>
 

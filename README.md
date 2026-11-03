@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**v0.2 · Three ways to build words**
+**v0.2.1 · Three ways to build words**
 
 Morphology Madness is a free, static, browser-based vocabulary and word-invention game for secondary students. It runs entirely in HTML, CSS and JavaScript, making it suitable for GitHub Pages and most classroom Chromebooks.
 
@@ -17,7 +17,7 @@ All modes use the same morpheme bank and support Mathematics, Science, Geography
 - **40** curated real-word challenges across five subjects
 - **30** fictional-definition prompts (6 per subject)
 - **40** prefixes, **123** roots/bases, and **38** suffixes or word-final combining forms
-- Five rounds per session, keyboard-accessible controls, responsive layouts and a session-only summary
+- Five rounds per session, a sticky **Exit to game menu** control and a second exit action near the round buttons, a confirmation before discarding progress, keyboard-accessible controls, responsive layouts and a session-only summary
 - No accounts, analytics, AI calls, external assets, or persistent storage
 
 ## Files

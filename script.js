@@ -1,4 +1,4 @@
-/* Morphology Madness v0.2. Client-side only; no network or student data storage.
+/* Morphology Madness v0.2.1. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */
@@ -252,13 +252,27 @@
     $('mode-name').textContent=mode().name;$('score-label').textContent=mode().score;
     loadRound();$('game').scrollIntoView({block:'start',behavior:'instant'});
   };
-  function showSetup(){state=null;$('game').hidden=true;$('setup').hidden=false;$('setup').scrollIntoView({block:'start',behavior:'instant'});}
+  function showSetup(){
+    if($('exit-dialog').open)$('exit-dialog').close();
+    state=null;$('game').hidden=true;$('setup').hidden=false;
+    $('setup').scrollIntoView({block:'start',behavior:'instant'});
+  }
+  const requestExit=()=>{
+    if(!state||!$('results').hidden){showSetup();return;}
+    const dialog=$('exit-dialog');
+    dialog.showModal();
+    $('stay').focus();
+  };
   for(const card of document.querySelectorAll('.mode-card'))card.addEventListener('click',()=>{
     selectedMode=card.dataset.mode;
     for(const option of document.querySelectorAll('.mode-card')){const selected=option.dataset.mode===selectedMode;option.classList.toggle('active',selected);option.setAttribute('aria-pressed',String(selected));}
   });
   for(const slot of document.querySelectorAll('.slot'))slot.addEventListener('click',()=>removeCard(slot.dataset.slot));
-  $('start').addEventListener('click',startGame);$('back').addEventListener('click',showSetup);
+  $('start').addEventListener('click',startGame);
+  $('back').addEventListener('click',requestExit);
+  $('leave').addEventListener('click',requestExit);
+  $('stay').addEventListener('click',()=>$('exit-dialog').close());
+  $('confirm-exit').addEventListener('click',showSetup);
   $('check').addEventListener('click',check);$('hint').addEventListener('click',hint);$('skip').addEventListener('click',skip);
   $('clear').addEventListener('click',()=>{if(state.locked)return;state.placed={prefix:null,base:null,suffix:null};hideAdvice();render();announce('Cards cleared.');});
   $('defend').addEventListener('click',finishDefense);$('finish-invention').addEventListener('click',finishLab);
