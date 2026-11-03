@@ -12,3 +12,33 @@
 .exit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .exit-actions button{flex:1 1 150px}
 @media(max-width:625px){.game-header{margin-top:-10px}.back-btn{font-size:.77rem;padding:7px 9px}.exit-dialog-inner{padding:20px}.exit-round-btn{flex:1 1 100%!important}}
+
+/* Word Laboratory v0.4: projected three-reel generator */
+.lab-machine{border:1px solid #dbd0f2;border-radius:20px;background:linear-gradient(142deg,#faf7ff 0%,#f4efff 62%,#edf4ff 100%);padding:24px;margin-top:18px;box-shadow:inset 0 1px 0 #fff}
+.machine-heading{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.machine-heading h3{font-size:clamp(1.18rem,2.4vw,1.65rem);line-height:1.2;margin:5px 0 7px;letter-spacing:-.035em}
+.machine-heading p{color:#61576f;font-size:.87rem;max-width:590px;margin:0}
+.machine-eyebrow{font-size:.68rem;font-weight:900;letter-spacing:.13em;color:#6849be}
+.machine-symbol{font-size:2.1rem;font-weight:900;color:#9d74e0}
+.reel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 20px}
+.reel{min-width:0;text-align:center;background:#fff;border:1px solid #e2daed;border-radius:15px;padding:12px 10px 15px;box-shadow:0 5px 15px #56428b0c}
+.reel-label{display:block;color:#756a87;font-size:.68rem;letter-spacing:.09em;font-weight:900;margin-bottom:10px}
+.reel-window{position:relative;min-height:100px;display:flex;justify-content:center;align-items:center;overflow:hidden;border:2px solid #cdbde6;background:linear-gradient(180deg,#e5e1f4 0%,#fff 22%,#fff 78%,#e5e1f4 100%);border-radius:12px}
+.reel-window::before,.reel-window::after{content:"";position:absolute;inset-inline:7px;height:1px;background:#d3c5e7}
+.reel-window::before{top:18px}.reel-window::after{bottom:18px}
+.reel-text{display:block;max-width:100%;padding:8px 5px;overflow-wrap:anywhere;color:#2d2547;font-size:clamp(.86rem,2.4vw,1.65rem);font-weight:900;letter-spacing:-.045em;line-height:1.14}
+.reel[data-reel=prefix] .reel-text{color:#276bae}
+.reel[data-reel=base] .reel-text{color:#157e69}
+.reel[data-reel=suffix] .reel-text{color:#a7357d}
+.reel.is-spinning .reel-text{animation:reel-bounce .12s linear infinite;filter:blur(.8px)}
+.reel.has-stopped .reel-window{border-color:#8bbca8;box-shadow:0 0 0 3px #78b7a627}
+.reel-meaning{min-height:2.4em;color:#5e586b;font-size:.78rem;line-height:1.35;margin:11px 0 0;overflow-wrap:anywhere}
+.machine-actions{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.spin-btn{padding-inline:23px;font-size:1.02rem;box-shadow:0 5px 15px #5838a82e}
+.spin-status{font-size:.84rem;color:#5e5571;flex:1;margin:0}
+.lab-reveal{margin-top:20px;border-radius:14px;border:1px solid #d0c1ec;background:#fff;padding:20px;text-align:center}
+.lab-revealed-word{display:block;color:var(--purple-dark);font-size:clamp(1.32rem,4vw,2.1rem);font-weight:900;overflow-wrap:anywhere;letter-spacing:-.045em;margin:5px 0 10px}
+.lab-reveal p{margin:0;color:#6d6379;font-size:.85rem}
+@keyframes reel-bounce{0%{transform:translateY(-5px)}50%{transform:translateY(5px)}100%{transform:translateY(-5px)}}
+@media(max-width:625px){.lab-machine{padding:14px}.reel-grid{gap:6px;margin:17px 0}.reel{padding:9px 5px 12px}.reel-label{font-size:.58rem;letter-spacing:0}.reel-window{min-height:83px}.reel-text{font-size:clamp(.78rem,3vw,1.15rem);padding:5px 3px}.reel-meaning{font-size:.68rem}.machine-actions{flex-direction:column;align-items:stretch;gap:8px}.spin-status{text-align:center}.machine-symbol{font-size:1.5rem}}
+@media(prefers-reduced-motion:reduce){.reel.is-spinning .reel-text{animation:none;filter:none}}
