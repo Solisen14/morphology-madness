@@ -15,7 +15,7 @@
   <a href="#main" class="skip-link">Skip to main content</a>
   <header class="site-header">
     <div class="brand"><span class="brand-symbol" aria-hidden="true">M<span class="brand-spark">✦</span></span><span>Morphology <strong>Madness</strong></span></div>
-    <span class="version">The word-building lab · v0.2.1</span>
+    <span class="version">The word-building lab · v0.4</span>
   </header>
   <main id="main" class="shell">
     <section class="intro" aria-labelledby="welcome">
@@ -34,10 +34,10 @@
           <span class="mode-icon madness-icon" aria-hidden="true">✦</span><span class="mode-name">Meaning Madness</span><span class="mode-tagline">A strange clue, your invention.</span><span class="mode-description">Create a plausible new word for a deliberately ridiculous definition.</span><span class="mode-footer">INVENT TO MATCH <span aria-hidden="true">↗</span></span>
         </button>
         <button type="button" class="mode-card" data-mode="lab" aria-pressed="false">
-          <span class="mode-icon lab-icon" aria-hidden="true">⚗</span><span class="mode-name">Word Laboratory</span><span class="mode-tagline">Your word, your definition.</span><span class="mode-description">Combine meaningful pieces, then explain what your new word could mean.</span><span class="mode-footer">INVENT AND DEFINE <span aria-hidden="true">↗</span></span>
+          <span class="mode-icon lab-icon" aria-hidden="true">⚗</span><span class="mode-name">Word Laboratory</span><span class="mode-tagline">Spin. Invent. Define.</span><span class="mode-description">Spin three word-part wheels, watch them stop, and invent a definition for the surprise word.</span><span class="mode-footer">SPIN THE WHEELS <span aria-hidden="true">↗</span></span>
         </button>
       </div>
-      <div class="section-heading second-step"><span class="step-number">02</span><div><h2>Set your challenge</h2><p>Subject controls the vocabulary; level controls the number of choices.</p></div></div>
+      <div class="section-heading second-step"><span class="step-number">02</span><div><h2>Set your challenge</h2><p id="level-description">Subject controls the vocabulary; level controls the number of choices.</p></div></div>
       <div class="setup-controls">
         <div class="field"><label for="subject">School subject</label><select id="subject"><option value="all">Mix it up · All subjects</option><option value="math">Mathematics</option><option value="science">Science</option><option value="geography">Geography</option><option value="history">History</option><option value="english">English</option></select></div>
         <div class="field"><label for="level">Challenge level</label><select id="level"><option value="apprentice">Apprentice · Fewer cards</option><option value="inventor">Inventor · More choices</option><option value="master">Master · Full card selection</option></select></div>
@@ -57,7 +57,43 @@
         <h2 id="challenge-title">Build a word that means…</h2>
         <p id="clue" class="clue"></p>
         <p id="mode-note" class="mode-note"></p>
-        <div class="workbench" aria-labelledby="workbench-title">
+        <section id="lab-machine" class="lab-machine" aria-labelledby="machine-heading" hidden>
+          <div class="machine-heading">
+            <div>
+              <span class="machine-eyebrow">THE WORD GENERATOR</span>
+              <h3 id="machine-heading">Three wheels. One surprise word.</h3>
+              <p>Teacher: press the button. Watch the prefix, root, and ending stop one at a time.</p>
+            </div>
+            <span class="machine-symbol" aria-hidden="true">✦</span>
+          </div>
+          <div class="reel-grid" aria-label="Word-part wheels">
+            <div class="reel" data-reel="prefix">
+              <span class="reel-label">PREFIX</span>
+              <div class="reel-window"><span class="reel-text" id="reel-prefix">?</span></div>
+              <p class="reel-meaning" id="reel-meaning-prefix">Waiting for the spin</p>
+            </div>
+            <div class="reel" data-reel="base">
+              <span class="reel-label">ROOT / BASE</span>
+              <div class="reel-window"><span class="reel-text" id="reel-base">?</span></div>
+              <p class="reel-meaning" id="reel-meaning-base">Waiting for the spin</p>
+            </div>
+            <div class="reel" data-reel="suffix">
+              <span class="reel-label">ENDING</span>
+              <div class="reel-window"><span class="reel-text" id="reel-suffix">?</span></div>
+              <p class="reel-meaning" id="reel-meaning-suffix">Waiting for the spin</p>
+            </div>
+          </div>
+          <div class="machine-actions">
+            <button type="button" class="primary-btn spin-btn" id="spin">✦ Spin the word wheels</button>
+            <p id="spin-status" class="spin-status" role="status" aria-live="polite">Ready when you are.</p>
+          </div>
+          <div class="lab-reveal" id="lab-reveal" hidden>
+            <span class="preview-caption">YOUR SURPRISE WORD</span>
+            <strong class="lab-revealed-word" id="lab-word"></strong>
+            <p>What could this word mean? Use the meanings below each wheel to invent a definition. Some combinations may not follow ordinary English spelling patterns.</p>
+          </div>
+        </section>
+        <div class="workbench" id="workbench" aria-labelledby="workbench-title">
           <div class="workbench-top"><h3 id="workbench-title">Your word</h3><button id="clear" class="text-btn" type="button">Clear cards</button></div>
           <div class="slots">
             <button class="slot" data-slot="prefix" type="button"><span class="slot-label">PREFIX</span><span class="slot-content">Optional</span></button>
@@ -67,15 +103,15 @@
           <div class="word-preview"><span class="preview-caption">YOUR CREATION</span><span id="word-preview" class="preview-word placeholder">Your word appears here</span></div>
           <p class="word-note">The pieces join as written. Some combinations are deliberately unusual; no automatic spelling repairs are made.</p>
         </div>
-        <div class="cards-heading"><h3>Choose your cards</h3><p>Select a card to place it. Select a filled slot to remove or replace its card.</p></div>
+        <div class="cards-heading" id="cards-heading"><h3>Choose your cards</h3><p>Select a card to place it. Select a filled slot to remove or replace its card.</p></div>
         <div id="card-bank" class="card-bank" aria-label="Available morpheme cards"></div>
 
         <div id="definition-area" class="definition-area" hidden>
-          <label for="definition">Give your invented word a definition</label>
+          <label for="definition">Student: type your definition for <strong id="definition-word">your surprise word</strong></label>
           <textarea id="definition" maxlength="360" rows="3" placeholder="My word could mean…"></textarea>
-          <p class="field-hint">Include the meanings of at least two pieces in your explanation. This text stays in your browser during this session.</p>
+          <p class="field-hint">Use the meanings of the three parts to explain your invention. Your writing stays in this browser during the game.</p>
         </div>
-        <div class="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button><button type="button" class="secondary-btn exit-round-btn" id="leave">Exit game</button></div>
+        <div class="action-row" id="action-row"><button type="button" class="primary-btn" id="check">Check my word <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="hint">Give me a hint</button><button type="button" class="text-btn" id="skip">Skip round</button><button type="button" class="secondary-btn exit-round-btn" id="leave">Exit game</button></div>
         <section id="feedback" class="feedback" aria-live="polite" aria-atomic="true" hidden></section>
 
         <div id="defense" class="review-panel" hidden>

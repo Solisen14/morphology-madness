@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**v0.3 draft · Expanded morpheme bank (review branch)**
+**v0.4 · Word Laboratory spinning reels**
 
 Morphology Madness is a free, static, browser-based vocabulary and word-invention game for secondary students. It runs entirely in HTML, CSS and JavaScript, making it suitable for GitHub Pages and most classroom Chromebooks.
 
@@ -8,9 +8,9 @@ Morphology Madness is a free, static, browser-based vocabulary and word-inventio
 
 1. **Word Wizard:** Assemble an *existing* word from a subject-specific definition. Correct answers are checked against a curated set of morpheme sequences; some words need only two pieces.
 2. **Meaning Madness:** Assemble a plausible invented word for a deliberately strange definition. The game recognizes several prefix and ending meanings for a prompt. Students can also defend a non-matching invention, but that alternative is **self-reviewed, not automatically judged correct**.
-3. **Word Laboratory:** Choose at least a root and one other part, invent a definition, then complete a two-question self-review. There is **no automatic assessment of the invented definition**.
+3. **Word Laboratory:** A teacher (or a student on the same device) presses **Spin the word wheels**. Three animated reels stop in order at a prefix, subject-specific root, and ending. The definition field appears after the final wheel stops. Students invent a meaning and complete a two-question self-review. There is **no automatic assessment of the invented definition**.
 
-All modes use the same morpheme bank and support Mathematics, Science, Geography, History, English, or a mixed selection, plus Apprentice, Inventor and Master card levels.
+All modes use the same morpheme bank and support Mathematics, Science, Geography, History, English, or a mixed selection, plus Apprentice, Inventor and Master levels. In Word Laboratory the difficulty changes the breadth of the reel vocabulary, not the number of cards.
 
 ## Current content
 
@@ -68,4 +68,8 @@ Read `docs/BANK-REVIEW.md` and `docs/MORPHEME-SCHEMA.md` before approving this b
 
 ## Automated quality checks
 
-GitHub Actions runs `node tests/validate-data.js` and the Playwright browser regression suite on pull requests and changes to `main`. The browser checks cover Word Wizard, Meaning Madness, Word Laboratory, mobile overflow, and exiting a game. Development requires no accounts or student data collection.
+GitHub Actions runs `node tests/validate-data.js` and the Playwright browser regression suite on pull requests and changes to `main`. The browser checks cover Word Wizard, Meaning Madness, sequential Word Laboratory reels, definition gating, reduced-motion behaviour, mobile overflow, and exiting a game. Development requires no accounts or student data collection.
+
+### Word Laboratory reel behaviour
+
+The teacher can operate the **Spin** button on a projected device, but the site does not synchronize other devices or store class responses. Prefix, root, and ending animate simultaneously and then stop sequentially (about 1.05, 1.75, and 2.45 seconds); reduced-motion users receive brief non-animated reveals. Student writing is unlocked only after all three reels stop. Spinning again explicitly clears the existing draft after browser confirmation; leaving mid-spin cancels outstanding timers. A surprising combination need not be a dictionary word, and the definition is self-reviewed rather than automatically marked correct.

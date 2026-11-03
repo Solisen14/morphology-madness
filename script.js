@@ -1,4 +1,4 @@
-/* Morphology Madness v0.2.1. Client-side only; no network or student data storage.
+/* Morphology Madness v0.4. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */
@@ -13,11 +13,13 @@
   const MODES = {
     wizard:{name:'WORD WIZARD',title:'Build a real word that means…',note:'One real word matches this definition. Some words use two parts, others use three.',action:'Check my word',hint:'Give me a hint',score:'SOLVED'},
     madness:{name:'MEANING MADNESS',title:'Invent a word that could mean…',note:'Make a believable nonsense word. More than one answer can fit; explain a creative alternative.',action:'Check the meaning',hint:'Give me a nudge',score:'CREATED'},
-    lab:{name:'WORD LABORATORY',title:'An invention prompt for you…',note:'Pick a root plus at least one other piece. You write the definition; there is no single correct word.',action:'Review my definition',hint:'Deal new cards',score:'INVENTED'}
+    lab:{name:'WORD LABORATORY',title:'Spin the wheels to invent a word!',note:'The teacher spins three wheels. When they stop, write a definition that fits their meanings. There is no single correct answer.',action:'Review my definition',hint:'',score:'INVENTED'}
   };
   const LEVELS={apprentice:1,inventor:2,master:3};
   let selectedMode='wizard';
   let state=null;
+  let reelTimers=[];
+  let reelGeneration=0;
   const shuffle=items=>{
     const a=[...items];
     for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
@@ -81,6 +83,105 @@
     }
     return cards;
   };
+
+  // Word Laboratory is a three-reel generator, not a manual card picker.
+  // Apprentice uses the original, more familiar bank; Inventor introduces
+  // about half the new entries; Master uses the full approved bank.
+  const wheelPool=(type,subject)=>{
+    const pool=candidates(type,subject);
+    const familiar=pool.filter(part=>part.source==='original-bank');
+    if(state.level==='apprentice')return familiar.length?familiar:pool;
+    if(state.level==='inventor')return [
+      ...familiar,
+      ...pool.filter(part=>part.source!=='original-bank').filter((_,index)=>index%2===0)
+    ];
+    return pool;
+  };
+  const clearReelTimers=()=>{
+    reelGeneration++;
+    for(const timer of reelTimers){
+      if(timer.kind==='interval')clearInterval(timer.id);
+      else clearTimeout(timer.id);
+    }
+    reelTimers=[];
+  };
+  const resetLabMachine=()=>{
+    state.labSpinning=false;state.labReady=false;
+    $('spin').disabled=false;
+    $('spin').textContent='✦ Spin the word wheels';
+    $('spin-status').textContent='Ready when you are.';
+    $('lab-reveal').hidden=true;
+    $('definition-word').textContent='your surprise word';
+    $('lab-word').textContent='';
+    for(const type of TYPES){
+      const reel=document.querySelector('[data-reel="'+type+'"]');
+      reel.classList.remove('is-spinning','has-stopped');
+      $('reel-'+type).textContent='?';
+      $('reel-meaning-'+type).textContent='Waiting for the spin';
+    }
+  };
+  const spinLab=()=>{
+    if(!state||state.mode!=='lab'||state.locked||state.labSpinning)return;
+    if($('definition').value.trim()&&!window.confirm('Spin again? This will erase the definition you are writing.'))return;
+    clearReelTimers();
+    const generation=reelGeneration;
+    state.labSpinning=true;state.labReady=false;
+    state.placed={prefix:null,base:null,suffix:null};
+    $('definition').value='';
+    $('review-one').checked=false;$('review-two').checked=false;
+    hideAdvice();
+    $('lab-reveal').hidden=true;$('definition-area').hidden=true;$('action-row').hidden=true;
+    $('spin').disabled=true;$('spin').textContent='Wheels spinning…';
+    $('spin-status').textContent='All three wheels are spinning…';
+    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const delays=reduced?[70,140,210]:[1050,1750,2450];
+    let stopped=0;
+    TYPES.forEach((type,index)=>{
+      const pool=wheelPool(type,current().subject);
+      if(!pool.length)throw new Error('No eligible word parts for '+type);
+      const target=pool[Math.floor(Math.random()*pool.length)];
+      const reel=document.querySelector('[data-reel="'+type+'"]');
+      const display=$('reel-'+type);
+      reel.classList.remove('has-stopped');
+      reel.classList.add('is-spinning');
+      $('reel-meaning-'+type).textContent='Spinning…';
+      let ticker=null;
+      if(!reduced){
+        ticker=setInterval(()=>{
+          if(generation!==reelGeneration)return;
+          display.textContent=pool[Math.floor(Math.random()*pool.length)].text;
+        },75+index*19);
+        reelTimers.push({kind:'interval',id:ticker});
+      } else {
+        display.textContent='…';
+      }
+      const timeout=setTimeout(()=>{
+        if(generation!==reelGeneration||!state||state.mode!=='lab')return;
+        if(ticker!==null)clearInterval(ticker);
+        state.placed[type]=target;
+        display.textContent=target.text;
+        $('reel-meaning-'+type).textContent=target.meaning;
+        reel.classList.remove('is-spinning');reel.classList.add('has-stopped');
+        stopped++;
+        const labels={prefix:'Prefix',base:'Root',suffix:'Ending'};
+        $('spin-status').textContent=labels[type]+' stopped'+(stopped===3?'.':'…');
+        if(stopped===3){
+          state.labSpinning=false;state.labReady=true;
+          const word=assembled();
+          $('lab-word').textContent=word;
+          $('definition-word').textContent=word;
+          $('lab-reveal').hidden=false;
+          $('definition-area').hidden=false;$('action-row').hidden=false;
+          $('spin').disabled=false;$('spin').textContent='↻ Spin again (clear draft)';
+          $('spin-status').textContent='All three wheels stopped. Now write your definition.';
+          announce('The new word is '+word+'. Now write your own definition.');
+          $('definition').focus({preventScroll:true});
+          $('definition-area').scrollIntoView({block:'nearest'});
+        }
+      },delays[index]);
+      reelTimers.push({kind:'timeout',id:timeout});
+    });
+  };
   const renderCards=()=>{
     const bank=$('card-bank');bank.replaceChildren();
     const headings={prefix:'Prefixes',base:'Bases and roots',suffix:'Endings'};
@@ -110,6 +211,7 @@
     }
     const word=assembled();$('word-preview').textContent=word||'Your word appears here';$('word-preview').classList.toggle('placeholder',!word);
     $('clear').disabled=state.locked||filledCount()===0;
+    if(state.mode==='lab')$('spin').disabled=state.locked||!!state.labSpinning;
     $('check').disabled=state.locked;$('hint').disabled=state.locked;$('skip').disabled=state.locked;
     renderCards();
   };
@@ -132,13 +234,25 @@
   const loadRound=()=>{
     if(state.index>=state.deck.length){renderResults();return;}
     const puzzle=current();
-    state.placed={prefix:null,base:null,suffix:null};state.cards=createCards(puzzle);state.locked=false;state.hints=0;state.attempts=0;
+    clearReelTimers();
+    state.placed={prefix:null,base:null,suffix:null};
+    state.cards=state.mode==='lab'?{prefix:[],base:[],suffix:[]}:createCards(puzzle);
+    state.locked=false;state.hints=0;state.attempts=0;
     $('category-chip').textContent=data.subjects[puzzle.subject].toUpperCase();
     $('parts-count').textContent=`${state.level[0].toUpperCase()+state.level.slice(1)} · Round ${state.index+1}`;
     $('challenge-title').textContent=mode().title;
-    $('clue').textContent=puzzle.clue.trim();$('mode-note').textContent=mode().note;
+    $('clue').textContent=state.mode==='lab'?'A surprise word is coming. What could it mean?':puzzle.clue.trim();$('mode-note').textContent=mode().note;
     $('check').textContent=mode().action+' →';$('hint').textContent=mode().hint;
-    $('definition-area').hidden=state.mode!=='lab';$('definition').value='';
+    const isLab=state.mode==='lab';
+    $('lab-machine').hidden=!isLab;
+    $('workbench').hidden=isLab;
+    $('cards-heading').hidden=isLab;
+    $('card-bank').hidden=isLab;
+    $('hint').hidden=isLab;
+    $('definition-area').hidden=true;
+    $('action-row').hidden=isLab;
+    $('definition').value='';
+    if(isLab)resetLabMachine();
     $('defense-text').value='';$('defense-check').checked=false;
     $('review-one').checked=false;$('review-two').checked=false;
     hideAdvice();progress();render();
@@ -180,7 +294,8 @@
     $('defense').hidden=true;
   };
   const checkLab=()=>{
-    if(!state.placed.base||filledCount()<2){setFeedback('Give your word another piece','Choose a base/root and at least one prefix or ending.');return;}
+    if(!state.labReady||state.labSpinning){setFeedback('Spin first','Spin the three word-part wheels before defining your word.');return;}
+    if(!state.placed.base||filledCount()<2){setFeedback('Give your word another piece','Spin again to build a complete word.');return;}
     const definition=$('definition').value.trim();
     if(definition.length<18){setFeedback('Tell us what it means','Write a definition of at least 18 characters before reviewing it.');$('definition').focus();return;}
     setFeedback('Ready for your self-check?','Read your definition alongside the card meanings. You decide whether you have explained a plausible invention.');
@@ -188,7 +303,7 @@
     $('self-review').hidden=false;
   };
   const finishLab=()=>{
-    if(state.locked||state.mode!=='lab')return;
+    if(state.locked||state.mode!=='lab'||!state.labReady||state.labSpinning)return;
     if(!$('review-one').checked||!$('review-two').checked){setFeedback('Complete both reflections','Check both statements if you can justify your invented word. Otherwise, revise your word or definition.');return;}
     const definition=$('definition').value.trim();
     if(!state.placed.base||filledCount()<2||definition.length<18){setFeedback('Review your word again','Your word or definition has changed. Check it again before finishing.');$('self-review').hidden=true;return;}
@@ -197,9 +312,7 @@
   };
   const hint=()=>{
     if(state.locked)return;
-    if(state.mode==='lab'){
-      state.cards=createCards(current());state.placed={prefix:null,base:null,suffix:null};$('definition').value='';hideAdvice();render();announce('A new group of word cards was dealt.');return;
-    }
+    if(state.mode==='lab')return;
     if(state.mode==='wizard'){
       const puzzle=current();const missing=TYPES.find(type=>(state.placed[type]?.id??null)!==(puzzle.parts[type]??null));
       if(!missing){setFeedback('Looks promising','Press Check my word to test your construction.');return;}
@@ -220,7 +333,9 @@
   const nextRound=()=>{state.index++;loadRound();if(state.index<state.deck.length)$('challenge-title').focus();};
   const skip=()=>{
     if(state.locked)return;
-    state.locked=true;progress();render();
+    state.locked=true;
+    if(state.mode==='lab')clearReelTimers();
+    progress();render();
     const puzzle=current();
     const message=state.mode==='wizard'?`One real answer was “${puzzle.answer}.” ${puzzle.explanation}`:
       state.mode==='madness'?'Many meaningful inventions are possible. Try another clue.':'No invention recorded for this round.';
@@ -250,6 +365,7 @@
     actions.append(again,menu);root.append(actions);title.setAttribute('tabindex','-1');title.focus();
   };
   const startGame=()=>{
+    clearReelTimers();
     state={mode:selectedMode,subject:$('subject').value,level:$('level').value,deck:[],index:0,completed:0,tagMatched:0,selfReviewed:0,completedWords:[],placed:{prefix:null,base:null,suffix:null},cards:{},locked:false,hints:0,attempts:0};
     state.deck=buildDeck();
     if(!state.deck.length){$('setup').hidden=false;alert('No challenges are available for this selection.');return;}
@@ -258,6 +374,7 @@
     loadRound();$('game').scrollIntoView({block:'start',behavior:'instant'});
   };
   function showSetup(){
+    clearReelTimers();
     if($('exit-dialog').open)$('exit-dialog').close();
     state=null;$('game').hidden=true;$('setup').hidden=false;
     $('setup').scrollIntoView({block:'start',behavior:'instant'});
@@ -270,10 +387,14 @@
   };
   for(const card of document.querySelectorAll('.mode-card'))card.addEventListener('click',()=>{
     selectedMode=card.dataset.mode;
+    $('level-description').textContent=selectedMode==='lab'
+      ?'Subject chooses the root wheel; level controls the variety of parts on all three wheels.'
+      :'Subject controls the vocabulary; level controls the number of choices.';
     for(const option of document.querySelectorAll('.mode-card')){const selected=option.dataset.mode===selectedMode;option.classList.toggle('active',selected);option.setAttribute('aria-pressed',String(selected));}
   });
   for(const slot of document.querySelectorAll('.slot'))slot.addEventListener('click',()=>removeCard(slot.dataset.slot));
   $('start').addEventListener('click',startGame);
+  $('spin').addEventListener('click',spinLab);
   $('back').addEventListener('click',requestExit);
   $('leave').addEventListener('click',requestExit);
   $('stay').addEventListener('click',()=>$('exit-dialog').close());
