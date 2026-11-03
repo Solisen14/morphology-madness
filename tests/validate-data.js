@@ -1,5 +1,32 @@
 const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
-const ctx={window:{}};vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);const d=ctx.window.MM_DATA;
+const ctx={window:{}};
+vm.runInNewContext(fs.readFileSync(__dirname+'/../morpheme-bank.js','utf8'),ctx);
+vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
+const d=ctx.window.MM_DATA;
+const bank=ctx.window.MM_MORPHEMES;
+assert.equal(bank.schemaVersion,1);
+assert.equal(d.prefixes.length,70);
+assert.equal(d.roots.length,250);
+assert.equal(d.suffixes.length,60);
+assert.equal(d.real.length,40);
+assert.equal(d.creative.length,30);
+for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
+  assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
+  for (const e of items) {
+    assert.equal(e.role,role);
+    assert.equal(e.key,role+':'+e.id);
+    assert.ok(e.text&&e.meaning&&e.formClass,'Missing metadata for '+e.key);
+    assert.equal(typeof e.creativeEligible,'boolean');
+    if(e.source==='expanded-draft' && role!=='base')assert.ok(e.exampleWord,'Example required for '+e.key);
+  }
+}
+const groups={};
+for(const r of d.roots)groups[r.subject]=(groups[r.subject]||0)+1;
+assert.equal(groups.math,52);
+assert.equal(groups.science,53);
+assert.equal(groups.geography,48);
+assert.equal(groups.history,47);
+assert.equal(groups.english,50);
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
 const errors=[];

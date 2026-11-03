@@ -10,6 +10,7 @@ def mount(browser,width=1280,height=900):
     page.on('pageerror',lambda e: errors.append(str(e)))
     page.set_content((folder/'index.html').read_text(),wait_until='domcontentloaded')
     page.add_style_tag(content=(folder/'styles.css').read_text())
+    page.add_script_tag(content=(folder/'morpheme-bank.js').read_text())
     page.add_script_tag(content=(folder/'data.js').read_text())
     page.add_script_tag(content=(folder/'script.js').read_text())
     return page,errors
