@@ -1,4 +1,4 @@
-/* Morphology Madness morpheme bank v1.0.
+/* Morphology Madness morpheme bank v1.1.
  * Shared by all three solo game modes.
  * Many school-domain bases are complete words, not classical bound roots.
  * A valid morpheme sequence is NOT automatically a valid dictionary word.
@@ -1538,6 +1538,12 @@
   const initialCombining = new Set(additions.metadata.prefixCombining);
   const finalCombining = new Set(additions.metadata.suffixCombining);
   const restrictedCreativeSuffixes = new Set(['ed','s','es','est']);
+
+  // MTH1W roots remain in one shared bank without duplicate IDs.
+  const grade9SharedMathIds=new Set(["fraction","triangle","equation","graph","angle","number","pattern","symmetry","geometry","ratio","decimal","polygon","circle","integer","function","variable","parallel","algebra","form","sect","arrange","group","tract","equal","add","sum","product","factor","multiple","prime","radius","diameter","perimeter","area","volume","coordinate","scale","estimate","probability","chance","mean","median","mode","sequence","term","inverse","transform","reflect"]);
+  for(const [id,meaning,tags,exampleWord] of [["in","not (as in inequality)",["not"],"inequality"],["ir","not (before certain r-beginning stems)",["not"],"irrational"]])prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass:'prefix',exampleWord});
+  for(const [id,meaning,tags,exampleWord] of [["age","an amount, measure, or result",["amount"],"percentage"]])suffixes.push({...s(id,meaning,tags),source:'grade9-math',formClass:'derivational_suffix',exampleWord});
+  roots.push(...rootsOf('grade9math',[["linear","relation with a constant rate of change"],["proportion","equality of two ratios"],["exponent","number indicating a power"],["nom","term or name, as in polynomial"],["flect","bend or turn"],["rotat","turn about a centre"],["dilat","enlarge or reduce by a scale factor"],["later","side (Latin)"],["gon","angle (Greek)"],["quartile","cut point in data divided into fourths"],["correlat","associated or varying in relation"],["simulat","imitate or model"],["dependent","relying on another variable"],["rational","expressible as a ratio of integers with a nonzero denominator"],["preci","price or value"],["budget","plan for income and expenses"],["tax","government-imposed charge"],["inflat","swell or increase"],["round","adjust a number to a nearby place value"],["estim","judge approximately"],["simpl","simple"],["meter","measure (Greek)"],["ration","reason or calculation"],["dict","say or state"],["vari","change or vary"],["percent","amount per hundred"],["slope","measure of rate of change"],["scatter","spread out"],["interest","money earned or paid for using money"],["data","values collected for analysis"],["constant","value that does not change"],["rate","ratio comparing different units"],["income","money received"],["iterat","repeat a step"]]).map(entry=>({...entry,source:'grade9-math'})));
   for(const entry of prefixes){
     entry.role='prefix';
     entry.key='prefix:'+entry.id;
@@ -1550,7 +1556,7 @@
   for(const entry of roots){
     entry.role='base';
     entry.key='base:'+entry.id;
-    entry.subjects=[entry.subject];
+    entry.subjects=entry.subject==='math'&&grade9SharedMathIds.has(entry.id)?['math','grade9math']:[entry.subject];
     entry.formClass ||= boundRoots.has(entry.id)?'bound_root':'free_base';
     entry.source ||= 'original-bank';
     entry.reviewNote ||= additions.metadata.reviewFlags.base[entry.id]||null;
@@ -1569,7 +1575,7 @@
   // combine every pair of cards into a dictionary-standard English word.
   window.MM_MORPHEMES={
     schemaVersion:1,
-    bankVersion:'1.0',
+    bankVersion:'1.1',
     prefixes,roots,suffixes,
     fields:['key','id','text','meaning','role','formClass','tags','subjects','exampleWord','reviewNote','creativeEligible','source'],
     editorialNote:'Word-part labels simplify some linguistic distinctions. Verify full-word spelling and use before treating a construction as a real word.'

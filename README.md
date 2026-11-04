@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.0 · First public release**
+**Version 1.1 · Grade 9 Math subject**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -12,12 +12,12 @@ Morphology Madness is a free, browser-based word-building and vocabulary game de
 2. **Meaning Madness:** Invent a word to fit an unusual definition. The game checks broad word-part meaning tags and lets students explain a creative alternative. Alternatives are **self-reviewed, not automatically graded**.
 3. **Word Laboratory:** Spin three wheels to generate a prefix, a root/base, and an ending. Once the wheels stop, students write an imaginative definition and reflect on how the parts contribute meaning. **No automated grading of original definitions.**
 
-Choose Mathematics, Science, Geography, History, English, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
+Choose Mathematics, **Grade 9 Math (Ontario MTH1W)**, Science, Geography, History, English, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
 
 ## What's included
 
-- **380** word-part entries: **70** prefixes/initial forms, **250** roots/bases, and **60** suffixes/final forms
-- **40** genuine-word challenges and **30** fictional-definition prompts
+- **417** word-part entries: **72** prefixes/initial forms, **284** roots/bases, and **61** suffixes/final forms
+- **70** genuine-word challenges and **45** fictional-definition prompts
 - Responsive, keyboard-accessible controls and reduced-motion support for spinning reels
 - Explanations, hints, self-review, round summaries, and exit confirmation
 - No sign-in, analytics, online student submissions, persistent student records, or multiplayer features
@@ -55,3 +55,7 @@ python tests/test-browser.py
 The optional browser suite requires Python Playwright and Chromium. It tests game completion, creative alternatives, the three spinning reels, mobile overflow, and exiting mid-game.
 
 See [release notes](RELEASE_NOTES.md) for the v1.0 scope and limitations.
+
+## Grade 9 Math (Ontario MTH1W)
+
+The **Grade 9 Math** option works in all three existing games. It contains **30** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **34** dedicated bases plus **48** shared Mathematics roots. The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
