@@ -49,6 +49,38 @@
     R('english','A statement that exaggerates something.','over','state','ment','overstatement','An overstatement presents something as greater than it is.'),
     R('english','Writing based on facts rather than an invented story.','non','fiction',null,'nonfiction','Nonfiction aims to present factual information or accounts.')
   ];
+  real.push(...[
+    {...R('grade9math',"A number expressible as a ratio of two integers, with a nonzero denominator.",null,"ration","al","rational","A rational number can be written as a ratio of integers."),strand:'B'},
+    {...R('grade9math',"A number not expressible as a ratio of two integers.","ir","rational",null,"irrational","The square root of 2 is irrational."),strand:'B'},
+    {...R('grade9math',"A statement comparing quantities using symbols such as <, >, or ≥.","in","equal","ity","inequality","An inequality compares two values or expressions using comparison symbols."),strand:'B'},
+    {...R('grade9math',"Adjusting a number to a nearby value at a specified place value.",null,"round","ing","rounding","Rounding produces an approximation at a chosen place value."),strand:'B'},
+    {...R('grade9math',"Finding an approximate value.",null,"estim","ation","estimation","Estimation helps check whether a computed answer is reasonable."),strand:'B'},
+    {...R('grade9math',"An amount expressed as a number per hundred.",null,"percent","age","percentage","A percentage represents an amount per hundred, such as 25%."),strand:'B'},
+    {...R('grade9math',"Describing a relation with a rate of change that is not constant.","non","linear",null,"nonlinear","The rate of change of a nonlinear relation is not constant."),strand:'C'},
+    {...R('grade9math',"Describing a relationship in which two ratios are equal.",null,"proportion","al","proportional","A proportional relation can be represented by y = kx."),strand:'C'},
+    {...R('grade9math',"Describing a relation with a variable in the exponent.",null,"exponent","ial","exponential","An exponential relation can change by the same factor over equal input steps."),strand:'C'},
+    {...R('grade9math',"An algebraic expression consisting of two terms.","bi","nom","ial","binomial","x + 4 is a binomial."),strand:'C'},
+    {...R('grade9math',"An algebraic expression formed by a sum of terms with whole-number exponents.","poly","nom","ial","polynomial","3x² + x - 2 is a polynomial."),strand:'C'},
+    {...R('grade9math',"To rewrite an expression into a simpler equivalent form.",null,"simpl","ify","simplify","Simplifying changes the form without changing the value."),strand:'C'},
+    {...R('grade9math',"A mathematical quantity represented by a symbol whose value may change.",null,"vari","able","variable","A variable may represent many values or an unknown value."),strand:'C'},
+    {...R('grade9math',"A variable chosen or controlled rather than determined by another variable.","in","dependent",null,"independent","The independent variable is often on the horizontal graph axis."),strand:'C'},
+    {...R('grade9math',"The act of repeating an instruction or process.",null,"iterat","ion","iteration","A coding loop uses iteration to repeat steps."),strand:'C'},
+    {...R('grade9math',"An association between two sets of values.",null,"correlat","ion","correlation","Correlation does not, by itself, establish causation."),strand:'D'},
+    {...R('grade9math',"Describing the spread between the first and third quartile.","inter","quartile",null,"interquartile","The interquartile range is Q3 minus Q1."),strand:'D'},
+    {...R('grade9math',"Imitating a situation using a mathematical or computational model.",null,"simulat","ion","simulation","Simulations can examine possible results of a process."),strand:'D'},
+    {...R('grade9math',"A statement about an expected result based on patterns or information.","pre","dict","ion","prediction","Predictions draw on evidence or models."),strand:'D'},
+    {...R('grade9math',"A transformation producing a mirror image across a line.","re","flect","ion","reflection","A reflection maps a figure across a line of reflection."),strand:'E'},
+    {...R('grade9math',"A transformation turning a figure around a fixed point.",null,"rotat","ion","rotation","A rotation turns around a centre through a given angle."),strand:'E'},
+    {...R('grade9math',"A transformation changing size by a scale factor.",null,"dilat","ion","dilation","A dilation changes distances from a centre by a scale factor."),strand:'E'},
+    {...R('grade9math',"A polygon with four sides.","quadri","later","al","quadrilateral","Rectangles and parallelograms are quadrilaterals."),strand:'E'},
+    {...R('grade9math',"A closed two-dimensional figure formed from straight sides.","poly","gon",null,"polygon","Triangles and pentagons are polygons."),strand:'E'},
+    {...R('grade9math',"The total distance around the outside edge of a shape.","peri","meter",null,"perimeter","Perimeter is measured in units of length."),strand:'E'},
+    {...R('grade9math',"A change in a figure's location, orientation, or size.","trans","form","ation","transformation","Examples include translations, reflections, rotations and dilations."),strand:'E'},
+    {...R('grade9math',"A decrease in the monetary value of an asset over time.","de","preci","ation","depreciation","Depreciation describes falling asset value."),strand:'F'},
+    {...R('grade9math',"Planning how income can cover spending and saving.",null,"budget","ing","budgeting","A budget helps plan income and expenses."),strand:'F'},
+    {...R('grade9math',"A general rise in prices over time.",null,"inflat","ion","inflation","Inflation changes the purchasing power of money."),strand:'F'},
+    {...R('grade9math',"The process or system of charging taxes.",null,"tax","ation","taxation","Taxes affect the cost of purchases and income."),strand:'F'}
+  ]);
   const C = (subject, clue, prefixTag, root, suffixTag) => ({subject, clue, prefixTag, root, suffixTag});
   const creative = [
     C('math','A person who is wildly enthusiastic about fractions.','excess','fraction','person'),
@@ -82,13 +114,31 @@
     C('english','Someone with an extreme love for poetic verse.','excess','verse','lover'),
     C('english','A new set of invented grammar conventions.','new','grammar','practice')
   ];
+  creative.push(...[
+    {...C('grade9math',"A person who is absurdly excited by fractions.","excess","fraction","person"),strand:'B'},
+    {...C('grade9math',"The study of impossibly tiny rational numbers.","small","rational","study"),strand:'B'},
+    {...C('grade9math',"A person who strongly opposes algebraic equations.","against","equation","person"),strand:'C'},
+    {...C('grade9math',"Relating to a wildly excessive number of variables.","many","variable","related"),strand:'C'},
+    {...C('grade9math',"A fictional new practice for making patterns.","new","pattern","practice"),strand:'C'},
+    {...C('grade9math',"The study of predictions after an imaginary simulation.","after","simulat","study"),strand:'D'},
+    {...C('grade9math',"A device for measuring very tiny changes in slope.","small","slope","measurer"),strand:'D'},
+    {...C('grade9math',"Someone who campaigns against data.","against","data","person"),strand:'D'},
+    {...C('grade9math',"A person with an excessive love of polygons.","excess","polygon","lover"),strand:'E'},
+    {...C('grade9math',"The study of impossibly tiny angles.","small","angle","study"),strand:'E'},
+    {...C('grade9math',"Relating to many rotations of a shape.","many","rotat","related"),strand:'E'},
+    {...C('grade9math',"Someone firmly opposed to taxes.","against","tax","person"),strand:'F'},
+    {...C('grade9math',"The study of a budget before any income arrives.","before","budget","study"),strand:'F'},
+    {...C('grade9math',"A device measuring microscopic amounts of interest.","small","interest","measurer"),strand:'F'},
+    {...C('grade9math',"A fictional new practice for managing money.","new","budget","practice"),strand:'F'}
+  ]);
   const sparks = {
+    grade9math:['Invent a new mathematical process.','Name an imaginary number pattern.','Describe a strange financial discovery.','Create a word for an unusual data relationship.','Invent an impossible geometric transformation.'],
     math:['Give a mathematical idea a surprising new identity.','What could a mysterious numerical creature be called?','Invent something a geometry teacher might never have encountered.','Create a term for an imaginary pattern or operation.','Try a mathematically themed invention that sounds almost believable.'],
     science:['Invent a fictional scientific instrument or creature.','Name an imaginary biological phenomenon.','Create the name of a process from an alternate universe.','Think of an improbable scientific discovery.','Invent something a scientist might find under a microscope.'],
     geography:['Invent a new kind of landscape or map feature.','Name a fictional phenomenon in the atmosphere.','Create a term for a peculiar geographic region.','Imagine explorers naming a remarkable new feature.','What could an unusual environmental phenomenon be called?'],
     history:['Invent a term for an imaginary historical movement.','Name a fictional institution or social practice.','Describe a peculiar event from an invented civilization.','Create a label for an imaginary historical era.','What might historians call an unusual new discovery?'],
     english:['Invent a term for a strange literary habit.','Describe an imaginary grammatical phenomenon.','Give a new poetic technique a name.','Invent a term for an unusual style of storytelling.','Create a word for a very specific reading experience.']
   };
-  const subjects = {math:'Mathematics',science:'Science',geography:'Geography',history:'History',english:'English'};
+  const subjects = {math:'Mathematics',grade9math:'Grade 9 Math',science:'Science',geography:'Geography',history:'History',english:'English'};
   window.MM_DATA = {subjects,prefixes,roots,suffixes,real,creative,sparks};
 })();

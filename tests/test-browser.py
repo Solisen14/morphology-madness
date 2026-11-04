@@ -85,6 +85,61 @@ with sync_playwright() as pw:
             sample.close()
     print('PASS: 3/6/10 cards per category, correct parts and meaning tags')
 
+    # Grade 9 Math must appear alongside Mathematics without adding a new game.
+    for play_mode in ['wizard','madness','lab']:
+        for level,n in [('apprentice',3),('inventor',6),('master',10)]:
+            sample,errors=mount(b)
+            assert sample.locator('.mode-card').count()==3
+            assert sample.locator('#subject option[value="grade9math"]').inner_text()=='Grade 9 Math'
+            if play_mode!='wizard':
+                sample.click('[data-mode="'+play_mode+'"]')
+            sample.select_option('#subject','grade9math')
+            sample.select_option('#level',level)
+            if play_mode=='lab':sample.emulate_media(reduced_motion='reduce')
+            sample.click('#start')
+            assert sample.locator('#category-chip').inner_text()=='GRADE 9 MATH'
+            if play_mode=='lab':
+                assert sample.locator('#lab-machine').is_visible()
+                sample.click('#spin')
+                sample.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                chosen=sample.locator('#reel-base').inner_text()
+                assert sample.evaluate('''text=>window.MM_DATA.roots.some(r=>r.text===text && r.subjects.includes('grade9math'))''',chosen)
+                assert sample.locator('#lab-word').inner_text()!=''
+                sample.fill('#definition','An invented Grade 9 mathematical idea that combines the meanings of these three word parts.')
+                sample.click('#check')
+                assert sample.locator('#self-review').is_visible()
+                sample.check('#review-one');sample.check('#review-two')
+                sample.click('#finish-invention')
+                assert 'Invention recorded' in sample.locator('#feedback').inner_text()
+            else:
+                kind='real' if play_mode=='wizard' else 'creative'
+                challenge=current_record(sample,kind)
+                assert challenge and challenge['subject']=='grade9math'
+                for part in ['prefix','base','suffix']:
+                    assert sample.locator('.bank-column[data-type="'+part+'"] .part-card').count()==n
+                if play_mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if challenge['parts'][part]:select_card(sample,part,challenge['parts'][part])
+                    assert sample.locator('#word-preview').inner_text()==challenge['answer']
+                    sample.click('#check')
+                    assert 'You built it' in sample.locator('#feedback').inner_text()
+                else:
+                    select_card(sample,'base',challenge['root'])
+                    for part,tag in [('prefix',challenge['prefixTag']),('suffix',challenge['suffixTag'])]:
+                        ids=sample.evaluate('''([part,tag])=>{
+                          const arr=part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes;
+                          return arr.filter(e=>e.tags.includes(tag)).map(e=>e.text);
+                        }''',[part,tag])
+                        rendered=sample.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        match=next((label for label in ids if label in rendered),None)
+                        assert match,(part,tag,rendered)
+                        select_card(sample,part,match.replace('-',''))
+                    sample.click('#check')
+                    assert 'Strong meaning match' in sample.locator('#feedback').inner_text()
+            assert not errors,errors
+            sample.close()
+    print('PASS: Grade 9 Math selection in all three modes and all levels')
+
     page,errors=mount(b)
     page.click('[data-mode="madness"]');page.select_option('#subject','math');page.click('#start')
     record=current_record(page,'creative');assert record

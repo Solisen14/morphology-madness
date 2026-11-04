@@ -1,4 +1,4 @@
-/* Morphology Madness v1.0. Client-side only; no network or student data storage.
+/* Morphology Madness v1.1. Client-side only; no network or student data storage.
  * Three modes share one bank. Creative meaning checks are deliberately limited:
  * a semantic tag match is a scaffold, not automated linguistic adjudication.
  */
@@ -51,7 +51,7 @@
     return subjectOrder.map((subject,i)=>({subject,clue:data.sparks[subject][i%data.sparks[subject].length]}));
   };
   const candidates=(type,subject)=>{
-    const pool=type==='base'?data.roots.filter(r=>r.subject===subject):BANKS[type];
+    const pool=type==='base'?data.roots.filter(r=>r.subject===subject||r.subjects?.includes(subject)):BANKS[type];
     // Preserve all authored Word Wizard answers; avoid standalone inflections
     // in invented-word card decks unless explicitly enabled later.
     return state.mode==='wizard'?pool:pool.filter(r=>r.creativeEligible!==false);
