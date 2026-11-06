@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.1.1 · Teacher-facing guide**
+**Version 1.1.2 · Classroom-readable typography**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -63,3 +63,7 @@ The **Grade 9 Math** option works in all three existing games. It contains **30*
 ## Teacher guide (v1.1.1)
 
 An introductory **Teachers: How to Use This Tool** box appears above **Choose your game**. It describes Word Wizard as foundational, Meaning Madness as application, and Word Laboratory as creative explanation and discussion. It is informational only; all three games, subject choices, and assessment rules are unchanged.
+
+## Typography update (v1.1.2)
+
+Adjusted type sizes, line heights and card spacing across the landing page, teacher guide, all three games and results. Important instructional text is now at least 16px, with clearer 17–19px body text and larger clues/headings. At smaller viewport widths, card banks switch to fewer columns to avoid tiny words and cramped card descriptions. Existing colours, game logic, subject choices, difficulty levels, and word bank remain unchanged. Browser regression tests check desktop, tablet and mobile typography and horizontal overflow.
