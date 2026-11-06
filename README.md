@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.1 · Grade 9 Math subject**
+**Version 1.1.1 · Teacher-facing guide**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -59,3 +59,7 @@ See [release notes](RELEASE_NOTES.md) for the v1.0 scope and limitations.
 ## Grade 9 Math (Ontario MTH1W)
 
 The **Grade 9 Math** option works in all three existing games. It contains **30** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **34** dedicated bases plus **48** shared Mathematics roots. The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
+
+## Teacher guide (v1.1.1)
+
+An introductory **Teachers: How to Use This Tool** box appears above **Choose your game**. It describes Word Wizard as foundational, Meaning Madness as application, and Word Laboratory as creative explanation and discussion. It is informational only; all three games, subject choices, and assessment rules are unchanged.
