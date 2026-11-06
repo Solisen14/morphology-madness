@@ -56,6 +56,41 @@ with sync_playwright() as pw:
     small.close()
     print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
 
+    # Readability regression: typography should be comfortable for students
+    # and teachers, without horizontal overflow on desktop, tablet or phone.
+    for viewport_width in [1280,768,375]:
+        sample,errors=mount(b,width=viewport_width,height=900)
+        for selector in ['.teacher-guide-intro','.teacher-guide-options p','.mode-description','.help article p','.section-heading p']:
+            size=sample.locator(selector).first.evaluate('(node)=>parseFloat(getComputedStyle(node).fontSize)')
+            assert size>=16,(viewport_width,selector,size)
+        heading=sample.locator('.teacher-guide h2').evaluate('(node)=>parseFloat(getComputedStyle(node).fontSize)')
+        assert heading>=21,(viewport_width,'guide heading',heading)
+        assert sample.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'),(viewport_width,'setup overflow')
+        sample.select_option('#subject','grade9math')
+        sample.select_option('#level','master')
+        sample.click('#start')
+        for selector in ['.clue','.mode-note','.card-meaning','.card-text','.field-hint']:
+            if selector=='.field-hint':continue # hidden in Wizard; checked in Lab below
+            size=sample.locator(selector).first.evaluate('(node)=>parseFloat(getComputedStyle(node).fontSize)')
+            assert size>=16,(viewport_width,selector,size)
+        assert sample.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'),(viewport_width,'Wizard overflow')
+        assert not errors,errors
+        sample.close()
+        lab,lab_errors=mount(b,width=viewport_width,height=900)
+        lab.click('[data-mode="lab"]')
+        lab.select_option('#subject','grade9math')
+        lab.emulate_media(reduced_motion='reduce')
+        lab.click('#start')
+        lab.click('#spin')
+        lab.locator('#definition-area').wait_for(state='visible',timeout=3000)
+        for selector in ['.reel-text','.reel-meaning','.lab-reveal p','.field-hint']:
+            size=lab.locator(selector).first.evaluate('(node)=>parseFloat(getComputedStyle(node).fontSize)')
+            assert size>=16,(viewport_width,selector,size)
+        assert lab.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth'),(viewport_width,'Laboratory overflow')
+        assert not lab_errors,lab_errors
+        lab.close()
+    print('PASS: Readable body text and no horizontal overflow at 1280, 768 and 375px')
+
     page,errors=mount(b)
     assert page.locator('.mode-card').count()==3
     page.select_option('#subject','science');page.select_option('#level','master');page.click('#start')
