@@ -35,6 +35,28 @@ with sync_playwright() as pw:
         browser_args['executable_path']=system_chromium
     b=pw.chromium.launch(**browser_args)
     page,errors=mount(b)
+    guide=page.locator('.teacher-guide')
+    assert guide.count()==1
+    assert guide.locator('#teacher-guide-title').inner_text()=='Teachers: How to Use This Tool'
+    assert guide.locator('.teacher-guide-options p').count()==3
+    for name in ['Word Wizard | Building Foundations','Meaning Madness | Applying Understanding','Word Laboratory | Creating and Explaining']:
+        assert name in guide.inner_text()
+    assert page.evaluate('''()=>{
+      const guide=document.querySelector('.teacher-guide');
+      const choose=document.querySelector('#mode-title');
+      return !!guide && !!choose && (guide.compareDocumentPosition(choose) & Node.DOCUMENT_POSITION_FOLLOWING)!==0;
+    }''')
+    assert page.locator('.mode-card').count()==3
+    assert not errors,errors
+    page.close()
+    small,small_errors=mount(b,width=375,height=812)
+    assert small.locator('.teacher-guide').is_visible()
+    assert small.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),'Teacher guide mobile overflow'
+    assert not small_errors,small_errors
+    small.close()
+    print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
+
+    page,errors=mount(b)
     assert page.locator('.mode-card').count()==3
     page.select_option('#subject','science');page.select_option('#level','master');page.click('#start')
     assert page.locator('#game').is_visible()
