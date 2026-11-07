@@ -1550,7 +1550,7 @@
   for(const [id,meaning,tags,exampleWord,formClass] of [["under","below a usual or expected amount",["below"],"underestimate","prefix"],["equi","equal or same",["equal"],"equilateral","initial_combining_form"],["penta","five",["five"],"pentagon","initial_combining_form"],["hexa","six",["six"],"hexagon","initial_combining_form"],["octa","eight",["eight"],"octagon","initial_combining_form"]]){
     prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass,exampleWord});
   }
-  roots.push(...rootsOf('grade9math',[["negative","less than zero"],["divis","divide or separate"],["calcul","count or compute"],["tribut","assign or distribute"],["stitut","put or place"],["valent","having value or worth"],["variate","a variable quantity"],["lead","guide or direct"],["represent","show or stand for something"],["fer","carry or bear (Latin)"],["metr","measure (Greek)"],["invest","put money into something expecting a return"],["pay","give money owed or due"],["charge","ask someone to pay a price"]]).map(entry=>({...entry,source:'grade9-math'})));
+  roots.push(...rootsOf('grade9math',[["negative","less than zero"],["divis","divide or separate"],["calcul","count or compute"],["tribut","assign or distribute"],["stitut","put or place"],["valent","having value or worth"],["variate","a variable quantity"],["lead","guide or direct"],["represent","show or stand for something"],["fer","carry or bear (Latin)"],["metr","measure (Greek)"],["invest","put money into something expecting a return"],["pay","give money owed or due"],["charg","charge someone a price or fee"]]).map(entry=>({...entry,source:'grade9-math'})));
   for(const entry of prefixes){
     entry.role='prefix';
     entry.key='prefix:'+entry.id;

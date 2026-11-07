@@ -50,7 +50,7 @@ for(const puzzle of grade9Real){
   assert.ok(componentIds.length>=2,'MTH1W puzzle must use at least two meaningful parts: '+puzzle.answer);
 }
 assert.equal(new Set(grade9Real.map(p=>p.answer)).size,grade9Real.length,'Duplicate Grade 9 answer');
-const newRequiredWords=["equality","fractional","divisible","divisor","noninteger","nonnegative","overestimate","underestimate","miscalculation","recalculation","algebraic","distributive","substitution","equivalent","rearrangement","bivariate","univariate","predictable","misleading","representation","misrepresentation","intersection","bisector","semicircle","diameter","equilateral","pentagon","hexagon","octagon","circumference","isometric","geometric","taxable","nontaxable","investment","reinvestment","repayment","prepayment","overpayment","overcharge"];
+const newRequiredWords=["equality","fractional","divisible","divisor","noninteger","nonnegative","overestimate","underestimate","miscalculation","recalculation","algebraic","distributive","substitution","equivalent","rearrangement","bivariate","univariate","predictable","misleading","representation","misrepresentation","intersection","bisector","semicircle","diameter","equilateral","pentagon","hexagon","octagon","circumference","isometric","geometric","taxable","nontaxable","investment","reinvestment","repayment","prepayment","overpayment","overcharging"];
 assert.equal(newRequiredWords.length,40);
 for(const answer of newRequiredWords)assert.equal(grade9Real.filter(p=>p.answer===answer).length,1,'Missing or duplicated new word: '+answer);
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};

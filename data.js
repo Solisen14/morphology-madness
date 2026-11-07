@@ -123,7 +123,7 @@
     {...R('grade9math',"Money paid back toward an amount owed.","re","pay","ment","repayment","Re- means back or again in this context, pay means give money, and -ment names an act or result."),strand:'F'},
     {...R('grade9math',"A payment made before it is due or before receiving something.","pre","pay","ment","prepayment","Pre- means before; a prepayment is made in advance."),strand:'F'},
     {...R('grade9math',"A payment that exceeds the amount due.","over","pay","ment","overpayment","Over- means too much; an overpayment is more than what is owed."),strand:'F'},
-    {...R('grade9math',"To demand a price or payment that is too high.","over","charge",null,"overcharge","Over- means too much; to overcharge is to ask for more money than is appropriate."),strand:'F'}
+    {...R('grade9math',"The act of asking a customer to pay more than the correct price.","over","charg","ing","overcharging","Over- means too much, charg relates to asking for payment, and -ing names an action. Overcharging asks for more than is owed."),strand:'F'}
   ]);
   const C = (subject, clue, prefixTag, root, suffixTag) => ({subject, clue, prefixTag, root, suffixTag});
   const creative = [

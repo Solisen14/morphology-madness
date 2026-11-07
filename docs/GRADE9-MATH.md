@@ -38,7 +38,7 @@ Added **40** new, original Word Wizard entries to the previous 30, for **70** Gr
 
 **E**: intersection, bisector, semicircle, diameter, equilateral, pentagon, hexagon, octagon, circumference, isometric, geometric.
 
-**F**: taxable, nontaxable, investment, reinvestment, repayment, prepayment, overpayment, overcharge.
+**F**: taxable, nontaxable, investment, reinvestment, repayment, prepayment, overpayment, overcharging.
 
 Original Math terms like *subtraction*, *intersection*, and *bisector* may appear in both the general Mathematics subject and Grade 9 Math, because they are helpful prerequisite vocabulary. The Grade 9 selection never contains duplicate answers within its own pool.
 
