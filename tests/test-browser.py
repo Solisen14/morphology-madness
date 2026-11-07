@@ -56,6 +56,62 @@ with sync_playwright() as pw:
     small.close()
     print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
 
+    # Ontario CGC1W: real word parts must be authentic and usable in every
+    # existing game mode without changing the menu or mobile layout.
+    geo,geo_errors=mount(b)
+    assert geo.locator('.mode-card').count()==3
+    assert geo.locator('#subject option[value="grade9geography"]').inner_text()=='Grade 9 Geography'
+    geography=geo.evaluate('''()=>window.MM_DATA.real.filter(r=>r.subject==='grade9geography')''')
+    assert len(geography)==76
+    assert len(set(q['answer'] for q in geography))==len(geography)
+    for word in geography:
+        parts=[word['parts'][t] for t in ['prefix','base','suffix'] if word['parts'][t] is not None]
+        assert len(parts)>=2,word['answer']
+        assert ''.join(parts)==word['answer'],word['answer']
+        assert geo.evaluate('''id=>window.MM_DATA.roots.some(r=>r.id===id&&r.subjects.includes('grade9geography'))''',word['parts']['base']),word['answer']
+    assert not geo_errors,geo_errors
+    geo.close()
+    for play_mode in ['wizard','madness','lab']:
+        for level,num in [('apprentice',3),('inventor',6),('master',10)]:
+            sample,errors=mount(b,width=375 if level=='apprentice' else 1280,height=900)
+            if play_mode!='wizard':sample.click('[data-mode="'+play_mode+'"]')
+            sample.select_option('#subject','grade9geography')
+            sample.select_option('#level',level)
+            if play_mode=='lab':sample.emulate_media(reduced_motion='reduce')
+            sample.click('#start')
+            assert sample.locator('#category-chip').inner_text()=='GRADE 9 GEOGRAPHY'
+            if play_mode=='lab':
+                sample.click('#spin')
+                sample.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                value=sample.locator('#reel-base').inner_text()
+                assert sample.evaluate('''text=>window.MM_DATA.roots.some(r=>r.text===text && r.subjects.includes('grade9geography'))''',value)
+                assert sample.locator('#lab-word').inner_text()!=''
+            else:
+                record=current_record(sample,'real' if play_mode=='wizard' else 'creative')
+                assert record and record['subject']=='grade9geography'
+                for part in ['prefix','base','suffix']:
+                    assert sample.locator('.bank-column[data-type="'+part+'"] .part-card').count()==num,(play_mode,level,part)
+                if play_mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if record['parts'][part]:select_card(sample,part,record['parts'][part])
+                    assert sample.locator('#word-preview').inner_text()==record['answer']
+                    sample.click('#check')
+                    assert 'You built it' in sample.locator('#feedback').inner_text()
+                else:
+                    select_card(sample,'base',record['root'])
+                    for part,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+                        labels=sample.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        matches=sample.evaluate('''([part,tag])=>(part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes).filter(x=>x.tags.includes(tag)).map(x=>x.text)''',[part,tag])
+                        chosen=next((text for text in labels if text in matches),None)
+                        assert chosen,(part,tag,labels)
+                        select_card(sample,part,chosen.replace('-',''))
+                    sample.click('#check')
+                    assert 'Strong meaning match' in sample.locator('#feedback').inner_text()
+            assert sample.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),(play_mode,level,'horizontal overflow')
+            assert not errors,errors
+            sample.close()
+    print('PASS: 76 Grade 9 Geography words and all three modes at each difficulty')
+
     # Grade 9 puzzles must remain genuinely buildable with the 3/6/10-card
     # mechanic. Every answer must contain two or three meaningful pieces.
     verify,verify_errors=mount(b)

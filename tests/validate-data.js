@@ -5,11 +5,11 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,77);
-assert.equal(d.roots.length,298);
-assert.equal(d.suffixes.length,61);
-assert.equal(d.real.length,110);
-assert.equal(d.creative.length,45);
+assert.equal(d.prefixes.length,85);
+assert.equal(d.roots.length,337);
+assert.equal(d.suffixes.length,66);
+assert.equal(d.real.length,186);
+assert.equal(d.creative.length,65);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
   assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
   for (const e of items) {
@@ -26,6 +26,7 @@ assert.equal(groups.math,52);
 assert.equal(groups.grade9math,48);
 assert.equal(groups.science,53);
 assert.equal(groups.geography,48);
+assert.equal(groups.grade9geography,39);
 assert.equal(groups.history,47);
 assert.equal(groups.english,50);
 
@@ -53,6 +54,25 @@ assert.equal(new Set(grade9Real.map(p=>p.answer)).size,grade9Real.length,'Duplic
 const newRequiredWords=["equality","fractional","divisible","divisor","noninteger","nonnegative","overestimate","underestimate","miscalculation","recalculation","algebraic","distributive","substitution","equivalent","rearrangement","bivariate","univariate","predictable","misleading","representation","misrepresentation","intersection","bisector","semicircle","diameter","equilateral","pentagon","hexagon","octagon","circumference","isometric","geometric","taxable","nontaxable","investment","reinvestment","repayment","prepayment","overpayment","overcharging"];
 assert.equal(newRequiredWords.length,40);
 for(const answer of newRequiredWords)assert.equal(grade9Real.filter(p=>p.answer===answer).length,1,'Missing or duplicated new word: '+answer);
+
+assert.equal(d.subjects.grade9geography,'Grade 9 Geography');
+const geographyReal=d.real.filter(x=>x.subject==='grade9geography');
+const geographyCreative=d.creative.filter(x=>x.subject==='grade9geography');
+assert.equal(geographyReal.length,76);
+assert.equal(geographyCreative.length,20);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9geography')).length,93);
+assert.equal(new Set(geographyReal.map(x=>x.answer)).size,76,'Duplicated Grade 9 Geography words');
+for(const strand of ['A','B','C','D','E']){
+  assert.ok(geographyReal.some(x=>x.strand===strand),'CGC1W strand missing in Word Wizard '+strand);
+  assert.ok(geographyCreative.some(x=>x.strand===strand),'CGC1W strand missing in Meaning Madness '+strand);
+}
+for(const puzzle of geographyReal){
+  assert.ok(['prefix','base','suffix'].filter(type=>puzzle.parts[type]!==null).length>=2,'Grade 9 Geography needs two genuine parts: '+puzzle.answer);
+  assert.ok(d.roots.some(r=>r.id===puzzle.parts.base&&r.subjects.includes('grade9geography')),'Missing Grade 9 Geography base '+puzzle.answer);
+}
+for(const puzzle of geographyCreative){
+  assert.ok(d.roots.some(r=>r.id===puzzle.root&&r.subjects.includes('grade9geography')),'Creative geography base '+puzzle.root);
+}
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
 const errors=[];
