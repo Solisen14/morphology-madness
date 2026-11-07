@@ -17,7 +17,7 @@
     p('neo','new or revived',['new']),p('pseudo','false or imitation',['false']),
     p('non','not or absence of',['not']),p('un','not or reversal',['not']),p('dis','not, apart, or opposite',['not']),
     p('inter','between or among',['between']),p('intra','within',['within']),p('trans','across or change',['across']),
-    p('sub','under, below, or in place of',['under']),p('super','above or beyond',['above']),
+    p('sub','under, below, near, or in place of',['under']),p('super','above or beyond',['above']),
     p('geo','Earth',['earth']),p('bio','life',['life']),p('hydro','water',['water']),
     p('thermo','heat',['heat']),p('photo','light',['light']),p('eco','environment or home',['environment']),
     p('aero','air',['air']),p('mega','large',['large']),p('semi','half',['half']),p('hemi','half',['half']),
