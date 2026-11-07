@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.1.2 · Classroom-readable typography**
+**Version 1.2 · Expanded Grade 9 morphology bank**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -16,8 +16,8 @@ Choose Mathematics, **Grade 9 Math (Ontario MTH1W)**, Science, Geography, Histor
 
 ## What's included
 
-- **417** word-part entries: **72** prefixes/initial forms, **284** roots/bases, and **61** suffixes/final forms
-- **70** genuine-word challenges and **45** fictional-definition prompts
+- **436** word-part entries: **77** prefixes/initial forms, **298** roots/bases, and **61** suffixes/final forms
+- **110** genuine-word challenges and **45** fictional-definition prompts
 - Responsive, keyboard-accessible controls and reduced-motion support for spinning reels
 - Explanations, hints, self-review, round summaries, and exit confirmation
 - No sign-in, analytics, online student submissions, persistent student records, or multiplayer features
@@ -58,7 +58,7 @@ See [release notes](RELEASE_NOTES.md) for the v1.0 scope and limitations.
 
 ## Grade 9 Math (Ontario MTH1W)
 
-The **Grade 9 Math** option works in all three existing games. It contains **30** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **34** dedicated bases plus **48** shared Mathematics roots. The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
+The **Grade 9 Math** option works in all three existing games. It contains **70** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **48** dedicated bases plus **48** shared Mathematics roots. The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
 
 ## Teacher guide (v1.1.1)
 
@@ -67,3 +67,7 @@ An introductory **Teachers: How to Use This Tool** box appears above **Choose yo
 ## Typography update (v1.1.2)
 
 Adjusted type sizes, line heights and card spacing across the landing page, teacher guide, all three games and results. Important instructional text is now at least 16px, with clearer 17–19px body text and larger clues/headings. At smaller viewport widths, card banks switch to fewer columns to avoid tiny words and cramped card descriptions. Existing colours, game logic, subject choices, difficulty levels, and word bank remain unchanged. Browser regression tests check desktop, tablet and mobile typography and horizontal overflow.
+
+## Grade 9 word-bank expansion (v1.2)
+
+Added 40 original, prerequisite-friendly mathematical terms to Grade 9 Math Word Wizard. All 70 Grade 9 word puzzles now have an automated **minimum-two-meaningful-parts** invariant and exact spelling checks. Existing subject options, Word Laboratory controls, and Meaning Madness prompts are unchanged. See [curriculum and vocabulary editorial notes](docs/GRADE9-MATH.md).
