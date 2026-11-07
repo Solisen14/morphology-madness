@@ -1539,6 +1539,10 @@
   const finalCombining = new Set(additions.metadata.suffixCombining);
   const restrictedCreativeSuffixes = new Set(['ed','s','es','est']);
 
+  // A root can be meaningful without standing alone as an English word.
+  // Explicit labels help teachers distinguish word stems from free bases.
+  const grade9BoundRootIds=new Set(["nom","flect","rotat","dilat","later","gon","correlat","simulat","preci","inflat","estim","simpl","ration","dict","vari","iterat","divis","calcul","tribut","stitut","valent","variate","fer","metr","charg"]);
+
   // MTH1W roots remain in one shared bank without duplicate IDs.
   const grade9SharedMathIds=new Set(["fraction","triangle","equation","graph","angle","number","pattern","symmetry","geometry","ratio","decimal","polygon","circle","integer","function","variable","parallel","algebra","form","sect","arrange","group","tract","equal","add","sum","product","factor","multiple","prime","radius","diameter","perimeter","area","volume","coordinate","scale","estimate","probability","chance","mean","median","mode","sequence","term","inverse","transform","reflect"]);
   for(const [id,meaning,tags,exampleWord] of [["in","not (as in inequality)",["not"],"inequality"],["ir","not (before certain r-beginning stems)",["not"],"irrational"]])prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass:'prefix',exampleWord});
@@ -1564,7 +1568,7 @@
     entry.role='base';
     entry.key='base:'+entry.id;
     entry.subjects=entry.subject==='math'&&grade9SharedMathIds.has(entry.id)?['math','grade9math']:[entry.subject];
-    entry.formClass ||= boundRoots.has(entry.id)?'bound_root':'free_base';
+    entry.formClass ||= boundRoots.has(entry.id)||grade9BoundRootIds.has(entry.id)?'bound_root':'free_base';
     entry.source ||= 'original-bank';
     entry.reviewNote ||= additions.metadata.reviewFlags.base[entry.id]||null;
     entry.creativeEligible=true;
