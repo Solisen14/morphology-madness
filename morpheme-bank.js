@@ -13,11 +13,11 @@
     p('micro','very small',['small']),p('nano','extremely small',['small']),p('mini','small',['small']),
     p('hyper','excessive or beyond normal',['excess']),p('ultra','extreme or beyond',['excess']),p('over','too much or above',['excess']),
     p('multi','many',['many']),p('poly','many',['many']),p('omni','all',['all']),
-    p('pre','before',['before']),p('post','after',['after']),p('re','again',['again']),
+    p('pre','before',['before']),p('post','after',['after']),p('re','again or back',['again']),
     p('neo','new or revived',['new']),p('pseudo','false or imitation',['false']),
     p('non','not or absence of',['not']),p('un','not or reversal',['not']),p('dis','not, apart, or opposite',['not']),
     p('inter','between or among',['between']),p('intra','within',['within']),p('trans','across or change',['across']),
-    p('sub','under or below',['under']),p('super','above or beyond',['above']),
+    p('sub','under, below, or in place of',['under']),p('super','above or beyond',['above']),
     p('geo','Earth',['earth']),p('bio','life',['life']),p('hydro','water',['water']),
     p('thermo','heat',['heat']),p('photo','light',['light']),p('eco','environment or home',['environment']),
     p('aero','air',['air']),p('mega','large',['large']),p('semi','half',['half']),p('hemi','half',['half']),
@@ -1539,11 +1539,22 @@
   const finalCombining = new Set(additions.metadata.suffixCombining);
   const restrictedCreativeSuffixes = new Set(['ed','s','es','est']);
 
+  // A root can be meaningful without standing alone as an English word.
+  // Explicit labels help teachers distinguish word stems from free bases.
+  const grade9BoundRootIds=new Set(["nom","flect","rotat","dilat","later","gon","correlat","simulat","preci","inflat","estim","simpl","ration","dict","vari","iterat","divis","calcul","tribut","stitut","valent","variate","fer","metr","charg"]);
+
   // MTH1W roots remain in one shared bank without duplicate IDs.
   const grade9SharedMathIds=new Set(["fraction","triangle","equation","graph","angle","number","pattern","symmetry","geometry","ratio","decimal","polygon","circle","integer","function","variable","parallel","algebra","form","sect","arrange","group","tract","equal","add","sum","product","factor","multiple","prime","radius","diameter","perimeter","area","volume","coordinate","scale","estimate","probability","chance","mean","median","mode","sequence","term","inverse","transform","reflect"]);
   for(const [id,meaning,tags,exampleWord] of [["in","not (as in inequality)",["not"],"inequality"],["ir","not (before certain r-beginning stems)",["not"],"irrational"]])prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass:'prefix',exampleWord});
   for(const [id,meaning,tags,exampleWord] of [["age","an amount, measure, or result",["amount"],"percentage"]])suffixes.push({...s(id,meaning,tags),source:'grade9-math',formClass:'derivational_suffix',exampleWord});
   roots.push(...rootsOf('grade9math',[["linear","relation with a constant rate of change"],["proportion","equality of two ratios"],["exponent","number indicating a power"],["nom","term or name, as in polynomial"],["flect","bend or turn"],["rotat","turn about a centre"],["dilat","enlarge or reduce by a scale factor"],["later","side (Latin)"],["gon","angle (Greek)"],["quartile","cut point in data divided into fourths"],["correlat","associated or varying in relation"],["simulat","imitate or model"],["dependent","relying on another variable"],["rational","expressible as a ratio of integers with a nonzero denominator"],["preci","price or value"],["budget","plan for income and expenses"],["tax","government-imposed charge"],["inflat","swell or increase"],["round","adjust a number to a nearby place value"],["estim","judge approximately"],["simpl","simple"],["meter","measure (Greek)"],["ration","reason or calculation"],["dict","say or state"],["vari","change or vary"],["percent","amount per hundred"],["slope","measure of rate of change"],["scatter","spread out"],["interest","money earned or paid for using money"],["data","values collected for analysis"],["constant","value that does not change"],["rate","ratio comparing different units"],["income","money received"],["iterat","repeat a step"]]).map(entry=>({...entry,source:'grade9-math'})));
+
+  // MTH1W and prerequisite elementary vocabulary: intentionally selected
+  // productive word parts, not arbitrary syllable cuts.
+  for(const [id,meaning,tags,exampleWord,formClass] of [["under","below a usual or expected amount",["below"],"underestimate","prefix"],["equi","equal or same",["equal"],"equilateral","initial_combining_form"],["penta","five",["five"],"pentagon","initial_combining_form"],["hexa","six",["six"],"hexagon","initial_combining_form"],["octa","eight",["eight"],"octagon","initial_combining_form"]]){
+    prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass,exampleWord});
+  }
+  roots.push(...rootsOf('grade9math',[["negative","less than zero"],["divis","divide or separate"],["calcul","count or compute"],["tribut","assign or distribute"],["stitut","put or place"],["valent","having value or worth"],["variate","a variable quantity"],["lead","guide or direct"],["represent","show or stand for something"],["fer","carry or bear (Latin)"],["metr","measure (Greek)"],["invest","put money into something expecting a return"],["pay","give money owed or due"],["charg","charge someone a price or fee"]]).map(entry=>({...entry,source:'grade9-math'})));
   for(const entry of prefixes){
     entry.role='prefix';
     entry.key='prefix:'+entry.id;
@@ -1557,7 +1568,7 @@
     entry.role='base';
     entry.key='base:'+entry.id;
     entry.subjects=entry.subject==='math'&&grade9SharedMathIds.has(entry.id)?['math','grade9math']:[entry.subject];
-    entry.formClass ||= boundRoots.has(entry.id)?'bound_root':'free_base';
+    entry.formClass ||= boundRoots.has(entry.id)||grade9BoundRootIds.has(entry.id)?'bound_root':'free_base';
     entry.source ||= 'original-bank';
     entry.reviewNote ||= additions.metadata.reviewFlags.base[entry.id]||null;
     entry.creativeEligible=true;

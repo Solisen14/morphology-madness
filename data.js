@@ -81,6 +81,50 @@
     {...R('grade9math',"A general rise in prices over time.",null,"inflat","ion","inflation","Inflation changes the purchasing power of money."),strand:'F'},
     {...R('grade9math',"The process or system of charging taxes.",null,"tax","ation","taxation","Taxes affect the cost of purchases and income."),strand:'F'}
   ]);
+  // Grade 9 and prerequisite elementary additions with at least two
+  // pedagogically meaningful word parts in each authentic word.
+  real.push(...[
+    {...R('grade9math',"A condition in which two quantities have the same value.",null,"equal","ity","equality","Equal refers to the same value; -ity names the condition of being equal."),strand:'B'},
+    {...R('grade9math',"Relating to a part of a whole rather than necessarily a whole number.",null,"fraction","al","fractional","Fraction is a part; -al means relating to. A fractional quantity can represent a part of a whole."),strand:'B'},
+    {...R('grade9math',"A number that can be divided by a specified nonzero integer with no remainder.",null,"divis","ible","divisible","The root divis means divide, and -ible means capable of. For example, 18 is divisible by 3."),strand:'B'},
+    {...R('grade9math',"A number that divides another number without a remainder.",null,"divis","or","divisor","Divis means divide, and -or names something that performs an action. In 18 ÷ 3 = 6, 3 is the divisor."),strand:'B'},
+    {...R('grade9math',"A number that is not an integer.","non","integer",null,"noninteger","Non- means not. A noninteger is any number that is not an integer, such as 2.5."),strand:'B'},
+    {...R('grade9math',"Zero or any number greater than zero.","non","negative",null,"nonnegative","Non- means not. Nonnegative includes positive numbers and zero."),strand:'B'},
+    {...R('grade9math',"An estimate that is higher than the actual amount.","over","estimate",null,"overestimate","Over- can mean too much. An overestimate is higher than the actual value."),strand:'B'},
+    {...R('grade9math',"An estimate that is lower than the actual amount.","under","estimate",null,"underestimate","Under- can mean below. An underestimate is lower than the actual value."),strand:'B'},
+    {...R('grade9math',"A mistake made when carrying out a calculation.","mis","calcul","ation","miscalculation","Mis- indicates something done incorrectly; calcul means compute; -ation describes an act or result."),strand:'B'},
+    {...R('grade9math',"The act of calculating something again.","re","calcul","ation","recalculation","Re- means again, calcul means compute, and -ation describes the process."),strand:'B'},
+    {...R('grade9math',"Relating to the use of variables, expressions, or equations.",null,"algebra","ic","algebraic","Algebra concerns mathematical relationships and symbols; -ic means relating to."),strand:'C'},
+    {...R('grade9math',"Describing multiplication across terms inside brackets.","dis","tribut","ive","distributive","Dis- can mean apart, tribut means allocate, and -ive means relating to; the distributive property spreads a factor across a sum."),strand:'C'},
+    {...R('grade9math',"Replacing a variable with a value or expression.","sub","stitut","ion","substitution","The Latin word parts sub- and stitut relate to putting something in place of something else; -ion names the process."),strand:'C'},
+    {...R('grade9math',"Having the same mathematical value, even if written differently.","equi","valent",null,"equivalent","Equi- means equal, and valent relates to worth or value. For example, 2(x + 3) and 2x + 6 are equivalent."),strand:'C'},
+    {...R('grade9math',"Putting terms or quantities into a different order.","re","arrange","ment","rearrangement","Re- means again, arrange means put in order, and -ment names the process or result."),strand:'C'},
+    {...R('grade9math',"Describing data involving two variables.","bi","variate",null,"bivariate","Bi- means two, and variate refers to a variable quantity; a bivariate data set examines two variables."),strand:'D'},
+    {...R('grade9math',"Describing data involving a single variable.","uni","variate",null,"univariate","Uni- means one, and variate refers to a variable quantity; univariate data concern one variable."),strand:'D'},
+    {...R('grade9math',"Able to be anticipated from a pattern or known information.","pre","dict","able","predictable","Pre- means before, dict means say, and -able means capable of. A predictable pattern allows an informed prediction."),strand:'D'},
+    {...R('grade9math',"Giving an impression about data that may lead someone to a wrong conclusion.","mis","lead","ing","misleading","Mis- indicates wrongly, and lead means guide. A graph with a distorted scale may be misleading."),strand:'D'},
+    {...R('grade9math',"The act of showing information in a different form, such as a graph or table.",null,"represent","ation","representation","Represent means show or stand for something; -ation names the process. A graph is one representation of data."),strand:'D'},
+    {...R('grade9math',"Presenting information in a way that gives a false or inaccurate impression.","mis","represent","ation","misrepresentation","Mis- means wrongly, represent means show, and -ation names the process; distorted graphs can misrepresent data."),strand:'D'},
+    {...R('grade9math',"A point or region where two mathematical figures meet.","inter","sect","ion","intersection","Inter- means between, sect means cut, and -ion names a result. Lines can have an intersection point."),strand:'E'},
+    {...R('grade9math',"A line or ray that divides an angle into two equal angles.","bi","sect","or","bisector","Bi- means two, sect means cut, and -or names something that performs an action."),strand:'E'},
+    {...R('grade9math',"Half of a circle.","semi","circle",null,"semicircle","Semi- means half; a semicircle is one half of a circle."),strand:'E'},
+    {...R('grade9math',"The distance across a circle through its centre.","dia","meter",null,"diameter","Dia- means through or across, and meter comes from a root meaning measure; the diameter passes through the centre."),strand:'E'},
+    {...R('grade9math',"Describing a figure, such as a triangle, with all sides equal in length.","equi","later","al","equilateral","Equi- means equal, later means side, and -al means relating to. An equilateral triangle has three equal sides."),strand:'E'},
+    {...R('grade9math',"A polygon with five sides.","penta","gon",null,"pentagon","Penta- means five and gon refers to angles. A pentagon has five sides and five vertices."),strand:'E'},
+    {...R('grade9math',"A polygon with six sides.","hexa","gon",null,"hexagon","Hexa- means six and gon refers to angles. A hexagon has six sides."),strand:'E'},
+    {...R('grade9math',"A polygon with eight sides.","octa","gon",null,"octagon","Octa- means eight and gon refers to angles. An octagon has eight sides."),strand:'E'},
+    {...R('grade9math',"The distance around the boundary of a circle.","circum","fer","ence","circumference","Circum- means around and fer is a Latin root meaning carry; circumference is the length around a circle."),strand:'E'},
+    {...R('grade9math',"Describing a transformation that preserves distances.","iso","metr","ic","isometric","Iso- means same, metr means measure, and -ic means relating to. A translation, reflection, or rotation is isometric."),strand:'E'},
+    {...R('grade9math',"Relating to the properties and measurement of shapes and space.","geo","metr","ic","geometric","Geo- means Earth and metr means measure, reflecting geometry's historical roots; geometric now relates to shapes and space."),strand:'E'},
+    {...R('grade9math',"Subject to a tax; for example, a purchase on which sales tax applies.",null,"tax","able","taxable","Tax is the charge and -able means subject to or capable of. A taxable purchase may require sales tax."),strand:'F'},
+    {...R('grade9math',"Not subject to a particular tax.","non","tax","able","nontaxable","Non- means not, tax names the charge, and -able indicates something subject to it. Tax exemptions depend on the rules."),strand:'F'},
+    {...R('grade9math',"Money put into an asset or venture in expectation of a return.",null,"invest","ment","investment","Invest means put resources into something; -ment makes a noun for the act or result."),strand:'F'},
+    {...R('grade9math',"Putting investment earnings or proceeds into an investment again.","re","invest","ment","reinvestment","Re- means again, invest means commit money or resources, and -ment names the act or result."),strand:'F'},
+    {...R('grade9math',"Money paid back toward an amount owed.","re","pay","ment","repayment","Re- means back or again in this context, pay means give money, and -ment names an act or result."),strand:'F'},
+    {...R('grade9math',"A payment made before it is due or before receiving something.","pre","pay","ment","prepayment","Pre- means before; a prepayment is made in advance."),strand:'F'},
+    {...R('grade9math',"A payment that exceeds the amount due.","over","pay","ment","overpayment","Over- means too much; an overpayment is more than what is owed."),strand:'F'},
+    {...R('grade9math',"The act of asking a customer to pay more than the correct price.","over","charg","ing","overcharging","Over- means too much, charg relates to asking for payment, and -ing names an action. Overcharging asks for more than is owed."),strand:'F'}
+  ]);
   const C = (subject, clue, prefixTag, root, suffixTag) => ({subject, clue, prefixTag, root, suffixTag});
   const creative = [
     C('math','A person who is wildly enthusiastic about fractions.','excess','fraction','person'),

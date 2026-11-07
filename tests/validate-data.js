@@ -5,10 +5,10 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,72);
-assert.equal(d.roots.length,284);
+assert.equal(d.prefixes.length,77);
+assert.equal(d.roots.length,298);
 assert.equal(d.suffixes.length,61);
-assert.equal(d.real.length,70);
+assert.equal(d.real.length,110);
 assert.equal(d.creative.length,45);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
   assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
@@ -23,7 +23,7 @@ for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.s
 const groups={};
 for(const r of d.roots)groups[r.subject]=(groups[r.subject]||0)+1;
 assert.equal(groups.math,52);
-assert.equal(groups.grade9math,34);
+assert.equal(groups.grade9math,48);
 assert.equal(groups.science,53);
 assert.equal(groups.geography,48);
 assert.equal(groups.history,47);
@@ -32,9 +32,9 @@ assert.equal(groups.english,50);
 assert.equal(d.subjects.grade9math,'Grade 9 Math');
 const grade9Real=d.real.filter(q=>q.subject==='grade9math');
 const grade9Creative=d.creative.filter(q=>q.subject==='grade9math');
-assert.equal(grade9Real.length,30);
+assert.equal(grade9Real.length,70);
 assert.equal(grade9Creative.length,15);
-assert.equal(d.roots.filter(r=>r.subjects.includes('grade9math')).length,82);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9math')).length,96);
 for(const type of ['B','C','D','E','F']){
   assert.ok(grade9Real.some(q=>q.strand===type),'MTH1W strand missing in real: '+type);
   assert.ok(grade9Creative.some(q=>q.strand===type),'MTH1W strand missing in creative: '+type);
@@ -45,6 +45,14 @@ for(const puzzle of grade9Real){
 for(const puzzle of grade9Creative){
   assert.ok(d.roots.some(r=>r.id===puzzle.root&&r.subjects.includes('grade9math')),'Grade 9 creative root missing: '+puzzle.root);
 }
+for(const puzzle of grade9Real){
+  const componentIds=['prefix','base','suffix'].map(part=>puzzle.parts[part]).filter(Boolean);
+  assert.ok(componentIds.length>=2,'MTH1W puzzle must use at least two meaningful parts: '+puzzle.answer);
+}
+assert.equal(new Set(grade9Real.map(p=>p.answer)).size,grade9Real.length,'Duplicate Grade 9 answer');
+const newRequiredWords=["equality","fractional","divisible","divisor","noninteger","nonnegative","overestimate","underestimate","miscalculation","recalculation","algebraic","distributive","substitution","equivalent","rearrangement","bivariate","univariate","predictable","misleading","representation","misrepresentation","intersection","bisector","semicircle","diameter","equilateral","pentagon","hexagon","octagon","circumference","isometric","geometric","taxable","nontaxable","investment","reinvestment","repayment","prepayment","overpayment","overcharging"];
+assert.equal(newRequiredWords.length,40);
+for(const answer of newRequiredWords)assert.equal(grade9Real.filter(p=>p.answer===answer).length,1,'Missing or duplicated new word: '+answer);
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
 const errors=[];

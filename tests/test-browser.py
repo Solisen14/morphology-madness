@@ -56,6 +56,22 @@ with sync_playwright() as pw:
     small.close()
     print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
 
+    # Grade 9 puzzles must remain genuinely buildable with the 3/6/10-card
+    # mechanic. Every answer must contain two or three meaningful pieces.
+    verify,verify_errors=mount(b)
+    grade9=verify.evaluate('''()=>window.MM_DATA.real.filter(r=>r.subject==='grade9math')''')
+    assert len(grade9)==70
+    for record in grade9:
+        parts=[record['parts'][slot] for slot in ['prefix','base','suffix'] if record['parts'][slot]]
+        assert len(parts)>=2,(record['answer'],parts)
+        assert ''.join(parts)==record['answer'],(record['answer'],parts)
+        root=record['parts']['base']
+        assert verify.evaluate('''root=>window.MM_DATA.roots.some(r=>r.id===root&&r.subjects.includes('grade9math'))''',root),record['answer']
+    assert len(set(record['answer'] for record in grade9))==len(grade9)
+    assert not verify_errors,verify_errors
+    verify.close()
+    print('PASS: Every Grade 9 Word Wizard puzzle assembles correctly from 2+ selectable parts')
+
     # Readability regression: typography should be comfortable for students
     # and teachers, without horizontal overflow on desktop, tablet or phone.
     for viewport_width in [1280,768,375]:
