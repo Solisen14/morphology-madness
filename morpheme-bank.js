@@ -1,4 +1,4 @@
-/* Morphology Madness morpheme bank v1.1.
+/* Morphology Madness morpheme bank v1.3.
  * Shared by all three solo game modes.
  * Many school-domain bases are complete words, not classical bound roots.
  * A valid morpheme sequence is NOT automatically a valid dictionary word.
@@ -53,7 +53,7 @@
   const roots = [
     ...rootsOf('math',[
       ['fraction','part of a whole'],['triangle','three-sided polygon'],['equation','statement that two expressions are equal'],
-      ['graph','visual representation of relationships'],['angle','amount of turn'],['number','quantity or value'],
+      ['graph','a record or visual representation of information'],['angle','amount of turn'],['number','quantity or value'],
       ['pattern','a regularity'],['symmetry','balanced correspondence'],['geometry','study of shapes and space'],
       ['ratio','comparison of quantities'],['decimal','base-ten number form'],['polygon','many-sided figure'],
       ['circle','points a fixed distance from a centre'],['integer','whole number, positive, negative or zero'],
@@ -90,7 +90,7 @@
       ['chron','time'],['archiv','historical records'],['treaty','formal agreement'],['reform','change for improvement'],
       ['colon','settlement or colonization'],['democracy','rule by the people'],['dynasty','family line of rulers'],
       ['war','armed conflict'],['revolution','major political or social change'],['monarch','hereditary sovereign'],
-      ['culture','shared practices and ideas'],['migration','movement between places'],['ancient','very old'],
+      ['culture','cultivation, or shared practices and ideas'],['migration','movement between places'],['ancient','very old'],
       ['civil','relating to citizens'],['histor','history'],['era','period of time'],
       ['construct','build'],['imperial','relating to an empire']
     ]),
@@ -1555,6 +1555,13 @@
     prefixes.push({...p(id,meaning,tags),source:'grade9-math',formClass,exampleWord});
   }
   roots.push(...rootsOf('grade9math',[["negative","less than zero"],["divis","divide or separate"],["calcul","count or compute"],["tribut","assign or distribute"],["stitut","put or place"],["valent","having value or worth"],["variate","a variable quantity"],["lead","guide or direct"],["represent","show or stand for something"],["fer","carry or bear (Latin)"],["metr","measure (Greek)"],["invest","put money into something expecting a return"],["pay","give money owed or due"],["charg","charge someone a price or fee"]]).map(entry=>({...entry,source:'grade9-math'})));
+
+  // CGC1W 2024: subject-specific Geography builds on the general Geography bank.
+  const grade9GeographyBorrowed=new Set(["graph","scale","therm","log","degrad","culture"]);
+  const grade9GeographyBoundRoots=new Set(["locat","climat","meteor","glaci","seism","volcan","eros","posit","divers","cycl","serv","gener","electr","migrat","migr","popul","lingu","commerc","industr"]);
+  for(const [id,meaning,tag,exampleWord] of [["carto","maps or mapmaking","map","cartographer"],["topo","place or terrain","place","topographic"],["litho","stone or rock","rock","lithosphere"],["atmo","air or vapour","air","atmosphere"],["cryo","cold or ice","cold","cryosphere"],["demo","people or population","people","demographic"],["agri","field or farming","farming","agriculture"],["im","in or into","inside","immigration"]])prefixes.push({...p(id,meaning,[tag]),source:'grade9-geography',formClass:id==='im'?'prefix':'initial_combining_form',exampleWord});
+  for(const [id,meaning,tag,exampleWord] of [["ical","relating to or characteristic of","related","geological"],["ability","capacity or condition of being able to","capacity","sustainability"],["ization","the process of becoming or making","process","urbanization"],["ibility","the quality of being able to","capacity","accessibility"],["ant","a person associated with an action","person","immigrant"]])suffixes.push({...s(id,meaning,[tag]),source:'grade9-geography',formClass:'derivational_suffix',exampleWord});
+  roots.push(...rootsOf('grade9geography',[["spatial","relating to space or location"],["locat","place or position"],["tag","attach identifying information"],["reference","align with a known system"],["relation","a connection"],["climat","climate"],["meteor","atmospheric phenomena"],["glaci","ice or glacier"],["seism","earthquake or shaking"],["volcan","volcano"],["eros","wear away"],["posit","put or place"],["sediment","deposited particles"],["divers","varied or different"],["new","new or made new"],["renew","make new again or replenish"],["sustain","maintain or support"],["use","put to a purpose"],["cycl","circle or cycle"],["serv","keep or protect"],["gener","produce or create"],["electr","electricity"],["tourism","travel and visitor activities"],["port","carry or transport"],["migrat","move between places"],["migr","move or migrate"],["popul","people or population"],["lingu","language"],["place","a location"],["develop","grow or improve"],["resident","a person living in a place"],["commerc","trade or business"],["industr","industry or manufacturing"],["access","a means to reach or use"],["afford","have enough resources to pay"],["walk","move on foot"],["live","reside or live"],["connect","link together"],["depend","rely on"]]).map(e=>({...e,source:'grade9-geography'})));
   for(const entry of prefixes){
     entry.role='prefix';
     entry.key='prefix:'+entry.id;
@@ -1568,7 +1575,8 @@
     entry.role='base';
     entry.key='base:'+entry.id;
     entry.subjects=entry.subject==='math'&&grade9SharedMathIds.has(entry.id)?['math','grade9math']:[entry.subject];
-    entry.formClass ||= boundRoots.has(entry.id)||grade9BoundRootIds.has(entry.id)?'bound_root':'free_base';
+    if(entry.subject==='geography'||grade9GeographyBorrowed.has(entry.id))entry.subjects.push('grade9geography');
+    entry.formClass ||= boundRoots.has(entry.id)||grade9BoundRootIds.has(entry.id)||grade9GeographyBoundRoots.has(entry.id)?'bound_root':'free_base';
     entry.source ||= 'original-bank';
     entry.reviewNote ||= additions.metadata.reviewFlags.base[entry.id]||null;
     entry.creativeEligible=true;
@@ -1586,7 +1594,7 @@
   // combine every pair of cards into a dictionary-standard English word.
   window.MM_MORPHEMES={
     schemaVersion:1,
-    bankVersion:'1.1',
+    bankVersion:'1.3',
     prefixes,roots,suffixes,
     fields:['key','id','text','meaning','role','formClass','tags','subjects','exampleWord','reviewNote','creativeEligible','source'],
     editorialNote:'Word-part labels simplify some linguistic distinctions. Verify full-word spelling and use before treating a construction as a real word.'
