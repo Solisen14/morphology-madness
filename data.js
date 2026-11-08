@@ -621,6 +621,29 @@
 {...C('grade9english',"A device measuring impossible amounts of persuasion.","excess","persuas","measurer"),strand:"D"},
 {...C('grade9english',"An invented technique for editing before writing begins.","before","edit","practice"),strand:"D"}
   ]);
+  // 2026 CHC2D/CHC2P: neutral invented ideas, not fictionalized atrocities.
+  creative.push(...[
+{...C('grade10history',"The study of imaginary historical records too tiny to see.","small","archiv","study"),strand:"A"},
+{...C('grade10history',"A person who objects to using any historical documents.","against","document","person"),strand:"A"},
+{...C('grade10history',"A fictional new way to study sequences of historical events.","new","chron","practice"),strand:"A"},
+{...C('grade10history',"Relating to many unusual types of historical source.","many","source","related"),strand:"A"},
+{...C('grade10history',"The study of imaginary wars lasting less than a minute.","small","war","study"),strand:"B"},
+{...C('grade10history',"A new way for an imaginary society to organize its factories.","new","industrial","practice"),strand:"B"},
+{...C('grade10history',"A person who opposes all fictional empires.","against","imperial","person"),strand:"B"},
+{...C('grade10history',"Relating to many invented military preparations.","many","mobil","related"),strand:"B"},
+{...C('grade10history',"The study of an imaginary economy measured in grains of sand.","small","econom","study"),strand:"C"},
+{...C('grade10history',"A fictional new way to distribute scarce supplies.","new","ration","practice"),strand:"C"},
+{...C('grade10history',"A person who argues against every form of military display.","against","militar","person"),strand:"C"},
+{...C('grade10history',"Relating to many imaginary documents found in an archive.","many","document","related"),strand:"C"},
+{...C('grade10history',"A new practice for exchanging cultural traditions.","new","cultur","practice"),strand:"D"},
+{...C('grade10history',"A person who opposes all fictional national movements.","against","national","person"),strand:"D"},
+{...C('grade10history',"The study of miniature fictional governments.","small","govern","study"),strand:"D"},
+{...C('grade10history',"Relating to many unusual invented forms of federal government.","many","federal","related"),strand:"D"},
+{...C('grade10history',"The study of tiny imaginary worldwide networks.","small","global","study"),strand:"E"},
+{...C('grade10history',"A fictional new way to protect natural environments.","new","environment","practice"),strand:"E"},
+{...C('grade10history',"A person who opposes all privatization in an imaginary country.","against","privat","person"),strand:"E"},
+{...C('grade10history',"Relating to many invented forms of international cooperation.","many","nation","related"),strand:"E"}
+  ]);
   const sparks = {
     grade10history:['Invent a term for a new historical research technique.','Name a fictional peaceful social movement.','Create a word for an imaginary archives device.','Describe a new form of community cooperation.','Invent a term for international cultural exchange.'],
     grade9english:['Invent a strange kind of digital message.','Create an imaginary word-building rule.','Name an unusual way to interpret a story.','Invent a fictional persuasive-writing technique.','Describe an unusual way to revise a text.'],
