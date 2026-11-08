@@ -369,6 +369,29 @@
 {...C('grade9geography',"A device that measures too many road connections.","excess","connect","measurer"),strand:"E"},
 {...C('grade9geography',"An invented practice for growing communities.","new","develop","practice"),strand:"E"}
   ]);
+  // Creative Grade 9 Science inventions, grouped by SNC1W strand.
+  creative.push(...[
+{...C('grade9science',"An imaginary instrument for measuring the smallest possible observation.","small","observ","measurer"),strand:"A"},
+{...C('grade9science',"A person who protests against all scientific experiments.","against","experiment","person"),strand:"A"},
+{...C('grade9science',"An invented practice for validating strange discoveries.","new","valid","practice"),strand:"A"},
+{...C('grade9science',"Relating to many imaginary scientific investigations.","many","investigat","related"),strand:"A"},
+{...C('grade9science',"The study of ecosystems smaller than a single grain of sand.","small","system","study"),strand:"B"},
+{...C('grade9science',"Someone who loves an excessive number of tiny habitats.","excess","habitat","lover"),strand:"B"},
+{...C('grade9science',"A machine measuring nourishment for impossible organisms.","excess","troph","measurer"),strand:"B"},
+{...C('grade9science',"An invented way to make food without any source of energy.","new","synthesis","practice"),strand:"B"},
+{...C('grade9science',"A person who objects to every element on the periodic table.","against","element","person"),strand:"C"},
+{...C('grade9science',"A device measuring imaginary atoms.","small","atom","measurer"),strand:"C"},
+{...C('grade9science',"A fictional field for studying floating crystals.","new","crystall","study"),strand:"C"},
+{...C('grade9science',"Relating to countless invented chemical reactions.","many","react","related"),strand:"C"},
+{...C('grade9science',"A machine that measures unimaginably tiny magnets.","small","magnet","measurer"),strand:"D"},
+{...C('grade9science',"A person who protests against electrical resistance.","against","resist","person"),strand:"D"},
+{...C('grade9science',"A new practice for sending electricity through shadows.","new","electr","practice"),strand:"D"},
+{...C('grade9science',"Relating to a huge collection of imaginary generators.","many","generat","related"),strand:"D"},
+{...C('grade9science',"The study of planets so small that nobody can find them.","small","planet","study"),strand:"E"},
+{...C('grade9science',"A person who protests against all journeys through space.","against","naut","person"),strand:"E"},
+{...C('grade9science',"A device measuring the brightness of impossible galaxies.","excess","galact","measurer"),strand:"E"},
+{...C('grade9science',"Relating to countless imaginary stars.","many","celest","related"),strand:"E"}
+  ]);
   const sparks = {
     grade9science:['Invent a fictional scientific instrument.','Imagine an unusual ecosystem adaptation.','Name a surprising chemical phenomenon.','Invent a device that changes an electric circuit.','Describe an impossible discovery in space.'],
     grade9geography:['Invent a fictional geographic discovery.','Name a strange Canadian landform.','Imagine a new mapmaking technology.','Describe a surprising population pattern.','Invent a sustainable community feature.'],
