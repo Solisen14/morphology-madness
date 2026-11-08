@@ -5,11 +5,11 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,96);
-assert.equal(d.roots.length,438);
-assert.equal(d.suffixes.length,74);
-assert.equal(d.real.length,374);
-assert.equal(d.creative.length,109);
+assert.equal(d.prefixes.length,99);
+assert.equal(d.roots.length,488);
+assert.equal(d.suffixes.length,76);
+assert.equal(d.real.length,471);
+assert.equal(d.creative.length,129);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
   assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
   for (const e of items) {
@@ -29,6 +29,7 @@ assert.equal(groups.grade9science,47);
 assert.equal(groups.geography,48);
 assert.equal(groups.grade9geography,39);
 assert.equal(groups.history,47);
+assert.equal(groups.grade10history,50);
 assert.equal(groups.english,50);
 assert.equal(groups.grade9english,54);
 
@@ -112,6 +113,25 @@ for(const q of english9Real){
 }
 for(const q of english9Creative){
   assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade9english')),'ENL1W creative root missing '+q.root);
+}
+
+assert.equal(d.subjects.grade10history,'Grade 10 History');
+const grade10Real=d.real.filter(x=>x.subject==='grade10history');
+const grade10Creative=d.creative.filter(x=>x.subject==='grade10history');
+assert.equal(grade10Real.length,97);
+assert.equal(grade10Creative.length,20);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade10history')).length,117);
+assert.equal(new Set(grade10Real.map(x=>x.answer)).size,97);
+for(const strand of ['A','B','C','D','E']){
+  assert.ok(grade10Real.some(x=>x.strand===strand),'Missing CHC2 historical term in strand '+strand);
+  assert.equal(grade10Creative.filter(x=>x.strand===strand).length,4,'Missing CHC2 creative prompts in strand '+strand);
+}
+for(const q of grade10Real){
+  assert.ok(['prefix','base','suffix'].filter(type=>q.parts[type]!==null).length>=2,'CHC2 terms need 2+ meaningful parts: '+q.answer);
+  assert.ok(d.roots.some(r=>r.id===q.parts.base&&r.subjects.includes('grade10history')),'Unavailable CHC2 root '+q.answer);
+}
+for(const q of grade10Creative){
+  assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade10history')),'Unavailable CHC2 creative root '+q.root);
 }
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);

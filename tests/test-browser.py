@@ -58,6 +58,64 @@ with sync_playwright() as pw:
 
 
 
+
+    # Canadian History since WWI (2026): preserve original History bank,
+    # ensure 2+ genuine components and all modes and levels are functional.
+    chc,chc_errors=mount(b)
+    assert chc.locator('.mode-card').count()==3
+    assert chc.locator('#subject option[value="history"]').inner_text()=='History'
+    assert chc.locator('#subject option[value="grade10history"]').inner_text()=='Grade 10 History'
+    chc_words=chc.evaluate('''()=>window.MM_DATA.real.filter(q=>q.subject==='grade10history')''')
+    assert len(chc_words)==97
+    assert len(set(q['answer'] for q in chc_words))==97
+    for word in chc_words:
+        parts=[word['parts'][k] for k in ['prefix','base','suffix'] if word['parts'][k] is not None]
+        assert len(parts)>=2,word['answer']
+        assert ''.join(parts)==word['answer'],word['answer']
+        assert chc.evaluate('''id=>window.MM_DATA.roots.some(r=>r.id===id&&r.subjects.includes('grade10history'))''',word['parts']['base']),word['answer']
+    assert not chc_errors,chc_errors
+    chc.close()
+    for mode in ['wizard','madness','lab']:
+        for level,expected in [('apprentice',3),('inventor',6),('master',10)]:
+            p,errors=mount(b,width=375 if level=='apprentice' else 1280,height=900)
+            if mode!='wizard':p.click('[data-mode="'+mode+'"]')
+            p.select_option('#subject','grade10history')
+            p.select_option('#level',level)
+            if mode=='lab':p.emulate_media(reduced_motion='reduce')
+            p.click('#start')
+            assert p.locator('#category-chip').inner_text()=='GRADE 10 HISTORY'
+            if mode=='lab':
+                p.click('#spin')
+                p.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                root_text=p.locator('#reel-base').inner_text()
+                assert p.evaluate('''s=>window.MM_DATA.roots.some(r=>r.text===s&&r.subjects.includes('grade10history'))''',root_text)
+                assert p.locator('#lab-word').inner_text()!=''
+            else:
+                record=current_record(p,'real' if mode=='wizard' else 'creative')
+                assert record and record['subject']=='grade10history'
+                for part in ['prefix','base','suffix']:
+                    assert p.locator('.bank-column[data-type="'+part+'"] .part-card').count()==expected,(mode,level,part)
+                if mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if record['parts'][part]:select_card(p,part,record['parts'][part])
+                    assert p.locator('#word-preview').inner_text()==record['answer']
+                    p.click('#check')
+                    assert 'You built it' in p.locator('#feedback').inner_text()
+                else:
+                    select_card(p,'base',record['root'])
+                    for part,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+                        texts=p.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        allowed=p.evaluate('''([part,tag])=>(part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes).filter(r=>r.tags.includes(tag)).map(r=>r.text)''',[part,tag])
+                        chosen=next((text for text in texts if text in allowed),None)
+                        assert chosen,(part,tag,texts)
+                        select_card(p,part,chosen.replace('-',''))
+                    p.click('#check')
+                    assert 'Strong meaning match' in p.locator('#feedback').inner_text()
+            assert p.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),(mode,level,'horizontal overflow')
+            assert not errors,errors
+            p.close()
+    print('PASS: CHC2D/CHC2P 2026 Grade 10 History real words and all modes/levels')
+
     # Ontario ENL1W: all 99 words require 2+ meaningful parts; existing
     # English remains separate and the same modes and difficulties work.
     enl,enl_errors=mount(b)
