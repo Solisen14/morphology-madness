@@ -56,6 +56,64 @@ with sync_playwright() as pw:
     small.close()
     print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
 
+
+    # Ontario SNC1W 2022: verify all new real words and all 3 existing games
+    # at all three levels. Keep the basic Science subject and 3 cards intact.
+    sci,sci_errors=mount(b)
+    assert sci.locator('.mode-card').count()==3
+    assert sci.locator('#subject option[value="grade9science"]').inner_text()=='Grade 9 Science'
+    assert sci.locator('#subject option[value="science"]').inner_text()=='Science'
+    science_words=sci.evaluate('''()=>window.MM_DATA.real.filter(q=>q.subject==='grade9science')''')
+    assert len(science_words)==89
+    assert len(set(x['answer'] for x in science_words))==len(science_words)
+    for word in science_words:
+        parts=[word['parts'][t] for t in ['prefix','base','suffix'] if word['parts'][t] is not None]
+        assert len(parts)>=2,word['answer']
+        assert ''.join(parts)==word['answer'],word['answer']
+        assert sci.evaluate('''id=>window.MM_DATA.roots.some(r=>r.id===id&&r.subjects.includes('grade9science'))''',word['parts']['base'])
+    assert not sci_errors,sci_errors
+    sci.close()
+    for play_mode in ['wizard','madness','lab']:
+        for level,expected in [('apprentice',3),('inventor',6),('master',10)]:
+            sample,errors=mount(b,width=375 if level=='apprentice' else 1280,height=900)
+            if play_mode!='wizard':sample.click('[data-mode="'+play_mode+'"]')
+            sample.select_option('#subject','grade9science')
+            sample.select_option('#level',level)
+            if play_mode=='lab':sample.emulate_media(reduced_motion='reduce')
+            sample.click('#start')
+            assert sample.locator('#category-chip').inner_text()=='GRADE 9 SCIENCE'
+            if play_mode=='lab':
+                sample.click('#spin')
+                sample.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                value=sample.locator('#reel-base').inner_text()
+                assert sample.evaluate('''value=>window.MM_DATA.roots.some(r=>r.text===value&&r.subjects.includes('grade9science'))''',value)
+                assert sample.locator('#lab-word').inner_text()!=''
+            else:
+                record=current_record(sample,'real' if play_mode=='wizard' else 'creative')
+                assert record and record['subject']=='grade9science'
+                for part in ['prefix','base','suffix']:
+                    assert sample.locator('.bank-column[data-type="'+part+'"] .part-card').count()==expected,(play_mode,level,part)
+                if play_mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if record['parts'][part]:select_card(sample,part,record['parts'][part])
+                    assert sample.locator('#word-preview').inner_text()==record['answer']
+                    sample.click('#check')
+                    assert 'You built it' in sample.locator('#feedback').inner_text()
+                else:
+                    select_card(sample,'base',record['root'])
+                    for part,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+                        texts=sample.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        allowed=sample.evaluate('''([part,tag])=>(part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes).filter(r=>r.tags.includes(tag)).map(r=>r.text)''',[part,tag])
+                        chosen=next((x for x in texts if x in allowed),None)
+                        assert chosen,(part,tag,texts)
+                        select_card(sample,part,chosen.replace('-',''))
+                    sample.click('#check')
+                    assert 'Strong meaning match' in sample.locator('#feedback').inner_text()
+            assert sample.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),(play_mode,level,'overflow')
+            assert not errors,errors
+            sample.close()
+    print('PASS: SNC1W Grade 9 Science 89 word puzzles and all modes, levels, phone width')
+
     # Ontario CGC1W: real word parts must be authentic and usable in every
     # existing game mode without changing the menu or mobile layout.
     geo,geo_errors=mount(b)

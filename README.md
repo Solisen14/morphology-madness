@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.3 · Grade 9 Geography subject**
+**Version 1.4 · Grade 9 Science subject**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -12,12 +12,12 @@ Morphology Madness is a free, browser-based word-building and vocabulary game de
 2. **Meaning Madness:** Invent a word to fit an unusual definition. The game checks broad word-part meaning tags and lets students explain a creative alternative. Alternatives are **self-reviewed, not automatically graded**.
 3. **Word Laboratory:** Spin three wheels to generate a prefix, a root/base, and an ending. Once the wheels stop, students write an imaginative definition and reflect on how the parts contribute meaning. **No automated grading of original definitions.**
 
-Choose Mathematics, **Grade 9 Math (Ontario MTH1W)**, Science, Geography, **Grade 9 Geography (Ontario CGC1W)**, History, English, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
+Choose Mathematics, **Grade 9 Math (Ontario MTH1W)**, Science, **Grade 9 Science (Ontario SNC1W)**, Geography, **Grade 9 Geography (Ontario CGC1W)**, History, English, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
 
 ## What's included
 
-- **488** word-part entries: **85** prefixes/initial forms, **337** roots/bases, and **66** suffixes/final forms
-- **186** genuine-word challenges and **65** fictional-definition prompts
+- **544** word-part entries: **90** prefixes/initial forms, **384** roots/bases, and **70** suffixes/final forms
+- **275** genuine-word challenges and **85** fictional-definition prompts
 - Responsive, keyboard-accessible controls and reduced-motion support for spinning reels
 - Explanations, hints, self-review, round summaries, and exit confirmation
 - No sign-in, analytics, online student submissions, persistent student records, or multiplayer features
@@ -75,3 +75,7 @@ Added 40 original, prerequisite-friendly mathematical terms to Grade 9 Math Word
 ## Grade 9 Geography (Ontario CGC1W, 2024)
 
 A dedicated Grade 9 Geography subject option works in the existing three games. It introduces **76** curriculum-informed real-word clues in Word Wizard, **20** fictional-definition prompts in Meaning Madness, and **93** eligible roots/bases for Word Laboratory. Every Grade 9 Geography real-word challenge is built from at least two meaningful word parts. Teachers can consult [Grade 9 Geography notes](docs/GRADE9-GEOGRAPHY.md) for strand coverage, references, and limitations. General Geography remains available.
+
+## Grade 9 Science (Ontario SNC1W, 2022)
+
+Grade 9 Science is now a standalone subject selection in the same three games. It includes **89** original real-word Word Wizard clues, **20** creative Meaning Madness prompts and **107** eligible roots/bases for Word Laboratory. Each new real word meets the minimum-two-meaningful-parts rule and exact spelling requirement. See the [science teacher editorial notes](docs/GRADE9-SCIENCE.md) for five-strand coverage and classroom guidance. Original Science remains available.

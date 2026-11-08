@@ -5,11 +5,11 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,85);
-assert.equal(d.roots.length,337);
-assert.equal(d.suffixes.length,66);
-assert.equal(d.real.length,186);
-assert.equal(d.creative.length,65);
+assert.equal(d.prefixes.length,90);
+assert.equal(d.roots.length,384);
+assert.equal(d.suffixes.length,70);
+assert.equal(d.real.length,275);
+assert.equal(d.creative.length,85);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
   assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
   for (const e of items) {
@@ -25,6 +25,7 @@ for(const r of d.roots)groups[r.subject]=(groups[r.subject]||0)+1;
 assert.equal(groups.math,52);
 assert.equal(groups.grade9math,48);
 assert.equal(groups.science,53);
+assert.equal(groups.grade9science,47);
 assert.equal(groups.geography,48);
 assert.equal(groups.grade9geography,39);
 assert.equal(groups.history,47);
@@ -72,6 +73,25 @@ for(const puzzle of geographyReal){
 }
 for(const puzzle of geographyCreative){
   assert.ok(d.roots.some(r=>r.id===puzzle.root&&r.subjects.includes('grade9geography')),'Creative geography base '+puzzle.root);
+}
+
+assert.equal(d.subjects.grade9science,'Grade 9 Science');
+const science9Real=d.real.filter(q=>q.subject==='grade9science');
+const science9Creative=d.creative.filter(q=>q.subject==='grade9science');
+assert.equal(science9Real.length,89);
+assert.equal(science9Creative.length,20);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9science')).length,107);
+assert.equal(new Set(science9Real.map(q=>q.answer)).size,science9Real.length,'Duplicate Grade 9 Science words');
+for(const strand of ['A','B','C','D','E']){
+  assert.ok(science9Real.some(q=>q.strand===strand),'Missing SNC1W real clue strand '+strand);
+  assert.ok(science9Creative.some(q=>q.strand===strand),'Missing SNC1W creative clue strand '+strand);
+}
+for(const q of science9Real){
+  assert.ok(['prefix','base','suffix'].filter(type=>q.parts[type]!==null).length>=2,'SNC1W requires at least 2 parts: '+q.answer);
+  assert.ok(d.roots.some(r=>r.id===q.parts.base&&r.subjects.includes('grade9science')),'Science9 root missing: '+q.answer);
+}
+for(const q of science9Creative){
+  assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade9science')),'Science9 creative root missing '+q.root);
 }
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
