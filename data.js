@@ -494,6 +494,33 @@
 {...C('grade9science',"A device measuring the brightness of impossible galaxies.","excess","galact","measurer"),strand:"E"},
 {...C('grade9science',"Relating to countless imaginary stars.","many","celest","related"),strand:"E"}
   ]);
+  // ENL1W 2023: imaginative word-part prompts (five per strand plus one).
+  creative.push(...[
+{...C('grade9english',"A person who campaigns against all online messages.","against","post","person"),strand:"A"},
+{...C('grade9english',"The study of ridiculously tiny digital messages.","small","text","study"),strand:"A"},
+{...C('grade9english',"A device that measures an excessive number of links.","excess","link","measurer"),strand:"A"},
+{...C('grade9english',"Relating to many imaginary ways of communicating.","many","communicat","related"),strand:"A"},
+{...C('grade9english',"A newly invented practice of sharing secret messages.","new","media","practice"),strand:"A"},
+{...C('grade9english',"A person who predicts every online quotation before it appears.","before","quote","person"),strand:"A"},
+{...C('grade9english',"The study of phonemes found in imaginary languages.","small","phon","study"),strand:"B"},
+{...C('grade9english',"A person who protests against all grammar conventions.","against","grammar","person"),strand:"B"},
+{...C('grade9english',"Relating to many impossible forms of words.","many","morph","related"),strand:"B"},
+{...C('grade9english',"An imaginary practice for changing word meanings.","new","semant","practice"),strand:"B"},
+{...C('grade9english',"A device that measures enormous quantities of morphemes.","excess","morph","measurer"),strand:"B"},
+{...C('grade9english',"Someone who loves an imaginary family of word names.","excess","onym","lover"),strand:"B"},
+{...C('grade9english',"An unusual practice for interpreting imaginary symbols.","new","symbol","practice"),strand:"C"},
+{...C('grade9english',"The study of characters too tiny to appear on a page.","small","character","study"),strand:"C"},
+{...C('grade9english',"Someone who argues against every narrator.","against","narrat","person"),strand:"C"},
+{...C('grade9english',"Relating to many invented reading contexts.","many","context","related"),strand:"C"},
+{...C('grade9english',"A machine that measures too many inferences.","excess","infer","measurer"),strand:"C"},
+{...C('grade9english',"A fictional approach to predicting what a story hides.","before","shadow","practice"),strand:"C"},
+{...C('grade9english',"A new fictional method for releasing stories to an audience.","new","publish","practice"),strand:"D"},
+{...C('grade9english',"A person who refuses to make any writing drafts.","against","draft","person"),strand:"D"},
+{...C('grade9english',"Relating to many imaginary kinds of argument.","many","argument","related"),strand:"D"},
+{...C('grade9english',"The study of microscopic writing scripts.","small","script","study"),strand:"D"},
+{...C('grade9english',"A device measuring impossible amounts of persuasion.","excess","persuas","measurer"),strand:"D"},
+{...C('grade9english',"An invented technique for editing before writing begins.","before","edit","practice"),strand:"D"}
+  ]);
   const sparks = {
     grade9english:['Invent a strange kind of digital message.','Create an imaginary word-building rule.','Name an unusual way to interpret a story.','Invent a fictional persuasive-writing technique.','Describe an unusual way to revise a text.'],
     grade9science:['Invent a fictional scientific instrument.','Imagine an unusual ecosystem adaptation.','Name a surprising chemical phenomenon.','Invent a device that changes an electric circuit.','Describe an impossible discovery in space.'],

@@ -57,6 +57,64 @@ with sync_playwright() as pw:
     print('PASS: Teacher guide visible above Choose your game on desktop and mobile')
 
 
+
+    # Ontario ENL1W: all 99 words require 2+ meaningful parts; existing
+    # English remains separate and the same modes and difficulties work.
+    enl,enl_errors=mount(b)
+    assert enl.locator('.mode-card').count()==3
+    assert enl.locator('#subject option[value="english"]').inner_text()=='English'
+    assert enl.locator('#subject option[value="grade9english"]').inner_text()=='Grade 9 English'
+    enl_real=enl.evaluate('''()=>window.MM_DATA.real.filter(x=>x.subject==='grade9english')''')
+    assert len(enl_real)==99
+    assert len(set(x['answer'] for x in enl_real))==99
+    for word in enl_real:
+        parts=[word['parts'][t] for t in ['prefix','base','suffix'] if word['parts'][t] is not None]
+        assert len(parts)>=2,word['answer']
+        assert ''.join(parts)==word['answer'],word['answer']
+        assert enl.evaluate('''id=>window.MM_DATA.roots.some(r=>r.id===id&&r.subjects.includes('grade9english'))''',word['parts']['base']),word['answer']
+    assert not enl_errors,enl_errors
+    enl.close()
+    for play_mode in ['wizard','madness','lab']:
+        for level,expected in [('apprentice',3),('inventor',6),('master',10)]:
+            sample,errors=mount(b,width=375 if level=='apprentice' else 1280,height=900)
+            if play_mode!='wizard':sample.click('[data-mode="'+play_mode+'"]')
+            sample.select_option('#subject','grade9english')
+            sample.select_option('#level',level)
+            if play_mode=='lab':sample.emulate_media(reduced_motion='reduce')
+            sample.click('#start')
+            assert sample.locator('#category-chip').inner_text()=='GRADE 9 ENGLISH'
+            if play_mode=='lab':
+                sample.click('#spin')
+                sample.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                value=sample.locator('#reel-base').inner_text()
+                assert sample.evaluate('''value=>window.MM_DATA.roots.some(r=>r.text===value&&r.subjects.includes('grade9english'))''',value)
+                assert sample.locator('#lab-word').inner_text()!=''
+            else:
+                record=current_record(sample,'real' if play_mode=='wizard' else 'creative')
+                assert record and record['subject']=='grade9english'
+                for part in ['prefix','base','suffix']:
+                    assert sample.locator('.bank-column[data-type="'+part+'"] .part-card').count()==expected,(play_mode,level,part)
+                if play_mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if record['parts'][part]:select_card(sample,part,record['parts'][part])
+                    assert sample.locator('#word-preview').inner_text()==record['answer']
+                    sample.click('#check')
+                    assert 'You built it' in sample.locator('#feedback').inner_text()
+                else:
+                    select_card(sample,'base',record['root'])
+                    for part,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+                        labels=sample.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        candidates=sample.evaluate('''([part,tag])=>(part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes).filter(x=>x.tags.includes(tag)).map(x=>x.text)''',[part,tag])
+                        selected=next((x for x in labels if x in candidates),None)
+                        assert selected,(part,tag,labels)
+                        select_card(sample,part,selected.replace('-',''))
+                    sample.click('#check')
+                    assert 'Strong meaning match' in sample.locator('#feedback').inner_text()
+            assert sample.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),(play_mode,level,'horizontal overflow')
+            assert not errors,errors
+            sample.close()
+    print('PASS: ENL1W all 99 puzzles and all three modes and difficulties')
+
     # Ontario SNC1W 2022: verify all new real words and all 3 existing games
     # at all three levels. Keep the basic Science subject and 3 cards intact.
     sci,sci_errors=mount(b)
