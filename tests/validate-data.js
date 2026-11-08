@@ -5,11 +5,11 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,90);
-assert.equal(d.roots.length,384);
-assert.equal(d.suffixes.length,70);
-assert.equal(d.real.length,275);
-assert.equal(d.creative.length,85);
+assert.equal(d.prefixes.length,96);
+assert.equal(d.roots.length,438);
+assert.equal(d.suffixes.length,74);
+assert.equal(d.real.length,374);
+assert.equal(d.creative.length,109);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
   assert.equal(new Set(items.map(x=>x.key)).size,items.length,'Duplicate '+role+' keys');
   for (const e of items) {
@@ -30,6 +30,7 @@ assert.equal(groups.geography,48);
 assert.equal(groups.grade9geography,39);
 assert.equal(groups.history,47);
 assert.equal(groups.english,50);
+assert.equal(groups.grade9english,54);
 
 assert.equal(d.subjects.grade9math,'Grade 9 Math');
 const grade9Real=d.real.filter(q=>q.subject==='grade9math');
@@ -92,6 +93,25 @@ for(const q of science9Real){
 }
 for(const q of science9Creative){
   assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade9science')),'Science9 creative root missing '+q.root);
+}
+
+assert.equal(d.subjects.grade9english,'Grade 9 English');
+const english9Real=d.real.filter(q=>q.subject==='grade9english');
+const english9Creative=d.creative.filter(q=>q.subject==='grade9english');
+assert.equal(english9Real.length,99);
+assert.equal(english9Creative.length,24);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9english')).length,110);
+assert.equal(new Set(english9Real.map(q=>q.answer)).size,english9Real.length,'Duplicate ENL1W words');
+for(const strand of ['A','B','C','D']){
+  assert.ok(english9Real.some(q=>q.strand===strand),'ENL1W missing real-word strand '+strand);
+  assert.ok(english9Creative.some(q=>q.strand===strand),'ENL1W missing creative strand '+strand);
+}
+for(const q of english9Real){
+  assert.ok(['prefix','base','suffix'].filter(type=>q.parts[type]!==null).length>=2,'ENL1W requires at least two parts: '+q.answer);
+  assert.ok(d.roots.some(r=>r.id===q.parts.base&&r.subjects.includes('grade9english')),'ENL1W root missing '+q.answer);
+}
+for(const q of english9Creative){
+  assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade9english')),'ENL1W creative root missing '+q.root);
 }
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
