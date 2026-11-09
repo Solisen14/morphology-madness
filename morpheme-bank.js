@@ -1594,6 +1594,9 @@
     entry.exampleWord ||= null;
     entry.creativeEligible=true;
   }
+  // The five original non-grade-specific root groups remain distinct inside
+  // the bank, but are jointly available for General Vocabulary play.
+  const generalSourceSubjects=new Set(["math","science","geography","history","english"]);
   for(const entry of roots){
     entry.role='base';
     entry.key='base:'+entry.id;
@@ -1602,6 +1605,7 @@
     if(entry.subject==='science'||grade9ScienceBorrowed.has(entry.id))entry.subjects.push('grade9science');
     if(entry.subject==='english'||grade9EnglishBorrowed.has(entry.id))entry.subjects.push('grade9english');
     if(entry.subject==='history'||grade10HistoryBorrowed.has(entry.id))entry.subjects.push('grade10history');
+    if(generalSourceSubjects.has(entry.subject))entry.subjects.push('general');
     entry.formClass ||= boundRoots.has(entry.id)||grade9BoundRootIds.has(entry.id)||grade9GeographyBoundRoots.has(entry.id)||grade9ScienceBoundRoots.has(entry.id)||grade9EnglishBoundRoots.has(entry.id)||grade10HistoryBoundRoots.has(entry.id)?'bound_root':'free_base';
     entry.source ||= 'original-bank';
     entry.reviewNote ||= additions.metadata.reviewFlags.base[entry.id]||null;
@@ -1620,7 +1624,7 @@
   // combine every pair of cards into a dictionary-standard English word.
   window.MM_MORPHEMES={
     schemaVersion:1,
-    bankVersion:'1.6',
+    bankVersion:'1.7',
     prefixes,roots,suffixes,
     fields:['key','id','text','meaning','role','formClass','tags','subjects','exampleWord','reviewNote','creativeEligible','source'],
     editorialNote:'Word-part labels simplify some linguistic distinctions. Verify full-word spelling and use before treating a construction as a real word.'

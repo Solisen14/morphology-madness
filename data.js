@@ -656,6 +656,25 @@
     history:['Invent a term for an imaginary historical movement.','Name a fictional institution or social practice.','Describe a peculiar event from an invented civilization.','Create a label for an imaginary historical era.','What might historians call an unusual new discovery?'],
     english:['Invent a term for a strange literary habit.','Describe an imaginary grammatical phenomenon.','Give a new poetic technique a name.','Invent a term for an unusual style of storytelling.','Create a word for a very specific reading experience.']
   };
-  const subjects = {math:'Mathematics',grade9math:'Grade 9 Math',science:'Science',grade9science:'Grade 9 Science',geography:'Geography',grade9geography:'Grade 9 Geography',history:'History',grade10history:'Grade 10 History',english:'English',grade9english:'Grade 9 English'};
-  window.MM_DATA = {subjects,prefixes,roots,suffixes,real,creative,sparks};
+  const subjects = {general:'General Vocabulary',grade9math:'Grade 9 Math',grade9science:'Grade 9 Science',grade9geography:'Grade 9 Geography',grade9english:'Grade 9 English',grade10history:'Grade 10 History'};
+
+  // Merge the five small general selections without changing their authored
+  // clues or creative prompts. Keep originalSubject for editorial provenance.
+  const generalDomains=["math","science","geography","history","english"];
+  const generalSet=new Set(generalDomains);
+  for(const p of [...real,...creative]){
+    if(generalSet.has(p.subject)){
+      p.originalSubject=p.subject;
+      p.subject='general';
+    }
+  }
+  const visibleSparks={
+    general:generalDomains.flatMap(domain=>sparks[domain]),
+    grade9math:sparks.grade9math,
+    grade9science:sparks.grade9science,
+    grade9geography:sparks.grade9geography,
+    grade9english:sparks.grade9english,
+    grade10history:sparks.grade10history
+  };
+  window.MM_DATA = {subjects,prefixes,roots,suffixes,real,creative,sparks:visibleSparks};
 })();
