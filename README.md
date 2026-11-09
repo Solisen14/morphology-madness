@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.6 · Grade 10 History subject**
+**Version 1.7 · General Vocabulary consolidation**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -12,7 +12,7 @@ Morphology Madness is a free, browser-based word-building and vocabulary game de
 2. **Meaning Madness:** Invent a word to fit an unusual definition. The game checks broad word-part meaning tags and lets students explain a creative alternative. Alternatives are **self-reviewed, not automatically graded**.
 3. **Word Laboratory:** Spin three wheels to generate a prefix, a root/base, and an ending. Once the wheels stop, students write an imaginative definition and reflect on how the parts contribute meaning. **No automated grading of original definitions.**
 
-Choose Mathematics, **Grade 9 Math (Ontario MTH1W)**, Science, **Grade 9 Science (Ontario SNC1W)**, Geography, **Grade 9 Geography (Ontario CGC1W)**, History, **Grade 10 History (Ontario CHC2D/CHC2P, 2026)**, English, **Grade 9 English (Ontario ENL1W)**, or mixed subjects. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
+Choose **General Vocabulary**, **Grade 9 Math (Ontario MTH1W)**, **Grade 9 Science (Ontario SNC1W)**, **Grade 9 Geography (Ontario CGC1W)**, **Grade 9 English (Ontario ENL1W)**, **Grade 10 History (Ontario CHC2D/CHC2P, 2026)**, or **Mix it up · All subjects**. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary. Sessions contain five rounds. In Word Wizard and Meaning Madness, Apprentice provides **3** cards per word-part group, Inventor **6**, and Master **10**. In Word Laboratory, the levels determine the breadth of the reel vocabulary.
 
 ## What's included
 
@@ -87,3 +87,9 @@ Added a separate **Grade 9 English** choice alongside general English in all thr
 ## Grade 10 History (CHC2D / CHC2P, revised 2026)
 
 **Grade 10 History** is a dedicated subject in the three existing modes, drawing on the 2026 Ontario curriculum. There are **97** real Word Wizard terms, **20** safe and neutral creative Meaning Madness prompts, and **117** eligible bases for Word Laboratory. All real answers meet the minimum-two-meaningful-parts rule with exact spelling and available-base checks. Serious events and atrocities are not reduced to playful word inventions. See [Grade 10 History teacher notes](docs/GRADE10-HISTORY.md). General History remains available.
+
+## General Vocabulary consolidation (v1.7)
+
+The five original non-grade-specific menu items (Mathematics, Science, Geography, History and English) have been combined into one **General Vocabulary** choice. The original content is preserved: **40** Word Wizard real-word challenges, **30** Meaning Madness creative prompts, **250** original roots/bases for Word Laboratory, and **25** existing Laboratory scenario prompts. Each general challenge records its old subject in `originalSubject` for provenance and future editing.
+
+All **five course-specific Word Wizard and Meaning Madness banks remain unchanged**. Their original shared-root eligibility is preserved. The full bank continues to hold **99** prefixes, **488** roots/bases, and **76** suffixes. **Mix it up · All subjects** still includes both general and course vocabulary. Automated content fingerprints, five-course checks and responsive browser tests verify the consolidation without disturbing the three game modes.

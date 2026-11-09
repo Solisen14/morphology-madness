@@ -20,6 +20,44 @@ for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.s
     if(e.source==='expanded-draft' && role!=='base')assert.ok(e.exampleWord,'Example required for '+e.key);
   }
 }
+
+  // v1.7: certify that merging the five original general subject choices
+  // preserves every course-specific clue, word-part target and creative prompt.
+  const courseIds=["grade9math","grade9science","grade9geography","grade9english","grade10history"];
+  const oldGeneralIds=["math","science","geography","history","english"];
+  const finger=rows=>{
+    let h=2166136261;
+    for(const ch of JSON.stringify(rows))h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;
+    return h.toString(16).padStart(8,'0');
+  };
+  const expected={"courseReal":"9c45d542","courseCreative":"1a2aef1f","generalReal":"e64c8042","generalCreative":"29a4b262","courseEligible":"0355c4d2"};
+  assert.equal(finger(d.real.filter(x=>courseIds.includes(x.subject))),expected.courseReal,'Course Word Wizard data changed');
+  assert.equal(finger(d.creative.filter(x=>courseIds.includes(x.subject))),expected.courseCreative,'Course Meaning Madness data changed');
+  assert.equal(finger(d.real.filter(x=>x.subject==='general').map(({originalSubject,...rest})=>({...rest,subject:originalSubject}))),expected.generalReal,'General real-word data changed');
+  assert.equal(finger(d.creative.filter(x=>x.subject==='general').map(({originalSubject,...rest})=>({...rest,subject:originalSubject}))),expected.generalCreative,'General creative data changed');
+  assert.equal(finger(courseIds.map(id=>d.roots.filter(r=>r.subjects.includes(id)).map(r=>r.id))),expected.courseEligible,'Course root access changed');
+  assert.deepEqual(Object.keys(d.subjects).sort(),['general',...courseIds].sort(),'Visible subject choices changed');
+  assert.deepEqual(Object.keys(d.sparks).sort(),Object.keys(d.subjects).sort(),'Laboratory prompts do not match menu');
+  assert.equal(d.subjects.general,'General Vocabulary');
+  const generalReal=d.real.filter(x=>x.subject==='general');
+  const generalCreative=d.creative.filter(x=>x.subject==='general');
+  const generalRoots=d.roots.filter(x=>x.subjects.includes('general'));
+  assert.equal(generalReal.length,40);
+  assert.equal(generalCreative.length,30);
+  assert.equal(generalRoots.length,250);
+  assert.equal(d.sparks.general.length,25);
+  assert.equal(new Set(generalReal.map(x=>x.answer)).size,40);
+  assert.equal(d.real.filter(x=>oldGeneralIds.includes(x.subject)).length,0);
+  assert.equal(d.creative.filter(x=>oldGeneralIds.includes(x.subject)).length,0);
+  for(const id of oldGeneralIds){
+    assert.equal(generalReal.filter(x=>x.originalSubject===id).length,({math:8,science:8,geography:7,history:7,english:10})[id]);
+    assert.equal(generalCreative.filter(x=>x.originalSubject===id).length,6);
+  }
+  for(const puzzle of generalReal){
+    assert.ok(['prefix','base','suffix'].filter(t=>puzzle.parts[t]!==null).length>=2,'General word has fewer than 2 parts: '+puzzle.answer);
+    assert.ok(generalRoots.some(r=>r.id===puzzle.parts.base),'General word root unavailable: '+puzzle.answer);
+  }
+  for(const puzzle of generalCreative)assert.ok(generalRoots.some(r=>r.id===puzzle.root),'General creative root unavailable: '+puzzle.root);
 const groups={};
 for(const r of d.roots)groups[r.subject]=(groups[r.subject]||0)+1;
 assert.equal(groups.math,52);
