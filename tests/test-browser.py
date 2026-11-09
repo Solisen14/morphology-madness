@@ -366,7 +366,30 @@ with sync_playwright() as pw:
     assert 'You built it' in pct.locator('#feedback').inner_text()
     assert not pct_errors,pct_errors
     pct.close()
-    print('PASS: percentage requires the complete per + cent + -age construction')
+    # The earlier, equally legitimate percent + -age analysis must not be
+    # rejected if percent appears as a selectable root card.
+    alt,alt_errors=mount(b,width=375,height=900)
+    alt.evaluate('''()=>{
+      const d=window.MM_DATA;
+      d.real=d.real.filter(q=>q.subject==='grade9math'&&q.answer==='percentage');
+      const available=d.roots.filter(r=>r.subjects.includes('grade9math'));
+      d.roots=[
+        ...available.filter(r=>r.id==='cent'||r.id==='percent'),
+        ...available.filter(r=>r.id!=='cent'&&r.id!=='percent').slice(0,4)
+      ];
+    }''')
+    alt.select_option('#subject','grade9math')
+    alt.select_option('#level','inventor')
+    alt.click('#start')
+    select_card(alt,'base','percent')
+    select_card(alt,'suffix','age')
+    assert alt.locator('#word-preview').inner_text()=='percentage'
+    alt.click('#check')
+    assert 'You built it' in alt.locator('#feedback').inner_text()
+    assert 'two-part construction is valid' in alt.locator('#feedback').inner_text()
+    assert not alt_errors,alt_errors
+    alt.close()
+    print('PASS: percentage rejects one part and accepts both valid two- and three-part builds')
 
     # Grade 9 puzzles must remain genuinely buildable with the 3/6/10-card
     # mechanic. Every answer must contain two or three meaningful pieces.

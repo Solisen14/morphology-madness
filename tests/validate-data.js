@@ -30,7 +30,7 @@ for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.s
     for(const ch of JSON.stringify(rows))h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;
     return h.toString(16).padStart(8,'0');
   };
-  const expected={"courseReal":"2007724e","courseCreative":"1a2aef1f","generalReal":"e64c8042","generalCreative":"29a4b262","courseEligible":"a388cd78"};
+  const expected={"courseReal":"95a6f20d","courseCreative":"1a2aef1f","generalReal":"e64c8042","generalCreative":"29a4b262","courseEligible":"a388cd78"};
   assert.equal(finger(d.real.filter(x=>courseIds.includes(x.subject))),expected.courseReal,'Course Word Wizard data changed');
   assert.equal(finger(d.creative.filter(x=>courseIds.includes(x.subject))),expected.courseCreative,'Course Meaning Madness data changed');
   assert.equal(finger(d.real.filter(x=>x.subject==='general').map(({originalSubject,...rest})=>({...rest,subject:originalSubject}))),expected.generalReal,'General real-word data changed');
@@ -202,6 +202,24 @@ const untouched=d.real.filter(word=>!auditKey.has(word.subject+'|'+word.answer))
 assert.equal(untouched.length,457);
 assert.equal(finger(untouched),'8701e3de','An unreviewed Word Wizard challenge was modified');
 assert.equal(finger(d.creative),'bd6b7b88','Meaning Madness prompts were altered');
+
+for(const [subject,answer] of auditedThreePart){
+  const target=d.real.find(word=>word.subject===subject&&word.answer===answer);
+  assert.equal(target.acceptedBuilds?.length,1,'Missing approved alternate construction for '+answer);
+  for(const alternative of target.acceptedBuilds){
+    assert.ok(alternative.base,'Alternative must include a root: '+answer);
+    const roles=['prefix','base','suffix'].filter(role=>alternative[role]!==null);
+    assert.ok(roles.length>=2,'Alternative must have at least two parts: '+answer);
+    assert.ok(d.roots.some(root=>root.id===alternative.base&&root.subjects.includes(subject)),'Alternative root unavailable: '+answer);
+    const candidate=roles.map(role=>{
+      const arr=role==='base'?d.roots:role==='prefix'?d.prefixes:d.suffixes;
+      const item=arr.find(part=>part.id===alternative[role]);
+      assert.ok(item,'Missing alternative component '+role+':'+alternative[role]);
+      return item.text.replaceAll('-','');
+    }).join('');
+    assert.equal(candidate,answer,'Alternative construction must spell the same target: '+answer);
+  }
+}
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
 const errors=[];

@@ -26,7 +26,7 @@ Full review of the **471 authored real-word Word Wizard targets** in Morphology 
 
 **Grade 10 History:** `constitution` (`con + stitut + ion`).
 
-No words were added or deleted; none of the other **457** word targets were edited. Original generalized and curriculum-specific bank membership was preserved. Meaning Madness's **129** creative prompts were unchanged.
+No words were added or deleted; none of the other **457** word targets were edited. The previous **two-part decomposition of each revised word remains an approved alternative**: Word Wizard accepts either the preferred three-part historical form or the original meaningful two-part form. This avoids marking valid constructions incorrect when students see different roots on their cards. Original generalized and curriculum-specific bank membership was preserved. Meaning Madness's **129** creative prompts were unchanged.
 
 ## What we deliberately did not do
 
@@ -49,6 +49,6 @@ Note: Some splits are **historical teaching decompositions**, not claims that th
 
 ## Regression protections
 
-The Node suite now fails if any future Word Wizard entry lacks a root plus prefix/suffix, has the wrong assembled spelling, or uses a root unavailable to the selected subject. All unchanged entries and Meaning Madness prompts have content fingerprints. Browser checks verify the actual three modes and difficulty levels.
+The Node suite now fails if any future Word Wizard entry lacks a root plus prefix/suffix, has the wrong assembled spelling, or uses a root unavailable to the selected subject. It also validates the approved alternative constructions for all 14 revised terms. All unchanged entries and Meaning Madness prompts have content fingerprints. Browser checks verify the actual three modes and difficulty levels.
 
 Original teachers' notes and five curricula were not rewritten or reinterpreted.
