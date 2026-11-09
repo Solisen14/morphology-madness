@@ -11,7 +11,7 @@ This is an additional **school subject** in all three existing games, not a new 
 | F | 12 | 4 |
 | **Total** | **70** | **15** |
 
-Word Laboratory draws from 48 Grade 9 roots and 48 shared Mathematics roots. The shared affix bank includes `in-`, `ir-`, `under-`, `equi-`, `penta-`, `hexa-`, `octa-`, and `-age` for relevant constructions.
+Word Laboratory now draws from 51 dedicated Grade 9 roots, 48 shared Mathematics roots, and the shared Geography root `depend`, for 100 eligible roots in total. The shared affix bank includes `in-`, `ir-`, `under-`, `equi-`, `penta-`, `hexa-`, `octa-`, and `-age` for relevant constructions.
 
 ## Curriculum basis
 
@@ -43,3 +43,7 @@ Added **40** new, original Word Wizard entries to the previous 30, for **70** Gr
 Original Math terms like *subtraction*, *intersection*, and *bisector* may appear in both the general Mathematics subject and Grade 9 Math, because they are helpful prerequisite vocabulary. The Grade 9 selection never contains duplicate answers within its own pool.
 
 **Instructional boundary:** Important terms such as *slope* and *median* still do not necessarily split into two natural, relevant word parts, so they are not Word Wizard puzzles solely to increase the bank size.
+
+### Word-part quality review (v1.8)
+
+Seven authentic Grade 9 Math challenges have been revised from two to three meaning-bearing parts: `percentage`, `irrational`, `overestimate`, `underestimate`, `nonlinear`, `independent`, and `interquartile`. In particular, the game now presents **per + cent + -age** rather than **percent + -age**. This is a *historical teaching analysis*: modern *percentage* comes from *percent* + *-age*, while *percent* comes from Latin *per centum*, meaning “by the hundred.” The game treats the initial *per* as a meaning-bearing historical element, not a productive modern English prefix in this word.

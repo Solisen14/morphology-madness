@@ -17,7 +17,7 @@ The original word clues are curated around the curriculum's five strands. They a
 | E. Earth and Space Science: Space Exploration | 19 | 4 |
 | **Total** | **89** | **20** |
 
-Word Laboratory can draw from **107** eligible roots/bases: 53 from the original general Science bank, 47 created for Grade 9 Science, and 7 reused from existing Math/Geography selections.
+Word Laboratory can draw from **112** eligible roots/bases: 53 from the original general Science bank, 50 created for Grade 9 Science, and 9 reused from other subject banks.
 
 ## Editorial principles
 
@@ -49,3 +49,7 @@ Word Laboratory can draw from **107** eligible roots/bases: 53 from the original
 The strongest learning use is to have students **explain how each morpheme contributes to the meaning**, then connect the constructed word to a scientific model, observation, or phenomenon. Being able to assemble the correct letters alone does not demonstrate full conceptual understanding.
 
 All entries and explanations are newly written for this activity. They have not been approved by the Ministry of Education.
+
+### Word-part quality review (v1.8)
+
+Six Science challenges now use three informative parts: `observation`, `decomposer`, `producer`, `adaptation`, `conductor`, and `conductivity`. For example, the Latin historical structure behind *conductor* can be taught as **con- + duct + -or**, while the modern scientific meaning must still be explained explicitly. Etymology informs vocabulary learning but is not itself a definition of a physics concept.

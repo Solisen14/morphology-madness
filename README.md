@@ -1,6 +1,6 @@
 # Morphology Madness
 
-**Version 1.7 · General Vocabulary consolidation**
+**Version 1.8 · Word-part quality audit**
 
 **Play:** https://solisen14.github.io/morphology-madness/
 
@@ -16,7 +16,7 @@ Choose **General Vocabulary**, **Grade 9 Math (Ontario MTH1W)**, **Grade 9 Scien
 
 ## What's included
 
-- **663** word-part entries: **99** prefixes/initial forms, **488** roots/bases, and **76** suffixes/final forms
+- **674** word-part entries: **102** prefixes/initial forms, **494** roots/bases, and **78** suffixes/final forms
 - **471** genuine-word challenges and **129** fictional-definition prompts
 - Responsive, keyboard-accessible controls and reduced-motion support for spinning reels
 - Explanations, hints, self-review, round summaries, and exit confirmation
@@ -58,7 +58,7 @@ See [release notes](RELEASE_NOTES.md) for the v1.0 scope and limitations.
 
 ## Grade 9 Math (Ontario MTH1W)
 
-The **Grade 9 Math** option works in all three existing games. It contains **70** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **48** dedicated bases plus **48** shared Mathematics roots. The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
+The **Grade 9 Math** option works in all three existing games. It contains **70** Word Wizard clues and **15** Meaning Madness prompts across Number, Algebra and Coding, Data, Geometry and Measurement, and Financial Literacy. The Laboratory wheel draws from **51** dedicated bases plus **49** shared roots (48 Mathematics and 1 Geography). The game format, card counts, and privacy rules are unchanged. See [Grade 9 Math educator notes](docs/GRADE9-MATH.md). This is a morphologically focused set, not an exhaustive MTH1W or EQAO-language list.
 
 ## Teacher guide (v1.1.1)
 
@@ -78,7 +78,7 @@ A dedicated Grade 9 Geography subject option works in the existing three games. 
 
 ## Grade 9 Science (Ontario SNC1W, 2022)
 
-Grade 9 Science is now a standalone subject selection in the same three games. It includes **89** original real-word Word Wizard clues, **20** creative Meaning Madness prompts and **107** eligible roots/bases for Word Laboratory. Each new real word meets the minimum-two-meaningful-parts rule and exact spelling requirement. See the [science teacher editorial notes](docs/GRADE9-SCIENCE.md) for five-strand coverage and classroom guidance. Original Science remains available.
+Grade 9 Science is now a standalone subject selection in the same three games. It includes **89** original real-word Word Wizard clues, **20** creative Meaning Madness prompts and **112** eligible roots/bases for Word Laboratory. Each new real word meets the minimum-two-meaningful-parts rule and exact spelling requirement. See the [science teacher editorial notes](docs/GRADE9-SCIENCE.md) for five-strand coverage and classroom guidance. Original Science remains available.
 
 ## Grade 9 English (ENL1W, 2023)
 
@@ -86,10 +86,16 @@ Added a separate **Grade 9 English** choice alongside general English in all thr
 
 ## Grade 10 History (CHC2D / CHC2P, revised 2026)
 
-**Grade 10 History** is a dedicated subject in the three existing modes, drawing on the 2026 Ontario curriculum. There are **97** real Word Wizard terms, **20** safe and neutral creative Meaning Madness prompts, and **117** eligible bases for Word Laboratory. All real answers meet the minimum-two-meaningful-parts rule with exact spelling and available-base checks. Serious events and atrocities are not reduced to playful word inventions. See [Grade 10 History teacher notes](docs/GRADE10-HISTORY.md). General History remains available.
+**Grade 10 History** is a dedicated subject in the three existing modes, drawing on the 2026 Ontario curriculum. There are **97** real Word Wizard terms, **20** safe and neutral creative Meaning Madness prompts, and **118** eligible bases for Word Laboratory. All real answers meet the minimum-two-meaningful-parts rule with exact spelling and available-base checks. Serious events and atrocities are not reduced to playful word inventions. See [Grade 10 History teacher notes](docs/GRADE10-HISTORY.md). General History remains available.
 
 ## General Vocabulary consolidation (v1.7)
 
 The five original non-grade-specific menu items (Mathematics, Science, Geography, History and English) have been combined into one **General Vocabulary** choice. The original content is preserved: **40** Word Wizard real-word challenges, **30** Meaning Madness creative prompts, **250** original roots/bases for Word Laboratory, and **25** existing Laboratory scenario prompts. Each general challenge records its old subject in `originalSubject` for provenance and future editing.
 
-All **five course-specific Word Wizard and Meaning Madness banks remain unchanged**. Their original shared-root eligibility is preserved. The full bank continues to hold **99** prefixes, **488** roots/bases, and **76** suffixes. **Mix it up · All subjects** still includes both general and course vocabulary. Automated content fingerprints, five-course checks and responsive browser tests verify the consolidation without disturbing the three game modes.
+At the time of the v1.7 consolidation, all **five course-specific Word Wizard and Meaning Madness banks remained unchanged**. Their original shared-root eligibility is preserved. At the time of the v1.7 consolidation, the bank held **99** prefixes, **488** roots/bases, and **76** suffixes; the later v1.8 audit expanded those counts without removing the original entries. **Mix it up · All subjects** still includes both general and course vocabulary. Automated content fingerprints, five-course checks and responsive browser tests verify the consolidation without disturbing the three game modes.
+
+## Word-part audit (v1.8)
+
+A full audit of all **471** Word Wizard real-word challenges confirmed **zero single-part terms**. Fourteen existing words were upgraded to a more informative **prefix + root + suffix** construction where the linguistic history supports it, including `percentage` (`per + cent + age`), `irrational`, `observation`, `conductor`, and `constitution`. This leaves **196 three-part** and **275 two-part** real-word challenges, without adding or removing target words. Two-part words remain valid when a third morpheme would be artificial or misleading. No creative prompts, curriculum strands, or game modes changed.
+
+See the [word-part audit and reasoning](docs/WORD-PART-AUDIT.md) for course-by-course counts, selected etymological sources, and further review guidelines.

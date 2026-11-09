@@ -5,9 +5,9 @@ vm.runInNewContext(fs.readFileSync(__dirname+'/../data.js','utf8'),ctx);
 const d=ctx.window.MM_DATA;
 const bank=ctx.window.MM_MORPHEMES;
 assert.equal(bank.schemaVersion,1);
-assert.equal(d.prefixes.length,99);
-assert.equal(d.roots.length,488);
-assert.equal(d.suffixes.length,76);
+assert.equal(d.prefixes.length,102);
+assert.equal(d.roots.length,494);
+assert.equal(d.suffixes.length,78);
 assert.equal(d.real.length,471);
 assert.equal(d.creative.length,129);
 for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.suffixes]]) {
@@ -30,7 +30,7 @@ for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.s
     for(const ch of JSON.stringify(rows))h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;
     return h.toString(16).padStart(8,'0');
   };
-  const expected={"courseReal":"9c45d542","courseCreative":"1a2aef1f","generalReal":"e64c8042","generalCreative":"29a4b262","courseEligible":"0355c4d2"};
+  const expected={"courseReal":"2007724e","courseCreative":"1a2aef1f","generalReal":"e64c8042","generalCreative":"29a4b262","courseEligible":"a388cd78"};
   assert.equal(finger(d.real.filter(x=>courseIds.includes(x.subject))),expected.courseReal,'Course Word Wizard data changed');
   assert.equal(finger(d.creative.filter(x=>courseIds.includes(x.subject))),expected.courseCreative,'Course Meaning Madness data changed');
   assert.equal(finger(d.real.filter(x=>x.subject==='general').map(({originalSubject,...rest})=>({...rest,subject:originalSubject}))),expected.generalReal,'General real-word data changed');
@@ -61,9 +61,9 @@ for (const [role,items] of [['prefix',d.prefixes],['base',d.roots],['suffix',d.s
 const groups={};
 for(const r of d.roots)groups[r.subject]=(groups[r.subject]||0)+1;
 assert.equal(groups.math,52);
-assert.equal(groups.grade9math,48);
+assert.equal(groups.grade9math,51);
 assert.equal(groups.science,53);
-assert.equal(groups.grade9science,47);
+assert.equal(groups.grade9science,50);
 assert.equal(groups.geography,48);
 assert.equal(groups.grade9geography,39);
 assert.equal(groups.history,47);
@@ -76,7 +76,7 @@ const grade9Real=d.real.filter(q=>q.subject==='grade9math');
 const grade9Creative=d.creative.filter(q=>q.subject==='grade9math');
 assert.equal(grade9Real.length,70);
 assert.equal(grade9Creative.length,15);
-assert.equal(d.roots.filter(r=>r.subjects.includes('grade9math')).length,96);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9math')).length,100);
 for(const type of ['B','C','D','E','F']){
   assert.ok(grade9Real.some(q=>q.strand===type),'MTH1W strand missing in real: '+type);
   assert.ok(grade9Creative.some(q=>q.strand===type),'MTH1W strand missing in creative: '+type);
@@ -120,7 +120,7 @@ const science9Real=d.real.filter(q=>q.subject==='grade9science');
 const science9Creative=d.creative.filter(q=>q.subject==='grade9science');
 assert.equal(science9Real.length,89);
 assert.equal(science9Creative.length,20);
-assert.equal(d.roots.filter(r=>r.subjects.includes('grade9science')).length,107);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade9science')).length,112);
 assert.equal(new Set(science9Real.map(q=>q.answer)).size,science9Real.length,'Duplicate Grade 9 Science words');
 for(const strand of ['A','B','C','D','E']){
   assert.ok(science9Real.some(q=>q.strand===strand),'Missing SNC1W real clue strand '+strand);
@@ -158,7 +158,7 @@ const grade10Real=d.real.filter(x=>x.subject==='grade10history');
 const grade10Creative=d.creative.filter(x=>x.subject==='grade10history');
 assert.equal(grade10Real.length,97);
 assert.equal(grade10Creative.length,20);
-assert.equal(d.roots.filter(r=>r.subjects.includes('grade10history')).length,117);
+assert.equal(d.roots.filter(r=>r.subjects.includes('grade10history')).length,118);
 assert.equal(new Set(grade10Real.map(x=>x.answer)).size,97);
 for(const strand of ['A','B','C','D','E']){
   assert.ok(grade10Real.some(x=>x.strand===strand),'Missing CHC2 historical term in strand '+strand);
@@ -171,6 +171,37 @@ for(const q of grade10Real){
 for(const q of grade10Creative){
   assert.ok(d.roots.some(r=>r.id===q.root&&r.subjects.includes('grade10history')),'Unavailable CHC2 creative root '+q.root);
 }
+
+// 2026-11-08 comprehensive Word Wizard audit. Every term requires a
+// selectable base/root AND at least one other meaningful word part.
+// The game must never regress to a single-root Word Wizard challenge.
+const allReal=d.real;
+const auditedThreePart=[["grade9math","percentage"],["grade9math","irrational"],["grade9math","overestimate"],["grade9math","underestimate"],["grade9math","nonlinear"],["grade9math","independent"],["grade9math","interquartile"],["grade9science","observation"],["grade9science","decomposer"],["grade9science","producer"],["grade9science","adaptation"],["grade9science","conductor"],["grade9science","conductivity"],["grade10history","constitution"]];
+const auditKey=new Set(auditedThreePart.map(([subject,word])=>subject+'|'+word));
+assert.equal(auditKey.size,14,'Editorial upgrade IDs must be unique');
+let twoPartCount=0,threePartCount=0;
+for(const word of allReal){
+  const parts=word.parts;
+  const nonEmpty=['prefix','base','suffix'].filter(role=>parts[role]!==null);
+  assert.ok(parts.base,'Word Wizard must have a root: '+word.answer);
+  assert.ok(parts.prefix!==null||parts.suffix!==null,'Word Wizard must have a prefix or suffix: '+word.answer);
+  assert.ok(nonEmpty.length===2||nonEmpty.length===3,'Word Wizard must have 2–3 parts: '+word.answer);
+  assert.ok(d.roots.some(root=>root.id===parts.base&&root.subjects.includes(word.subject)),'Root not available: '+word.answer);
+  if(nonEmpty.length===2)twoPartCount++;else threePartCount++;
+}
+assert.equal(twoPartCount,275);
+assert.equal(threePartCount,196);
+for(const [subject,answer] of auditedThreePart){
+  const matches=d.real.filter(word=>word.subject===subject&&word.answer===answer);
+  assert.equal(matches.length,1,'Expected exactly one audited word: '+answer);
+  assert.ok(['prefix','base','suffix'].every(part=>matches[0].parts[part]!==null),'Audited term must have three parts: '+answer);
+}
+// Fingerprint every unchanged challenge (not just course-specific totals).
+// This protects 457 unchanged entries while allowing the 14 documented edits.
+const untouched=d.real.filter(word=>!auditKey.has(word.subject+'|'+word.answer));
+assert.equal(untouched.length,457);
+assert.equal(finger(untouched),'8701e3de','An unreviewed Word Wizard challenge was modified');
+assert.equal(finger(d.creative),'bd6b7b88','Meaning Madness prompts were altered');
 const idx={prefix:new Map(d.prefixes.map(x=>[x.id,x])),base:new Map(d.roots.map(x=>[x.id,x])),suffix:new Map(d.suffixes.map(x=>[x.id,x]))};
 console.log('Morpheme counts:', d.prefixes.length, d.roots.length, d.suffixes.length, 'Puzzles:',d.real.length, d.creative.length);
 const errors=[];
