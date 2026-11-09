@@ -1544,7 +1544,7 @@
   const grade9BoundRootIds=new Set(["nom","flect","rotat","dilat","later","gon","correlat","simulat","preci","inflat","estim","simpl","ration","dict","vari","iterat","divis","calcul","tribut","stitut","valent","variate","fer","metr","charg"]);
 
   // Forms with verified historical word structure used in the 2026 audit.
-  const auditedBoundRoots=new Set(['cent','quart','compos','duc','apt']);
+  const auditedBoundRoots=new Set(['cent','quart','compos','duc']);
 
   // MTH1W roots remain in one shared bank without duplicate IDs.
   const grade9SharedMathIds=new Set(["fraction","triangle","equation","graph","angle","number","pattern","symmetry","geometry","ratio","decimal","polygon","circle","integer","function","variable","parallel","algebra","form","sect","arrange","group","tract","equal","add","sum","product","factor","multiple","prime","radius","diameter","perimeter","area","volume","coordinate","scale","estimate","probability","chance","mean","median","mode","sequence","term","inverse","transform","reflect"]);
