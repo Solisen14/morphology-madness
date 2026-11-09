@@ -51,22 +51,22 @@
   ];
   real.push(...[
     {...R('grade9math',"A number expressible as a ratio of two integers, with a nonzero denominator.",null,"ration","al","rational","A rational number can be written as a ratio of integers."),strand:'B'},
-    {...R('grade9math',"A number not expressible as a ratio of two integers.","ir","rational",null,"irrational","The square root of 2 is irrational."),strand:'B'},
+    {...R('grade9math',"A number not expressible as a ratio of two integers.","ir","ration","al","irrational","ir- means not (before certain r-beginning stems); ration means reason or calculation; -al means relating to. A number not expressible as a ratio of two integers."),strand:'B'},
     {...R('grade9math',"A statement comparing quantities using symbols such as <, >, or ≥.","in","equal","ity","inequality","An inequality compares two values or expressions using comparison symbols."),strand:'B'},
     {...R('grade9math',"Adjusting a number to a nearby value at a specified place value.",null,"round","ing","rounding","Rounding produces an approximation at a chosen place value."),strand:'B'},
     {...R('grade9math',"Finding an approximate value.",null,"estim","ation","estimation","Estimation helps check whether a computed answer is reasonable."),strand:'B'},
-    {...R('grade9math',"An amount expressed as a number per hundred.",null,"percent","age","percentage","A percentage represents an amount per hundred, such as 25%."),strand:'B'},
-    {...R('grade9math',"Describing a relation with a rate of change that is not constant.","non","linear",null,"nonlinear","The rate of change of a nonlinear relation is not constant."),strand:'C'},
+    {...R('grade9math',"An amount expressed as a number per hundred.","per","cent","age","percentage","The modern word percentage derives from percent + -age. Percent comes from Latin per centum, meaning 'by the hundred'. Here per means 'for each', cent means 'hundred', and -age means a rate or measure."),strand:'B'},
+    {...R('grade9math',"Describing a relation with a rate of change that is not constant.","non","line","ar","nonlinear","non- means not or absence of; line means a straight line; -ar means relating to. Describing a relation with a rate of change that is not constant."),strand:'C'},
     {...R('grade9math',"Describing a relationship in which two ratios are equal.",null,"proportion","al","proportional","A proportional relation can be represented by y = kx."),strand:'C'},
     {...R('grade9math',"Describing a relation with a variable in the exponent.",null,"exponent","ial","exponential","An exponential relation can change by the same factor over equal input steps."),strand:'C'},
     {...R('grade9math',"An algebraic expression consisting of two terms.","bi","nom","ial","binomial","x + 4 is a binomial."),strand:'C'},
     {...R('grade9math',"An algebraic expression formed by a sum of terms with whole-number exponents.","poly","nom","ial","polynomial","3x² + x - 2 is a polynomial."),strand:'C'},
     {...R('grade9math',"To rewrite an expression into a simpler equivalent form.",null,"simpl","ify","simplify","Simplifying changes the form without changing the value."),strand:'C'},
     {...R('grade9math',"A mathematical quantity represented by a symbol whose value may change.",null,"vari","able","variable","A variable may represent many values or an unknown value."),strand:'C'},
-    {...R('grade9math',"A variable chosen or controlled rather than determined by another variable.","in","dependent",null,"independent","The independent variable is often on the horizontal graph axis."),strand:'C'},
+    {...R('grade9math',"A variable chosen or controlled rather than determined by another variable.","in","depend","ent","independent","in- means not (as in inequality); depend means rely on; -ent means having a quality or condition. A variable chosen or controlled rather than determined by another variable."),strand:'C'},
     {...R('grade9math',"The act of repeating an instruction or process.",null,"iterat","ion","iteration","A coding loop uses iteration to repeat steps."),strand:'C'},
     {...R('grade9math',"An association between two sets of values.",null,"correlat","ion","correlation","Correlation does not, by itself, establish causation."),strand:'D'},
-    {...R('grade9math',"Describing the spread between the first and third quartile.","inter","quartile",null,"interquartile","The interquartile range is Q3 minus Q1."),strand:'D'},
+    {...R('grade9math',"Describing the spread between the first and third quartile.","inter","quart","ile","interquartile","inter- means between or among; quart means a fourth or quarter; -ile means relating to, as in quartile. Describing the spread between the first and third quartile."),strand:'D'},
     {...R('grade9math',"Imitating a situation using a mathematical or computational model.",null,"simulat","ion","simulation","Simulations can examine possible results of a process."),strand:'D'},
     {...R('grade9math',"A statement about an expected result based on patterns or information.","pre","dict","ion","prediction","Predictions draw on evidence or models."),strand:'D'},
     {...R('grade9math',"A transformation producing a mirror image across a line.","re","flect","ion","reflection","A reflection maps a figure across a line of reflection."),strand:'E'},
@@ -90,8 +90,8 @@
     {...R('grade9math',"A number that divides another number without a remainder.",null,"divis","or","divisor","Divis means divide, and -or names something that performs an action. In 18 ÷ 3 = 6, 3 is the divisor."),strand:'B'},
     {...R('grade9math',"A number that is not an integer.","non","integer",null,"noninteger","Non- means not. A noninteger is any number that is not an integer, such as 2.5."),strand:'B'},
     {...R('grade9math',"Zero or any number greater than zero.","non","negative",null,"nonnegative","Non- means not. Nonnegative includes positive numbers and zero."),strand:'B'},
-    {...R('grade9math',"An estimate that is higher than the actual amount.","over","estimate",null,"overestimate","Over- can mean too much. An overestimate is higher than the actual value."),strand:'B'},
-    {...R('grade9math',"An estimate that is lower than the actual amount.","under","estimate",null,"underestimate","Under- can mean below. An underestimate is lower than the actual value."),strand:'B'},
+    {...R('grade9math',"An estimate that is higher than the actual amount.","over","estim","ate","overestimate","over- means too much or above; estim means judge approximately; -ate means make, cause, or perform an action. An estimate that is higher than the actual amount."),strand:'B'},
+    {...R('grade9math',"An estimate that is lower than the actual amount.","under","estim","ate","underestimate","under- means below a usual or expected amount; estim means judge approximately; -ate means make, cause, or perform an action. An estimate that is lower than the actual amount."),strand:'B'},
     {...R('grade9math',"A mistake made when carrying out a calculation.","mis","calcul","ation","miscalculation","Mis- indicates something done incorrectly; calcul means compute; -ation describes an act or result."),strand:'B'},
     {...R('grade9math',"The act of calculating something again.","re","calcul","ation","recalculation","Re- means again, calcul means compute, and -ation describes the process."),strand:'B'},
     {...R('grade9math',"Relating to the use of variables, expressions, or equations.",null,"algebra","ic","algebraic","Algebra concerns mathematical relationships and symbols; -ic means relating to."),strand:'C'},
@@ -210,7 +210,7 @@
 {...R('grade9science',"A planned scientific test used to investigate a question.",null,"experi","ment","experiment","The root or base experi means test or try; The ending -ment means a process or result."),strand:"A"},
 {...R('grade9science',"Relating to a scientific test or experiment.",null,"experiment","al","experimental","The root or base experiment means a controlled test; The ending -al means relating to."),strand:"A"},
 {...R('grade9science',"A systematic scientific search for evidence or an answer.",null,"investigat","ion","investigation","The root or base investigat means examine or study; The ending -ion means an act or result."),strand:"A"},
-{...R('grade9science',"Information noticed or recorded using senses or instruments.",null,"observ","ation","observation","The root or base observ means watch or notice; The ending -ation means an act or process."),strand:"A"},
+{...R('grade9science',"Information noticed or recorded using senses or instruments.","ob","serv","ation","observation","Ob- historically means in front of or toward, serv means to watch over or keep, and -ation names a process. Scientists record observations using senses and measuring tools."),strand:"A"},
 {...R('grade9science',"A statement about an expected result based on evidence or a pattern.","pre","dict","ion","prediction","The beginning pre- means before; The root or base dict means say or state; The ending -ion means an act or result."),strand:"A"},
 {...R('grade9science',"Determining a quantity using a suitable unit and method.",null,"measure","ment","measurement","The root or base measure means determine a quantity; The ending -ment means a process or result."),strand:"A"},
 {...R('grade9science',"Repeating a procedure to check whether similar results occur.",null,"replicat","ion","replication","The root or base replicat means repeat an experiment; The ending -ion means an act or result."),strand:"A"},
@@ -227,11 +227,11 @@
 {...R('grade9science',"The process by which plants and certain other organisms make sugars using light.","photo","synthesis",null,"photosynthesis","Photo- means light and synthesis means combining. Photosynthesis uses light energy to make sugars from carbon dioxide and water."),strand:"B"},
 {...R('grade9science',"An organism that produces its own organic food from inorganic materials.","auto","troph",null,"autotroph","The beginning auto- means self; The root or base troph means food or nourishment."),strand:"B"},
 {...R('grade9science',"An organism that gets nutrients by consuming other organisms or organic matter.","hetero","troph",null,"heterotroph","The beginning hetero- means different; The root or base troph means food or nourishment."),strand:"B"},
-{...R('grade9science',"An organism that breaks down dead material and organic waste.",null,"decompos","er","decomposer","The root or base decompos means break down; The ending -er means a person or device that does something."),strand:"B"},
-{...R('grade9science',"An organism that makes organic food, often using photosynthesis.",null,"produc","er","producer","The root or base produc means make or create; The ending -er means a person or device that does something."),strand:"B"},
+{...R('grade9science',"An organism that breaks down dead material and organic waste.","de","compos","er","decomposer","De- means to undo or reverse, compos relates to putting together, and -er names something that acts. Decomposers break down dead organisms and organic waste."),strand:"B"},
+{...R('grade9science',"An organism that makes organic food, often using photosynthesis.","pro","duc","er","producer","Pro- historically means forth, duc means lead or bring, and -er names something that acts. An ecosystem producer makes its own organic food."),strand:"B"},
 {...R('grade9science',"An organism that gets energy from consuming other organisms or organic matter.",null,"consum","er","consumer","The root or base consum means use up; The ending -er means a person or device that does something."),strand:"B"},
 {...R('grade9science',"The cellular processes through which organisms release usable energy from food.",null,"respirat","ion","respiration","Respirat relates to breathing and -ion names a process. Cellular respiration releases usable energy from molecules; it is not identical to breathing."),strand:"B"},
-{...R('grade9science',"An inherited characteristic that helps an organism survive or reproduce.",null,"adapt","ation","adaptation","The root or base adapt means adjust or change in response to conditions; The ending -ation means an act or process."),strand:"B"},
+{...R('grade9science',"An inherited characteristic that helps an organism survive or reproduce.","ad","apt","ation","adaptation","Ad- means toward, apt means fitted or suited, and -ation names a result or process. In evolution, an adaptation is an inherited characteristic favoured across generations."),strand:"B"},
 {...R('grade9science',"The variety of living organisms in an area or across Earth.","bio","divers","ity","biodiversity","The beginning bio- means life; The root or base divers means varied or different; The ending -ity means a state or quality."),strand:"B"},
 {...R('grade9science',"The buildup of a substance in an organism over time.","bio","accumulat","ion","bioaccumulation","The beginning bio- means life; The root or base accumulat means build up; The ending -ion means an act or result."),strand:"B"},
 {...R('grade9science',"Able to continue over time without exhausting essential resources.",null,"sustain","able","sustainable","The root or base sustain means maintain or support; The ending -able means capable of or suitable for."),strand:"B"},
@@ -265,8 +265,8 @@
 {...R('grade9science',"Relating to the interaction of electric and magnetic fields.","electro","magnet","ic","electromagnetic","The beginning electro- means electricity or electric charge; The root or base magnet means object producing a magnetic field; The ending -ic means relating to."),strand:"D"},
 {...R('grade9science',"Opposition to the flow of electric current.",null,"resist","ance","resistance","The root or base resist means oppose or withstand; The ending -ance means a state, action, or process."),strand:"D"},
 {...R('grade9science',"A circuit component designed to provide electrical resistance.",null,"resist","or","resistor","The root or base resist means oppose or withstand; The ending -or means a person or thing that acts."),strand:"D"},
-{...R('grade9science',"A material that allows electric current to flow readily.",null,"conduct","or","conductor","The root or base conduct means carry or transmit; The ending -or means a person or thing that acts."),strand:"D"},
-{...R('grade9science',"A measure of how well a material carries electric current.",null,"conduct","ivity","conductivity","The root or base conduct means carry or transmit; The ending -ivity means a property, tendency, or degree."),strand:"D"},
+{...R('grade9science',"A material that allows electric current to flow readily.","con","duct","or","conductor","con- means together or with; duct means lead; -or means a person or thing that acts. A material that allows electric current to flow readily."),strand:"D"},
+{...R('grade9science',"A measure of how well a material carries electric current.","con","duct","ivity","conductivity","con- means together or with; duct means lead; -ivity means a property, tendency, or degree. A measure of how well a material carries electric current."),strand:"D"},
 {...R('grade9science',"A material with electrical behaviour between that of conductors and insulators.","semi","conduct","or","semiconductor","Semi- indicates partial or intermediate, conduct means carry, and -or names a thing that acts. Semiconductors' electrical properties can be controlled."),strand:"D"},
 {...R('grade9science',"A material that resists electric-current flow.",null,"insulat","or","insulator","The root or base insulat means reduce transfer of energy or charge; The ending -or means a person or thing that acts."),strand:"D"},
 {...R('grade9science',"Material or a method that limits transfer of electric charge or energy.",null,"insulat","ion","insulation","The root or base insulat means reduce transfer of energy or charge; The ending -ion means an act or result."),strand:"D"},
@@ -472,7 +472,7 @@
 {...R('grade10history',"Organized efforts to bring about social or political change.",null,"activ","ism","activism","activ means taking action; -ism means a belief, practice, or tendency."),strand:"D"},
 {...R('grade10history',"Growth of increasingly urban populations.",null,"urban","ization","urbanization","urban means relating to a town or city; -ization means the process of becoming or making."),strand:"D"},
 {...R('grade10history',"Growth of communities outside city centres.","sub","urban","ization","suburbanization","sub- means under, below, near, or in place of; urban means relating to a town or city; -ization means the process of becoming or making."),strand:"D"},
-{...R('grade10history',"The fundamental laws and principles of government.",null,"constitut","ion","constitution","constitut means establish or make up; -ion means an act or result."),strand:"D"},
+{...R('grade10history',"The fundamental laws and principles of government.","con","stitut","ion","constitution","Con- means together, stitut relates to setting in place, and -ion names a result. A constitution establishes fundamental governing principles."),strand:"D"},
 {...R('grade10history',"Transfer of a privately owned industry into public ownership.",null,"national","ization","nationalization","national means relating to a nation; -ization means the process of becoming or making."),strand:"D"},
 {...R('grade10history',"The return of a person, object, or authority to its homeland or rightful community.","re","patri","ation","repatriation","re- means again or back; patri means homeland; -ation means an act or process."),strand:"D"},
 {...R('grade10history',"A movement promoting protection of the environment.",null,"environmental","ism","environmentalism","environmental means relating to the environment; -ism means a belief, practice, or tendency."),strand:"D"},
@@ -667,6 +667,17 @@
       p.originalSubject=p.subject;
       p.subject='general';
     }
+  }
+
+  // Review-approved historical alternatives. Some words have both a transparent
+  // modern two-part decomposition and a more detailed historical three-part
+  // decomposition. Never reject either valid build merely because we prefer
+  // teaching the richer structure. A root alone is never sufficient.
+  const acceptedBuilds=[{"subject":"grade9math","answer":"percentage","parts":{"prefix":null,"base":"percent","suffix":"age"}},{"subject":"grade9math","answer":"irrational","parts":{"prefix":"ir","base":"rational","suffix":null}},{"subject":"grade9math","answer":"overestimate","parts":{"prefix":"over","base":"estimate","suffix":null}},{"subject":"grade9math","answer":"underestimate","parts":{"prefix":"under","base":"estimate","suffix":null}},{"subject":"grade9math","answer":"nonlinear","parts":{"prefix":"non","base":"linear","suffix":null}},{"subject":"grade9math","answer":"independent","parts":{"prefix":"in","base":"dependent","suffix":null}},{"subject":"grade9math","answer":"interquartile","parts":{"prefix":"inter","base":"quartile","suffix":null}},{"subject":"grade9science","answer":"observation","parts":{"prefix":null,"base":"observ","suffix":"ation"}},{"subject":"grade9science","answer":"decomposer","parts":{"prefix":null,"base":"decompos","suffix":"er"}},{"subject":"grade9science","answer":"producer","parts":{"prefix":null,"base":"produc","suffix":"er"}},{"subject":"grade9science","answer":"adaptation","parts":{"prefix":null,"base":"adapt","suffix":"ation"}},{"subject":"grade9science","answer":"conductor","parts":{"prefix":null,"base":"conduct","suffix":"or"}},{"subject":"grade9science","answer":"conductivity","parts":{"prefix":null,"base":"conduct","suffix":"ivity"}},{"subject":"grade10history","answer":"constitution","parts":{"prefix":null,"base":"constitut","suffix":"ion"}}];
+  for(const {subject,answer,parts} of acceptedBuilds){
+    const target=real.find(q=>q.subject===subject&&q.answer===answer);
+    if(!target)throw new Error('Missing audited word '+answer);
+    target.acceptedBuilds=[parts];
   }
   const visibleSparks={
     general:generalDomains.flatMap(domain=>sparks[domain]),

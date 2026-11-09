@@ -21,7 +21,7 @@ Both courses have the same historical periods and inquiry strand; their specific
 | E. Canada, 1982 to the Present | 22 | 4 |
 | **Total** | **97** | **20** |
 
-Word Laboratory has **117** Grade 10 History eligible roots/bases, comprising **50 new roots**, **47 from original History**, and **20 reused from other course subjects**. Prefixes and suffixes remain in the shared bank.
+Word Laboratory has **118** Grade 10 History eligible roots/bases, comprising **50 dedicated roots**, **47 from original History**, and **21 reused from other course subjects**. Prefixes and suffixes remain in the shared bank.
 
 ## Non-negotiable historical teaching considerations
 
@@ -58,3 +58,7 @@ The 2026 curriculum includes expanded learning about the experiences and contrib
 | multilateral | multi- + later + -al |
 
 These notes are original teaching guidance, not official Ontario Ministry documentation.
+
+### Word-part quality review (v1.8)
+
+*Constitution* now uses the historically meaningful construction **con- + stitut + -ion**. All other Grade 10 History target words retain their existing constructions. Historical concepts and atrocities still require context and sources rather than word-part decoding alone.
