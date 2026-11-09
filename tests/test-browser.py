@@ -26,7 +26,13 @@ def select_card(page,type,id):
     assert found,(type,id,[x.inner_text() for x in page.locator('.bank-column[data-type="'+type+'"] .part-card').all()])
 
 def current_record(page,kind):
-    return page.evaluate('''kind=>window.MM_DATA[kind].find(x=>x.clue.trim()===document.getElementById('clue').textContent.trim())''',kind)
+    # Multiple subject banks can intentionally share the same clue and answer.
+    # Match the selected subject as well, except in the mixed-subject mode.
+    return page.evaluate('''kind=>{
+      const clue=document.getElementById('clue').textContent.trim();
+      const subject=document.getElementById('subject').value;
+      return window.MM_DATA[kind].find(x=>x.clue.trim()===clue&&(subject==='all'||x.subject===subject));
+    }''',kind)
 
 with sync_playwright() as pw:
     browser_args={'headless':True,'args':['--no-sandbox']}
