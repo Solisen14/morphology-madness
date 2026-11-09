@@ -59,11 +59,64 @@ with sync_playwright() as pw:
 
 
 
+
+    # v1.7: the five original general subjects become one visible selection.
+    general,gen_errors=mount(b)
+    opts=general.locator('#subject option').evaluate_all('(nodes)=>nodes.map(n=>n.value)')
+    assert opts==['all','general','grade9math','grade9science','grade9geography','grade9english','grade10history'],opts
+    assert len(general.evaluate('''()=>window.MM_DATA.real.filter(x=>x.subject==='general')'''))==40
+    assert len(general.evaluate('''()=>window.MM_DATA.creative.filter(x=>x.subject==='general')'''))==30
+    assert len(general.evaluate('''()=>window.MM_DATA.roots.filter(x=>x.subjects.includes('general'))'''))==250
+    assert len(general.evaluate('''()=>window.MM_DATA.sparks.general'''))==25
+    assert not gen_errors,gen_errors
+    general.close()
+    for play_mode in ['wizard','madness','lab']:
+        for level,expected in [('apprentice',3),('inventor',6),('master',10)]:
+            page,errors=mount(b,width=375 if level=='apprentice' else 1280,height=900)
+            if play_mode!='wizard':page.click('[data-mode="'+play_mode+'"]')
+            page.select_option('#subject','general')
+            page.select_option('#level',level)
+            if play_mode=='lab':page.emulate_media(reduced_motion='reduce')
+            page.click('#start')
+            assert page.locator('#category-chip').inner_text()=='GENERAL VOCABULARY'
+            if play_mode=='lab':
+                page.click('#spin')
+                page.locator('#definition-area').wait_for(state='visible',timeout=3000)
+                root=page.locator('#reel-base').inner_text()
+                assert page.evaluate('''v=>window.MM_DATA.roots.some(x=>x.text===v&&x.subjects.includes('general'))''',root)
+                assert page.locator('#lab-word').inner_text()!=''
+            else:
+                record=current_record(page,'real' if play_mode=='wizard' else 'creative')
+                assert record and record['subject']=='general'
+                assert record['originalSubject'] in ['math','science','geography','history','english']
+                for part in ['prefix','base','suffix']:
+                    assert page.locator('.bank-column[data-type="'+part+'"] .part-card').count()==expected,(play_mode,level,part)
+                if play_mode=='wizard':
+                    for part in ['prefix','base','suffix']:
+                        if record['parts'][part]:select_card(page,part,record['parts'][part])
+                    assert page.locator('#word-preview').inner_text()==record['answer']
+                    page.click('#check')
+                    assert 'You built it' in page.locator('#feedback').inner_text()
+                else:
+                    select_card(page,'base',record['root'])
+                    for part,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
+                        labels=page.locator('.bank-column[data-type="'+part+'"] .card-text').all_inner_texts()
+                        eligible=page.evaluate('''([part,tag])=>(part==='prefix'?window.MM_DATA.prefixes:window.MM_DATA.suffixes).filter(x=>x.tags.includes(tag)).map(x=>x.text)''',[part,tag])
+                        match=next((label for label in labels if label in eligible),None)
+                        assert match,(part,tag,labels)
+                        select_card(page,part,match.replace('-',''))
+                    page.click('#check')
+                    assert 'Strong meaning match' in page.locator('#feedback').inner_text()
+            assert page.evaluate('document.documentElement.scrollWidth<=document.documentElement.clientWidth'),(play_mode,level,'overflow')
+            assert not errors,errors
+            page.close()
+    print('PASS: consolidated General Vocabulary works across modes, levels and mobile')
+
     # Canadian History since WWI (2026): preserve original History bank,
     # ensure 2+ genuine components and all modes and levels are functional.
     chc,chc_errors=mount(b)
     assert chc.locator('.mode-card').count()==3
-    assert chc.locator('#subject option[value="history"]').inner_text()=='History'
+    assert chc.locator('#subject option[value="general"]').inner_text()=='General Vocabulary'
     assert chc.locator('#subject option[value="grade10history"]').inner_text()=='Grade 10 History'
     chc_words=chc.evaluate('''()=>window.MM_DATA.real.filter(q=>q.subject==='grade10history')''')
     assert len(chc_words)==97
@@ -120,7 +173,7 @@ with sync_playwright() as pw:
     # English remains separate and the same modes and difficulties work.
     enl,enl_errors=mount(b)
     assert enl.locator('.mode-card').count()==3
-    assert enl.locator('#subject option[value="english"]').inner_text()=='English'
+    assert enl.locator('#subject option[value="general"]').inner_text()=='General Vocabulary'
     assert enl.locator('#subject option[value="grade9english"]').inner_text()=='Grade 9 English'
     enl_real=enl.evaluate('''()=>window.MM_DATA.real.filter(x=>x.subject==='grade9english')''')
     assert len(enl_real)==99
@@ -178,7 +231,7 @@ with sync_playwright() as pw:
     sci,sci_errors=mount(b)
     assert sci.locator('.mode-card').count()==3
     assert sci.locator('#subject option[value="grade9science"]').inner_text()=='Grade 9 Science'
-    assert sci.locator('#subject option[value="science"]').inner_text()=='Science'
+    assert sci.locator('#subject option[value="general"]').inner_text()=='General Vocabulary'
     science_words=sci.evaluate('''()=>window.MM_DATA.real.filter(q=>q.subject==='grade9science')''')
     assert len(science_words)==89
     assert len(set(x['answer'] for x in science_words))==len(science_words)
@@ -339,7 +392,7 @@ with sync_playwright() as pw:
 
     page,errors=mount(b)
     assert page.locator('.mode-card').count()==3
-    page.select_option('#subject','science');page.select_option('#level','master');page.click('#start')
+    page.select_option('#subject','general');page.select_option('#level','master');page.click('#start')
     assert page.locator('#game').is_visible()
     for round_no in range(5):
         record=current_record(page,'real');assert record
@@ -360,7 +413,7 @@ with sync_playwright() as pw:
             sample,errors=mount(b)
             if mode=='madness': sample.click('[data-mode="madness"]')
             assert str(expected) in sample.locator('#level option[value="'+level+'"]').inner_text()
-            sample.select_option('#subject','geography')
+            sample.select_option('#subject','general')
             sample.select_option('#level',level)
             sample.click('#start')
             record=current_record(sample,kind)
@@ -388,7 +441,7 @@ with sync_playwright() as pw:
             sample.close()
     print('PASS: 3/6/10 cards per category, correct parts and meaning tags')
 
-    # Grade 9 Math must appear alongside Mathematics without adding a new game.
+    # Grade 9 Math remains selectable alongside General Vocabulary.
     for play_mode in ['wizard','madness','lab']:
         for level,n in [('apprentice',3),('inventor',6),('master',10)]:
             sample,errors=mount(b)
@@ -444,7 +497,7 @@ with sync_playwright() as pw:
     print('PASS: Grade 9 Math selection in all three modes and all levels')
 
     page,errors=mount(b)
-    page.click('[data-mode="madness"]');page.select_option('#subject','math');page.click('#start')
+    page.click('[data-mode="madness"]');page.select_option('#subject','general');page.click('#start')
     record=current_record(page,'creative');assert record
     root=record['root'];select_card(page,'base',root)
     for t,tag in [('prefix',record['prefixTag']),('suffix',record['suffixTag'])]:
@@ -474,7 +527,7 @@ with sync_playwright() as pw:
 
     page,errors=mount(b)
     page.click('[data-mode="lab"]')
-    page.select_option('#subject','english')
+    page.select_option('#subject','general')
     page.click('#start')
     assert page.locator('#lab-machine').is_visible()
     assert page.locator('.workbench').is_hidden()
