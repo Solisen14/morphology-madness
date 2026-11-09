@@ -668,6 +668,17 @@
       p.subject='general';
     }
   }
+
+  // Review-approved historical alternatives. Some words have both a transparent
+  // modern two-part decomposition and a more detailed historical three-part
+  // decomposition. Never reject either valid build merely because we prefer
+  // teaching the richer structure. A root alone is never sufficient.
+  const acceptedBuilds=[{"subject":"grade9math","answer":"percentage","parts":{"prefix":null,"base":"percent","suffix":"age"}},{"subject":"grade9math","answer":"irrational","parts":{"prefix":"ir","base":"rational","suffix":null}},{"subject":"grade9math","answer":"overestimate","parts":{"prefix":"over","base":"estimate","suffix":null}},{"subject":"grade9math","answer":"underestimate","parts":{"prefix":"under","base":"estimate","suffix":null}},{"subject":"grade9math","answer":"nonlinear","parts":{"prefix":"non","base":"linear","suffix":null}},{"subject":"grade9math","answer":"independent","parts":{"prefix":"in","base":"dependent","suffix":null}},{"subject":"grade9math","answer":"interquartile","parts":{"prefix":"inter","base":"quartile","suffix":null}},{"subject":"grade9science","answer":"observation","parts":{"prefix":null,"base":"observ","suffix":"ation"}},{"subject":"grade9science","answer":"decomposer","parts":{"prefix":null,"base":"decompos","suffix":"er"}},{"subject":"grade9science","answer":"producer","parts":{"prefix":null,"base":"produc","suffix":"er"}},{"subject":"grade9science","answer":"adaptation","parts":{"prefix":null,"base":"adapt","suffix":"ation"}},{"subject":"grade9science","answer":"conductor","parts":{"prefix":null,"base":"conduct","suffix":"or"}},{"subject":"grade9science","answer":"conductivity","parts":{"prefix":null,"base":"conduct","suffix":"ivity"}},{"subject":"grade10history","answer":"constitution","parts":{"prefix":null,"base":"constitut","suffix":"ion"}}];
+  for(const {subject,answer,parts} of acceptedBuilds){
+    const target=real.find(q=>q.subject===subject&&q.answer===answer);
+    if(!target)throw new Error('Missing audited word '+answer);
+    target.acceptedBuilds=[parts];
+  }
   const visibleSparks={
     general:generalDomains.flatMap(domain=>sparks[domain]),
     grade9math:sparks.grade9math,

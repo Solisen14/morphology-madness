@@ -271,14 +271,23 @@
     const last=state.index===state.deck.length-1;
     setFeedback(flag==='tagMatch'?'Strong meaning match!':flag==='real'?'You built it!':'Invention recorded for this session',
       flag==='tagMatch'?'Your parts support the clue. This is an invented construction, not necessarily an existing dictionary word.':
-      flag==='real'?current().explanation:'You explained or self-reviewed your invention. It has not been automatically judged correct.',
+      flag==='real'?(detail.feedback||current().explanation):'You explained or self-reviewed your invention. It has not been automatically judged correct.',
       'success',last?'See my results':'Next round →',nextRound);
   };
   const checkWizard=()=>{
     const puzzle=current();state.attempts++;
     if(!state.placed.base){setFeedback('Start with a root','Choose a base/root, then consider whether the word needs a prefix or suffix.');return;}
-    const correct=TYPES.every(type=>(state.placed[type]?.id??null)===(puzzle.parts[type]??null));
-    if(correct){markComplete({word:assembled(),definition:puzzle.clue,note:'Real vocabulary word'},'real');return;}
+
+    const matches=parts=>TYPES.every(type=>(state.placed[type]?.id??null)===(parts[type]??null));
+    const preferred=matches(puzzle.parts);
+    const validAlternative=(puzzle.acceptedBuilds||[]).find(parts=>matches(parts));
+    if((preferred||validAlternative)&&filledCount()>=2){
+      const feedback=validAlternative
+        ?'Your two-part construction is valid too. The intended three-part historical analysis is: '+puzzle.explanation
+        :puzzle.explanation;
+      markComplete({word:assembled(),definition:puzzle.clue,note:'Real vocabulary word',feedback},'real');
+      return;
+    }
     setFeedback('Not this combination yet','Compare each card’s meaning with the clue. Some real words need only two parts, so leaving a slot empty may be correct.');
   };
   const explainParts=()=>TYPES.filter(type=>state.placed[type]).map(type=>`${state.placed[type].text} (${state.placed[type].meaning})`).join('; ');
